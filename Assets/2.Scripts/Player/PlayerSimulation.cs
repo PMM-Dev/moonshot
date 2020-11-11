@@ -1,28 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Player
 {
     public class PlayerSimulation
     {
-        private float _currentSpeed;
-
-        public PlayerSimulation()
+        public Vector2 MovePosition(Vector2 originPosition, LookDirection lookDirection, float currentSpeed)
         {
-
+            return originPosition + Vector2.right * (int)lookDirection * currentSpeed * Time.fixedDeltaTime;
         }
 
-        public void FixedUpdate()
+        public float GetCurrentSpeed(bool isAccel, LookDirection lookDirection, float currentSpeed, float speed, float acceleration, float deceleration)
         {
-
+            if (isAccel)
+            {
+                currentSpeed += acceleration;
+                return Mathf.Clamp(currentSpeed, 0, speed);
+            }
+            else
+            {
+                currentSpeed -= deceleration;
+                return Mathf.Clamp(currentSpeed, 0, speed);
+            }
         }
 
-        public Vector2 MovePosition(Rigidbody2D rigidbody2D, MoveDirection moveDirection, float speed, float acceleration)
+        public LookDirection GetLookDirection(LookDirection lookDirection, float currentSpeed)
         {
-            _currentSpeed += acceleration;
-
-            return rigidbody2D.position + Vector2.right * (int)moveDirection * _currentSpeed * Time.fixedDeltaTime;
+            if (currentSpeed == 0)
+            {
+                return (LookDirection)((int)lookDirection * -1);
+            }
+            else
+            {
+                return lookDirection;
+            }
         }
     }
 }

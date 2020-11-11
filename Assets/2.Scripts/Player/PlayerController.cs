@@ -13,7 +13,16 @@ namespace Player
         private float _speed;
         [SerializeField]
         private float _acceleration;
+        [SerializeField]
+        private float _deceleration;
+        [SerializeField]
+        private float _currentSpeed;
+
+        [SerializeField]
         private MoveDirection _moveDirection;
+
+        [SerializeField]
+        private LookDirection _lookDirection = LookDirection.Right;
 
         private PlayerLogic _playerLogic;
         private PlayerSimulation _playerSimulation;
@@ -21,7 +30,7 @@ namespace Player
 
         private Rigidbody2D _rigidbody2D;
 
-        private bool _isMove;
+        private bool _isAccel;
 
         private void Awake()
         {
@@ -37,26 +46,27 @@ namespace Player
 
         private void Update()
         {
-            if ((_moveDirection = _playerLogic.GetMoveDirection()) != MoveDirection.Idle)
+            _moveDirection = _playerLogic.GetMoveDirection();
+            if ((int)_moveDirection != (int)_lookDirection)
             {
-                _isMove = true;
+                _isAccel = false;
             }
             else
             {
-                _isMove = false;
+                _isAccel = true;
             }
         }
         private void FixedUpdate()
         {
-            if (_isMove)
-            {
-                Move();
-            }
+            Move();
         }
 
         private void Move()
         {
-            _rigidbody2D.MovePosition(_playerSimulation.MovePosition(_rigidbody2D, _moveDirection, _speed, _acceleration));
+            _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration);
+            if (_moveDirection != MoveDirection.Idle)
+                _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _currentSpeed);
+            transform.position = _playerSimulation.MovePosition(transform.position, _lookDirection, _currentSpeed);
         }
     }
 }

@@ -9,11 +9,6 @@ namespace Player
     {
         private Dictionary<InputType, KeyCode> _inputKeys;
 
-        private Action _rightMoveEvent;
-        private Action _leftMoveEvent;
-
-        
-
         public PlayerInput()
         {
             _inputKeys = new Dictionary<InputType, KeyCode>()
