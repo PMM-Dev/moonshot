@@ -6,7 +6,6 @@ namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
-    [RequireComponent(typeof(SpriteRenderer))]
     public class PlayerController : MonoBehaviour
     {
         #region Setting
@@ -43,11 +42,13 @@ namespace Player
         private PlayerInput _playerInput;
         private PlayerCollisionTrigger _playerCollisionTrigger;
         private Rigidbody2D _rigidbody2D;
+        private Animator _animator;
         #endregion
 
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            _animator = GetComponentInChildren<Animator>();
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
         }
 
@@ -65,7 +66,6 @@ namespace Player
         {
             _moveDirection = _playerLogic.GetMoveInput();
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
-
         }
         private void FixedUpdate()
         {
@@ -90,13 +90,20 @@ namespace Player
         private void Move()
         {
             _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration);
+            _animator.SetFloat("currentSpeed", _currentSpeed);
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed);
+            transform.localScale = new Vector3((int)_lookDirection * -1, 1);
             transform.position = _playerSimulation.MovePosition(transform.position, _lookDirection, _currentSpeed);
         }
 
         private void Jump()
         {
             _rigidbody2D.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+        }
+
+        private void Flip()
+        {
+
         }
 
         private void Climb()
