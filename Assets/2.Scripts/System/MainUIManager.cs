@@ -9,4 +9,10 @@ public class MainUIManager : MonoBehaviour
     private Text _killedEnemyText;
     [SerializeField]
     private Text _survivedTimeText;
+
+    public void WriteGameoverUI(string killedEnemyCount, string survivedTime)
+    {
+        _killedEnemyText.text = killedEnemyCount;
+        _survivedTimeText.text = survivedTime;
+    }
 }

@@ -6,11 +6,12 @@ using UnityEngine;
 public class MainEventManager : MonoBehaviour
 {
     MainDataManager mainEventDataManager;
+    MainUIManager mainUIManager;
 
     public Action StartMainGameEvent;
     public Action PauseGamePlayEvent;
 
-    public void KillEnemyEvent()
+    public void EnemyDeadEvent()
     {
         mainEventDataManager.IncreaseKilledEnemyCount();
     }
@@ -18,6 +19,7 @@ public class MainEventManager : MonoBehaviour
     public void GameoverEvent()
     {
         PauseGamePlayEvent.Invoke();
+        mainUIManager.WriteGameoverUI(mainEventDataManager.GetKilledEnemyCount().ToString(), mainEventDataManager.GetSurvivedSeconds().ToString());
     }
 
     private void Start()
