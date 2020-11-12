@@ -47,14 +47,7 @@ namespace Player
         private void Update()
         {
             _moveDirection = _playerLogic.GetMoveDirection();
-            if ((int)_moveDirection != (int)_lookDirection)
-            {
-                _isAccel = false;
-            }
-            else
-            {
-                _isAccel = true;
-            }
+            _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
         }
         private void FixedUpdate()
         {
@@ -64,8 +57,7 @@ namespace Player
         private void Move()
         {
             _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration);
-            if (_moveDirection != MoveDirection.Idle)
-                _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _currentSpeed);
+            _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed);
             transform.position = _playerSimulation.MovePosition(transform.position, _lookDirection, _currentSpeed);
         }
     }

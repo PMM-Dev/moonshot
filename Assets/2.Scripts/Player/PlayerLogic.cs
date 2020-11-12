@@ -37,6 +37,11 @@ namespace Player
                 return MoveDirection.Idle;
         }
 
+        public bool IsLookSameAsMove(LookDirection lookDirection, MoveDirection moveDirection)
+        {
+            return (int)moveDirection != (int)lookDirection;
+        }
+
         
     }
 }
