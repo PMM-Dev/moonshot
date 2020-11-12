@@ -9,23 +9,23 @@ public class LobbyUIManager : MonoBehaviour
     private GameObject _optionPanel;
 
 
-    public void OnPressPlay()
+    public void OnClickPlay()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("main");
     }
 
-    public void OnPressOption()
+    public void OnClickOption()
     {
         _mainPanel.SetActive(false);
         _optionPanel.SetActive(true);
     }
 
-    public void OnPressExit()
+    public void OnClickExit()
     {
         Application.Quit();
     }
 
-    public void OnPressBack()
+    public void OnClickBack()
     {
         _mainPanel.SetActive(true);
         _optionPanel.SetActive(false);

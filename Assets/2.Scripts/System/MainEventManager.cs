@@ -19,7 +19,7 @@ public class MainEventManager : MonoBehaviour
     public void GameoverEvent()
     {
         PauseGamePlayEvent.Invoke();
-        mainUIManager.WriteGameoverUI(mainEventDataManager.GetKilledEnemyCount().ToString(), mainEventDataManager.GetSurvivedSeconds().ToString());
+        mainUIManager.ShowGameoverUI(mainEventDataManager.GetKilledEnemyCount().ToString(), mainEventDataManager.GetSurvivedSeconds().ToString());
     }
 
     private void Start()
