@@ -27,6 +27,7 @@ namespace Player
         {
             if (moveDirection != MoveDirection.Idle)
                 return lookDirection;
+
             if (currentSpeed == 0)
             {
                 return (LookDirection)((int)lookDirection * -1);
