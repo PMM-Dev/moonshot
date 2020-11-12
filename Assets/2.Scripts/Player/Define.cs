@@ -58,6 +58,13 @@ namespace Player
         Right = 1
     }
 
+    public enum StickDirection
+    {
+        Left = -1,
+        Idle = 0,
+        Right = 1
+    }
+
     public class Define
     {
 

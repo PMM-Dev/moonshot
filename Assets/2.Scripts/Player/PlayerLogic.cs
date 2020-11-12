@@ -59,7 +59,24 @@ namespace Player
             }
             return false;
         }
-        
+
+        public bool IsClimb(CollisionType collisionType, Collider2D collider2D)
+        {
+            if (collider2D.tag.Equals("Ground"))
+            {
+                return collisionType == CollisionType.Exit ? false : true;
+            }
+            return false;
+        }
+
+        public bool IsMoveAvailable(bool isClimb)
+        {
+            return !isClimb;
+        }
+        public bool IsJumpAvailable(bool isGround)
+        {
+            return isGround && IsInput(PressType.Stay, InputType.Jump);
+        }
     }
 }
 

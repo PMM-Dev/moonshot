@@ -27,10 +27,14 @@ namespace Player
         private MoveDirection _moveDirection;
         [SerializeField]
         private LookDirection _lookDirection = LookDirection.Right;
+        [SerializeField]
+        private StickDirection _stickDirection;
         private bool _isAccel;
         [SerializeField]
         private bool _isGround;
+        [SerializeField]
         private bool _isClimb;
+
         #endregion
 
         #region Reference
@@ -53,9 +57,8 @@ namespace Player
             _playerInput = new PlayerInput();
             _playerLogic = new PlayerLogic(this._playerSimulation, this._playerInput);
 
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerEnter += CheckGrounded;
-
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerExit += CheckGrounded;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerEnter += CheckGrond;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerExit += CheckGrond;
         }
 
         private void Update()
@@ -67,15 +70,21 @@ namespace Player
         private void FixedUpdate()
         {
             Move();
-            if (_playerLogic.IsInput(PressType.Stay, InputType.Jump))
+
+            if (_playerLogic.IsJumpAvailable(_isGround))
             {
                 Jump();
             }
         }
 
-        private void CheckGrounded(CollisionType collisionType, Collider2D collider2D)
+        private void CheckGrond(CollisionType collisionType, Collider2D collider2D)
         {
             _isGround = _playerLogic.IsGround(collisionType, collider2D);
+        }
+
+        private void CheckClimb(CollisionType collisionType, Collider2D collider2D)
+        {
+            _isClimb = _playerLogic.IsGround(collisionType, collider2D);
         }
 
         private void Move()
@@ -87,10 +96,12 @@ namespace Player
 
         private void Jump()
         {
-            if (!_isGround)
-                return;
-
             _rigidbody2D.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+        }
+
+        private void Climb()
+        {
+            
         }
     }
 }
