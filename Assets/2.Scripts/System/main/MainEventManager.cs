@@ -56,7 +56,7 @@ public class MainEventManager : MonoBehaviour
 
     public void GameoverEvent()
     {
-        PauseGamePlayEvent.Invoke();
+        PauseGamePlayEvent?.Invoke();
         mainUIManager.ShowGameoverUI(mainEventDataManager.GetKilledEnemyCount().ToString(), mainEventDataManager.GetSurvivedSeconds().ToString());
     }
 
