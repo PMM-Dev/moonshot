@@ -50,7 +50,6 @@ namespace Enemy{
         //타겟과 근접하면 타겟을 바꿔줌
         void MoveToWayPoint()
         {
-            Debug.Log(dirction +" "+ speed);
             transform.Translate(dirction * speed * Time.smoothDeltaTime, Space.World);
 
             if (distance < 0.2f) {
