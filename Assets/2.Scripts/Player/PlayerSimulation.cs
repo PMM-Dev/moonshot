@@ -25,7 +25,7 @@ namespace Player
 
         public LookDirection GetLookDirection(LookDirection lookDirection, MoveDirection moveDirection, float currentSpeed)
         {
-            if (moveDirection != MoveDirection.Idle)
+            if (moveDirection == MoveDirection.Idle)
                 return lookDirection;
 
             if (currentSpeed == 0)

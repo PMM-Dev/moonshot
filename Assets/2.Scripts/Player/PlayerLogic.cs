@@ -9,8 +9,6 @@ namespace Player
         private PlayerSimulation _playerSimulation;
         private PlayerInput _playerInput;
 
-        private PlayerController _playerController;
-
         public PlayerLogic(PlayerSimulation playerSimulation, PlayerInput playerInput)
         {
             _playerSimulation = playerSimulation;
@@ -27,21 +25,40 @@ namespace Player
             
         }
 
-        public MoveDirection GetMoveDirection()
+        public MoveDirection GetMoveInput()
         {
-            if (_playerInput.GetKey(InputType.LeftMove))
+            if (_playerInput.IsInput(PressType.Stay, InputType.LeftMove))
+            {
                 return MoveDirection.Left;
-            else if(_playerInput.GetKey(InputType.RightMove))
+            }
+            else if (_playerInput.IsInput(PressType.Stay, InputType.RightMove))
+            {
                 return MoveDirection.Right;
+            }
             else
+            {
                 return MoveDirection.Idle;
+            }
+        }
+
+        public bool IsInput(PressType pressType, InputType inputType)
+        {
+            return _playerInput.IsInput(pressType, inputType);
         }
 
         public bool IsLookSameAsMove(LookDirection lookDirection, MoveDirection moveDirection)
         {
-            return (int)moveDirection != (int)lookDirection;
+            return (int)moveDirection == (int)lookDirection;
         }
 
+        public bool IsGround(CollisionType collisionType, Collider2D collider2D)
+        {
+            if (collider2D.tag.Equals("Ground"))
+            {
+                return collisionType == CollisionType.Exit ? false : true;
+            }
+            return false;
+        }
         
     }
 }

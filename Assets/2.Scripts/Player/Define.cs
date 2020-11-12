@@ -6,6 +6,7 @@ namespace Player
 {
     public enum InputType
     {
+        None,
         LeftMove = -1,
         RightMove = 1,
         Jump,
@@ -20,6 +21,28 @@ namespace Player
         Attack,
         Climb,
         Count
+    }
+
+    public enum ColliderType
+    {
+        None,
+        Left = -1,
+        Right = 1,
+        Bottom,
+    }
+
+    public enum CollisionType
+    {
+        Enter,
+        Stay,
+        Exit
+    }
+
+    public enum PressType
+    {
+        Down,
+        Stay,
+        Up
     }
 
     public enum MoveDirection
