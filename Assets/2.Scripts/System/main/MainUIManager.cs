@@ -30,6 +30,6 @@ public class MainUIManager : MonoBehaviour
 
     public void OnClickLobby()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("lobby");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
     }
 }

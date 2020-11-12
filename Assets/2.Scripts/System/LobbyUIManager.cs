@@ -11,7 +11,7 @@ public class LobbyUIManager : MonoBehaviour
 
     public void OnClickPlay()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("main");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
     }
 
     public void OnClickOption()
