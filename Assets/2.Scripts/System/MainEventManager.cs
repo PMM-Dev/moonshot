@@ -1,29 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace System
+public class MainEventManager : MonoBehaviour
 {
-    public class MainEventManager : MonoBehaviour
+    MainDataManager mainEventDataManager;
+
+    public Action StartMainGameEvent;
+    public Action PauseGamePlayEvent;
+
+    public void KillEnemyEvent()
     {
-        MainDataManager mainEventDataManager;
+        mainEventDataManager.IncreaseKilledEnemyCount();
+    }
 
-        public Action StartMainGameEvent;
-        public Action PauseGamePlayEvent;
+    public void GameoverEvent()
+    {
+        PauseGamePlayEvent.Invoke();
+    }
 
-        public void KillEnemyEvent()
-        {
-            mainEventDataManager.IncreaseKilledEnemyCount();
-        }
+    private void Start()
+    {
 
-        public void GameoverEvent()
-        {
-            PauseGamePlayEvent.Invoke();
-        }
-
-        private void Start()
-        {
-
-        }
     }
 }
