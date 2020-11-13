@@ -80,7 +80,7 @@ namespace Enemy{
         {
             transform.Translate(_dirction * _speed * Time.smoothDeltaTime, Space.World);
 
-            if (_distance < 0.2f) {
+            if (_distance < 0.5f) {
                 ChangeTarget();
             }
 
@@ -89,20 +89,25 @@ namespace Enemy{
         //타겟을 적절하게 바꿔줌
         //만약 끝이나 처음에 도달하면 역순/정순으로 다시 돌아다님
         void ChangeTarget() {
-            if (_targetIndex <= 0)
+            if (_isRound == false)
             {
-                _indexAdd = 1;
+                
+                if (_targetIndex <= 0)
+                {
+                    _indexAdd = 1;
+                }
+                else if (_targetIndex >= _wayPoints.Length -1)
+                {
+                    _indexAdd = -1;
+                }
             }
-            else if(_targetIndex >= _wayPoints.Length)
+            else
             {
-                _indexAdd = -1;
+                if (_targetIndex >= _wayPoints.Length-1)
+                    _targetIndex = -1;
             }
             _targetIndex += _indexAdd;
-
-
             _target = _wayPoints[_targetIndex];
         }
-
-
     }
 }
