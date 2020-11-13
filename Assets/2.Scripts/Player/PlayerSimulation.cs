@@ -4,9 +4,9 @@ namespace Player
 {
     public class PlayerSimulation
     {
-        public Vector2 MovePosition(Vector2 originPosition, LookDirection lookDirection, float currentSpeed)
+        public Vector2 MovePosition(Vector2 position, LookDirection lookDirection, float currentSpeed)
         {
-            return originPosition + Vector2.right * (int)lookDirection * currentSpeed * Time.fixedDeltaTime;
+            return position + Vector2.right * (int)lookDirection * currentSpeed * Time.fixedDeltaTime;
         }
 
         public float GetCurrentSpeed(bool isAccel, LookDirection lookDirection, float currentSpeed, float speed, float acceleration, float deceleration)
@@ -36,6 +36,11 @@ namespace Player
             {
                 return lookDirection;
             }
+        }
+
+        public Vector2 Jump(Rigidbody2D rigidbody2D, Vector2 direction, float jumpPower)
+        {
+            return new Vector2(rigidbody2D.position.x,  rigidbody2D.position.y + jumpPower) * Time.fixedDeltaTime;
         }
     }
 }

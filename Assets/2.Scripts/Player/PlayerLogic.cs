@@ -60,19 +60,28 @@ namespace Player
             return false;
         }
 
-        public bool IsClimb(CollisionType collisionType, Collider2D collider2D)
+        public StickDirection GetStickDirection(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType, bool isGround)
         {
-            if (collider2D.tag.Equals("Ground"))
+            if (collisionType != CollisionType.Exit)
             {
-                return collisionType == CollisionType.Exit ? false : true;
+                if (collider2D.tag.Equals("Ground"))
+                {
+                    return (StickDirection)((int)colliderType);
+                }
             }
-            return false;
+            return StickDirection.Idle;
         }
 
-        public bool IsMoveAvailable(bool isClimb)
+        public MoveDirection GetMoveDirection(MoveDirection inputMoveDirection, StickDirection stickDiretion)
         {
-            return !isClimb;
+            return IsMoveAvailable(inputMoveDirection, stickDiretion) ? inputMoveDirection : MoveDirection.Idle;
         }
+
+        private bool IsMoveAvailable(MoveDirection moveDirection, StickDirection stickDirection)
+        {
+            return ((int)moveDirection != (int)stickDirection);
+        }
+
         public bool IsJumpAvailable(bool isGround)
         {
             return isGround && IsInput(PressType.Stay, InputType.Jump);

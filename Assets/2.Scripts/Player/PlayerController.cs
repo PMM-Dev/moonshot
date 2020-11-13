@@ -28,12 +28,12 @@ namespace Player
         private LookDirection _lookDirection = LookDirection.Right;
         [SerializeField]
         private StickDirection _stickDirection;
+
         private bool _isAccel;
         [SerializeField]
         private bool _isGround;
         [SerializeField]
         private bool _isClimb;
-
         #endregion
 
         #region Reference
@@ -43,6 +43,7 @@ namespace Player
         private PlayerCollisionTrigger _playerCollisionTrigger;
         private Rigidbody2D _rigidbody2D;
         private Animator _animator;
+        private Transform _bodyTransform;
         #endregion
 
         private void Awake()
@@ -50,6 +51,7 @@ namespace Player
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _animator = GetComponentInChildren<Animator>();
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
+            _bodyTransform = GetComponentInChildren<Animator>().transform;
         }
 
         private void Start()
@@ -60,50 +62,53 @@ namespace Player
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerEnter += CheckGrond;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerExit += CheckGrond;
+
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerExit += CheckStick;
+
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerEnter += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
         }
 
         private void Update()
         {
-            _moveDirection = _playerLogic.GetMoveInput();
+            _moveDirection = _playerLogic.GetMoveDirection(_playerLogic.GetMoveInput(), _stickDirection);
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
         }
         private void FixedUpdate()
         {
             Move();
-
             if (_playerLogic.IsJumpAvailable(_isGround))
             {
                 Jump();
             }
         }
 
-        private void CheckGrond(CollisionType collisionType, Collider2D collider2D)
+        private void CheckGrond(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
             _isGround = _playerLogic.IsGround(collisionType, collider2D);
+
         }
 
-        private void CheckClimb(CollisionType collisionType, Collider2D collider2D)
+        private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
-            _isClimb = _playerLogic.IsGround(collisionType, collider2D);
+            _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround);
         }
 
         private void Move()
         {
             _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration);
-            _animator.SetFloat("currentSpeed", _currentSpeed);
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed);
-            transform.localScale = new Vector3((int)_lookDirection * -1, 1);
+
             transform.position = _playerSimulation.MovePosition(transform.position, _lookDirection, _currentSpeed);
+
+            _animator.SetFloat("currentSpeed", _currentSpeed);
+            _bodyTransform.localScale = new Vector3((int)_lookDirection * -1, 1);
         }
 
         private void Jump()
         {
-            _rigidbody2D.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
-        }
-
-        private void Flip()
-        {
-
+            _rigidbody2D.AddForce(_playerSimulation.Jump(_rigidbody2D, Vector2.up, _jumpPower));
         }
 
         private void Climb()
