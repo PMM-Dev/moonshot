@@ -9,7 +9,14 @@ namespace Enemy{
     {
         [SerializeField] private GameObject[] _wayPoints;
         [SerializeField] private float _speed = 1;
+
+        [Header("Option")]
+        [Tooltip ("선형 참조/원형 참조")][SerializeField] private bool _isRound = false;
+        [Tooltip("이동시 좌루만 보는지 목표를 보는지 여부")] [SerializeField] private bool _isYAxisLook = false;
+        [Tooltip("회전할때 상하 반전 여부")] [SerializeField] private bool _isYAxisReverce = false;
         private GameObject _target;
+        Vector3 _originScale;
+        Vector3 _reversedScale;
         private Vector3 _dirction;
         private float _distance;
         private int _targetIndex;
@@ -17,6 +24,11 @@ namespace Enemy{
 
         private void Start()
         {
+            _originScale = this.transform.localScale;
+            _reversedScale = this.transform.localScale;
+            _reversedScale.x *= -1;
+            if (_isYAxisReverce == true)
+                _reversedScale.y *= -1;
             _target = _wayPoints[0];
         }
 
@@ -25,18 +37,34 @@ namespace Enemy{
             PhysicalCalculation();
             MoveToWayPoint();
             LookTarget();
+            
         }
 
         //타겟의 x좌표를 보게 하는 함수
         void LookTarget() {
-            if (_dirction.x > 0)
+            Vector3 _tmpScale = _originScale;
+
+            if (_isYAxisLook == false)
             {
-                this.transform.rotation = Quaternion.Euler(0, 180, 0);
+                if (_dirction.x > 0)
+                {
+                    _tmpScale = _reversedScale;
+                }
             }
             else
-            { 
-                this.transform.rotation = Quaternion.Euler(0, 0, 0);
+            {
+                float _angle = Mathf.Atan2(_dirction.y,_dirction.x)* Mathf.Rad2Deg;
+                if (_angle < 0)
+                {
+                    _angle += 180;
+                }
+                else
+                {
+                    _tmpScale = _reversedScale;
+                }
+                transform.rotation = Quaternion.AngleAxis(_angle,Vector3.forward);
             }
+                this.transform.localScale = _tmpScale;
         }
 
         //거리와, 방향을 계산하는 함수
