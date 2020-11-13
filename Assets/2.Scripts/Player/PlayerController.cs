@@ -21,6 +21,8 @@ namespace Player
         private float _normalJumpPower;
         [SerializeField]
         private float _wallJumpPower;
+        [SerializeField]
+        private float _stickPower;
         #endregion
 
         #region State
@@ -80,9 +82,11 @@ namespace Player
         {
             _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround);
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
+
         }
         private void FixedUpdate()
         {
+            Stick();
             Move();
             Jump();
         }
@@ -118,18 +122,32 @@ namespace Player
             {
                 return;
             }
+            
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0f);
             Vector2 jumpDirection = _playerLogic.GetJumpDiretion(_jumpState, _stickDirection);
+
             if (_jumpState == JumpState.Wall)
             {
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
+                _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _normalJumpPower), ForceMode2D.Impulse);
             }
-            _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _normalJumpPower), ForceMode2D.Impulse);
+            else if(_jumpState == JumpState.Escape)
+            {
+                _lookDirection = (LookDirection)((int)_stickDirection * (-1));
+                _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _normalJumpPower / 2f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _normalJumpPower), ForceMode2D.Impulse);
+            }
         }
 
-        private void Climb()
+        private void Stick()
         {
-            
+            if (_stickDirection != StickDirection.Idle)
+            {
+                _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, -_stickPower * 10f * Time.fixedDeltaTime);
+            }
         }
     }
 }

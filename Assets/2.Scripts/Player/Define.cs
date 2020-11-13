@@ -69,7 +69,8 @@ namespace Player
     {
         None,
         Normal,
-        Wall
+        Wall,
+        Escape
     }
 
     public class Define

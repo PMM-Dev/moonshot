@@ -90,9 +90,17 @@ namespace Player
         {
             if (IsInput(PressKeyType.Stay, InputType.Jump))
             {
-                if (!isGround && stickDirection != StickDirection.Idle && (int)GetMoveInput() == (int)stickDirection)
+                if (!isGround && stickDirection != StickDirection.Idle)
                 {
-                    return JumpState.Wall;
+                    if ((int)GetMoveInput() == (int)stickDirection)
+                    {
+                        return JumpState.Wall;
+                    }
+                    else
+                    {
+                        Debug.Log("haha");
+                        return JumpState.Escape;
+                    }
                 }
                 else if (isGround)
                     return JumpState.Normal;
@@ -104,6 +112,8 @@ namespace Player
         {
             if (jumpState == JumpState.Normal)
                 return Vector2.up;
+            else if (jumpState == JumpState.Escape)
+                return Vector2.right * (int)stickDirection * -1;
             else
                 return new Vector2((float)stickDirection * -0.4f, 1).normalized;
         }
