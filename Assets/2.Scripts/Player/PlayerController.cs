@@ -97,6 +97,7 @@ namespace Player
         {
             _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround);
             _currentSpeed = _stickDirection != StickDirection.Idle ? 0 : _currentSpeed;
+            _animator.SetBool("isStick", _stickDirection != StickDirection.Idle ? true : false);
         }
 
         private void Move()
