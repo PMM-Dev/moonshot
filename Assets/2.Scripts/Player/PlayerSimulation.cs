@@ -9,8 +9,13 @@ namespace Player
             return position + Vector2.right * (int)lookDirection * currentSpeed * Time.fixedDeltaTime;
         }
 
-        public float GetCurrentSpeed(bool isAccel, LookDirection lookDirection, float currentSpeed, float speed, float acceleration, float deceleration)
+        public float GetCurrentSpeed(bool isAccel, LookDirection lookDirection, float currentSpeed, float speed, float acceleration, float deceleration, bool isGround)
         {
+            if (!isGround)
+            {
+                return currentSpeed;
+            }
+
             if (isAccel)
             {
                 currentSpeed += acceleration;
@@ -41,7 +46,7 @@ namespace Player
         public Vector2 Jump(Vector2 direction, float jumpPower)
         {
             return direction * jumpPower * 1000f * Time.fixedDeltaTime;
+            // return direction * jumpPower * Mathf.Cos(Mathf.Atan2(direction.x, direction.y)) * 1000f * Time.fixedDeltaTime;s
         }
     }
 }
-

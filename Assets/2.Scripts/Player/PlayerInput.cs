@@ -8,7 +8,7 @@ namespace Player
     public class PlayerInput
     {
         private Dictionary<InputType, KeyCode> _inputKeys;
-        private Dictionary<PressType, Func<InputType, bool>> _getKeys;
+        private Dictionary<PressKeyType, Func<InputType, bool>> _getKeys;
 
         public PlayerInput()
         {
@@ -19,15 +19,15 @@ namespace Player
                 { InputType.Jump, KeyCode.Space }
             };
 
-            _getKeys = new Dictionary<PressType, Func<InputType, bool>>()
+            _getKeys = new Dictionary<PressKeyType, Func<InputType, bool>>()
             {
-                { PressType.Down, (x) => GetKeyDown(x) },
-                { PressType.Stay, (x) => GetKey(x) },
-                { PressType.Up, (x) => GetKeyUp(x) }
+                { PressKeyType.Down, (x) => GetKeyDown(x) },
+                { PressKeyType.Stay, (x) => GetKey(x) },
+                { PressKeyType.Up, (x) => GetKeyUp(x) }
             };
         }
 
-        public bool IsInput(PressType pressType, InputType inputType)
+        public bool IsInput(PressKeyType pressType, InputType inputType)
         {
             return _getKeys[pressType](inputType);
         }

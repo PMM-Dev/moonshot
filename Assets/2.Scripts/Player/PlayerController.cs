@@ -18,7 +18,9 @@ namespace Player
         [SerializeField]
         private float _currentSpeed;
         [SerializeField]
-        private float _jumpPower;
+        private float _normalJumpPower;
+        [SerializeField]
+        private float _wallJumpPower;
         #endregion
 
         #region State
@@ -28,6 +30,8 @@ namespace Player
         private LookDirection _lookDirection = LookDirection.Right;
         [SerializeField]
         private StickDirection _stickDirection;
+        [SerializeField]
+        private JumpState _jumpState;
 
         private bool _isAccel;
         [SerializeField]
@@ -74,22 +78,19 @@ namespace Player
 
         private void Update()
         {
-            _moveDirection = _playerLogic.GetMoveDirection(_playerLogic.GetMoveInput(), _stickDirection);
+            _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround);
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
         }
         private void FixedUpdate()
         {
             Move();
-            if (_playerLogic.IsJumpAvailable(_isGround))
-            {
-                Jump();
-            }
+            Jump();
         }
 
         private void CheckGrond(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
             _isGround = _playerLogic.IsGround(collisionType, collider2D);
-
+            _animator.SetBool("isGround", _isGround);
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -100,9 +101,8 @@ namespace Player
 
         private void Move()
         {
-            _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration);
+            _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration, _isGround);
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed);
-
             transform.position = _playerSimulation.MovePosition(transform.position, _lookDirection, _currentSpeed);
 
             _animator.SetFloat("currentSpeed", _currentSpeed);
@@ -111,7 +111,19 @@ namespace Player
 
         private void Jump()
         {
-            _rigidbody2D.AddForce(_playerSimulation.Jump(Vector2.up, _jumpPower), ForceMode2D.Impulse);
+            _moveDirection = MoveDirection.Idle;
+            _jumpState = _playerLogic.GetJumpState(_isGround, _moveDirection, _stickDirection);
+            if (_jumpState == JumpState.None)
+            {
+                return;
+            }
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0f);
+            Vector2 jumpDirection = _playerLogic.GetJumpDiretion(_jumpState, _stickDirection);
+            if (_jumpState == JumpState.Wall)
+            {
+                _lookDirection = (LookDirection)((int)_stickDirection * (-1));
+            }
+            _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _normalJumpPower), ForceMode2D.Impulse);
         }
 
         private void Climb()

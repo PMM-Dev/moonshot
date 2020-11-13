@@ -38,7 +38,7 @@ namespace Player
         Exit
     }
 
-    public enum PressType
+    public enum PressKeyType
     {
         Down,
         Stay,
@@ -63,6 +63,13 @@ namespace Player
         Left = -1,
         Idle = 0,
         Right = 1
+    }
+
+    public enum JumpState
+    {
+        None,
+        Normal,
+        Wall
     }
 
     public class Define

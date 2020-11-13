@@ -27,11 +27,11 @@ namespace Player
 
         public MoveDirection GetMoveInput()
         {
-            if (_playerInput.IsInput(PressType.Stay, InputType.LeftMove))
+            if (_playerInput.IsInput(PressKeyType.Stay, InputType.LeftMove))
             {
                 return MoveDirection.Left;
             }
-            else if (_playerInput.IsInput(PressType.Stay, InputType.RightMove))
+            else if (_playerInput.IsInput(PressKeyType.Stay, InputType.RightMove))
             {
                 return MoveDirection.Right;
             }
@@ -41,7 +41,7 @@ namespace Player
             }
         }
 
-        public bool IsInput(PressType pressType, InputType inputType)
+        public bool IsInput(PressKeyType pressType, InputType inputType)
         {
             return _playerInput.IsInput(pressType, inputType);
         }
@@ -72,8 +72,12 @@ namespace Player
             return StickDirection.Idle;
         }
 
-        public MoveDirection GetMoveDirection(MoveDirection inputMoveDirection, StickDirection stickDiretion)
+        public MoveDirection GetMoveDirection(MoveDirection currentMoveDirection, MoveDirection inputMoveDirection, StickDirection stickDiretion, bool isGround)
         {
+            if (!isGround)
+            {
+                return currentMoveDirection;
+            }    
             return IsMoveAvailable(inputMoveDirection, stickDiretion) ? inputMoveDirection : MoveDirection.Idle;
         }
 
@@ -82,9 +86,26 @@ namespace Player
             return ((int)moveDirection != (int)stickDirection);
         }
 
-        public bool IsJumpAvailable(bool isGround)
+        public JumpState GetJumpState(bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
         {
-            return isGround && IsInput(PressType.Stay, InputType.Jump);
+            if (IsInput(PressKeyType.Stay, InputType.Jump))
+            {
+                if (!isGround && stickDirection != StickDirection.Idle && (int)GetMoveInput() == (int)stickDirection)
+                {
+                    return JumpState.Wall;
+                }
+                else if (isGround)
+                    return JumpState.Normal;
+            }
+            return JumpState.None;
+        }
+
+        public Vector2 GetJumpDiretion(JumpState jumpState, StickDirection stickDirection)
+        {
+            if (jumpState == JumpState.Normal)
+                return Vector2.up;
+            else
+                return new Vector2((float)stickDirection * -0.4f, 1).normalized;
         }
     }
 }
