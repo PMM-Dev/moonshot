@@ -64,9 +64,11 @@ namespace Player
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerExit += CheckGrond;
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerExit += CheckStick;
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerEnter += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerStay += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
         }
 
@@ -93,6 +95,7 @@ namespace Player
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
             _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround);
+            _currentSpeed = _stickDirection != StickDirection.Idle ? 0 : _currentSpeed;
         }
 
         private void Move()
@@ -108,7 +111,7 @@ namespace Player
 
         private void Jump()
         {
-            _rigidbody2D.AddForce(_playerSimulation.Jump(_rigidbody2D, Vector2.up, _jumpPower));
+            _rigidbody2D.AddForce(_playerSimulation.Jump(Vector2.up, _jumpPower), ForceMode2D.Impulse);
         }
 
         private void Climb()

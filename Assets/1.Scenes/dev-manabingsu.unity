@@ -179,7 +179,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.5, y: 6.16}
+  m_Offset: {x: -2, y: 6.58}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -190,7 +190,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.55, y: 12.13}
+  m_Size: {x: 1, y: 10.77}
   m_EdgeRadius: 0
 --- !u!1 &312512997
 GameObject:
@@ -358,7 +358,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.5, y: 6.16}
+  m_Offset: {x: 2, y: 6.58}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -369,7 +369,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.55, y: 12.13}
+  m_Size: {x: 1, y: 10.77}
   m_EdgeRadius: 0
 --- !u!1001 &425042613
 PrefabInstance:
@@ -1138,7 +1138,7 @@ MonoBehaviour:
   _acceleration: 10
   _deceleration: 10
   _currentSpeed: 0
-  _jumpPower: 100
+  _jumpPower: 15
   _moveDirection: 0
   _lookDirection: -1
   _stickDirection: 0
@@ -1185,9 +1185,9 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 20
+  m_GravityScale: 50
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -1418,6 +1418,7 @@ GameObject:
   - component: {fileID: 1662254931}
   - component: {fileID: 1662254930}
   - component: {fileID: 1662254929}
+  - component: {fileID: 1662254932}
   m_Layer: 0
   m_Name: Tile (3)
   m_TagString: Ground
@@ -1515,6 +1516,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1662254932
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662254928}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1 &1674053003
 GameObject:
   m_ObjectHideFlags: 0

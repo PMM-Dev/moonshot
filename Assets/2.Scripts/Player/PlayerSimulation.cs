@@ -38,9 +38,9 @@ namespace Player
             }
         }
 
-        public Vector2 Jump(Rigidbody2D rigidbody2D, Vector2 direction, float jumpPower)
+        public Vector2 Jump(Vector2 direction, float jumpPower)
         {
-            return new Vector2(rigidbody2D.position.x,  rigidbody2D.position.y + jumpPower) * Time.fixedDeltaTime;
+            return direction * jumpPower * 1000f * Time.fixedDeltaTime;
         }
     }
 }
