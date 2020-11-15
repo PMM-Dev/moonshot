@@ -23,9 +23,9 @@ namespace Player
             }
         }
 
-        public LookDirection GetLookDirection(LookDirection lookDirection, MoveDirection moveDirection, float currentSpeed)
+        public LookDirection GetLookDirection(LookDirection lookDirection, MoveDirection moveDirection, float currentSpeed, StickDirection stickDirection)
         {
-            if (moveDirection == MoveDirection.Idle)
+            if (moveDirection == MoveDirection.Idle || stickDirection != StickDirection.Idle)
                 return lookDirection;
 
             if (currentSpeed == 0)

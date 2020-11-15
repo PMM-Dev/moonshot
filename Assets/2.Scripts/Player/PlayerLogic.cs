@@ -60,11 +60,11 @@ namespace Player
             return false;
         }
 
-        public StickDirection GetStickDirection(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType, bool isGround)
+        public StickDirection GetStickDirection(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType, bool isGround, MoveDirection moveDirection)
         {
             if (collisionType != CollisionType.Exit)
             {
-                if (collider2D.tag.Equals("Ground"))
+                if (collider2D.tag.Equals("Ground") && (int)colliderType == (int)moveDirection)
                 {
                     return (StickDirection)((int)colliderType);
                 }
@@ -72,19 +72,20 @@ namespace Player
             return StickDirection.Idle;
         }
 
-        public MoveDirection GetMoveDirection(MoveDirection currentMoveDirection, MoveDirection inputMoveDirection, StickDirection stickDiretion, bool isGround)
+        public MoveDirection GetMoveDirection(MoveDirection currentMoveDirection, MoveDirection inputMoveDirection, StickDirection stickDiretion, bool isGround, bool isMoveInputLocked)
         {
-            return IsMoveAvailable(inputMoveDirection, stickDiretion) ? inputMoveDirection : MoveDirection.Idle;
+            return IsMoveAvailable(inputMoveDirection, stickDiretion, isMoveInputLocked) ? inputMoveDirection : MoveDirection.Idle;
         }
 
-        private bool IsMoveAvailable(MoveDirection moveDirection, StickDirection stickDirection)
+        private bool IsMoveAvailable(MoveDirection moveDirection, StickDirection stickDirection, bool isMoveInputLocked)
         {
+            return !isMoveInputLocked;
             return ((int)moveDirection != (int)stickDirection);
         }
 
         public JumpState GetJumpState(bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
         {
-            if (IsInput(PressKeyType.Down, InputType.Jump))
+            if (IsInput(PressKeyType.Stay, InputType.Jump))
             {
                 if (!isGround && stickDirection != StickDirection.Idle)
                 {
@@ -110,7 +111,7 @@ namespace Player
             else if (jumpState == JumpState.Escape)
                 return Vector2.right * (int)stickDirection * -1;
             else
-                return new Vector2((float)stickDirection * -0.4f, 1).normalized;
+                return new Vector2((float)stickDirection * -0.2f, 1).normalized;
         }
     }
 }

@@ -40,6 +40,9 @@ namespace Player
         private bool _isGround;
         [SerializeField]
         private bool _isClimb;
+
+        [SerializeField]
+        private bool _isMoveInputLocked;
         #endregion
 
         #region Reference
@@ -80,15 +83,18 @@ namespace Player
 
         private void Update()
         {
-            _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround);
-            _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
+
 
         }
+
         private void FixedUpdate()
         {
-            Stick();
+            _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
+            _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
+
             Move();
             Jump();
+            Stick();
         }
 
         private void CheckGrond(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -99,7 +105,7 @@ namespace Player
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
-            _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround);
+            _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection);
             _currentSpeed = _stickDirection != StickDirection.Idle ? 0 : _currentSpeed;
             _animator.SetBool("isStick", _stickDirection != StickDirection.Idle ? true : false);
         }
@@ -107,7 +113,11 @@ namespace Player
         private void Move()
         {
             _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration, _isGround);
-            _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed);
+
+            if (_stickDirection != StickDirection.Idle)
+                _currentSpeed = 0f;
+
+            _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed, _stickDirection);
             transform.position = _playerSimulation.MovePosition(transform.position, _lookDirection, _currentSpeed);
 
             _animator.SetFloat("currentSpeed", _currentSpeed);
@@ -116,7 +126,7 @@ namespace Player
 
         private void Jump()
         {
-            _moveDirection = MoveDirection.Idle;
+
             _jumpState = _playerLogic.GetJumpState(_isGround, _moveDirection, _stickDirection);
             if (_jumpState == JumpState.None)
             {
@@ -129,12 +139,10 @@ namespace Player
             if (_jumpState == JumpState.Wall)
             {
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
-                _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _normalJumpPower), ForceMode2D.Impulse);
-            }
-            else if(_jumpState == JumpState.Escape)
-            {
-                _lookDirection = (LookDirection)((int)_stickDirection * (-1));
-                _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _normalJumpPower / 2f), ForceMode2D.Impulse);
+                _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _wallJumpPower), ForceMode2D.Impulse);
+
+                _isMoveInputLocked = true;
+                StartCoroutine(ForceWallJumpTimer(1f));
             }
             else
             {
@@ -148,6 +156,17 @@ namespace Player
             {
                 _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, -_stickPower * 10f * Time.fixedDeltaTime);
             }
+        }
+
+        private IEnumerator ForceWallJumpTimer(float forceTime)
+        {
+            float time = 0f;
+            while (time < forceTime && !_isGround)
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
+            _isMoveInputLocked = false;
         }
     }
 }
