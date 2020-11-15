@@ -74,10 +74,6 @@ namespace Player
 
         public MoveDirection GetMoveDirection(MoveDirection currentMoveDirection, MoveDirection inputMoveDirection, StickDirection stickDiretion, bool isGround)
         {
-            if (!isGround)
-            {
-                return currentMoveDirection;
-            }    
             return IsMoveAvailable(inputMoveDirection, stickDiretion) ? inputMoveDirection : MoveDirection.Idle;
         }
 
@@ -88,7 +84,7 @@ namespace Player
 
         public JumpState GetJumpState(bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
         {
-            if (IsInput(PressKeyType.Stay, InputType.Jump))
+            if (IsInput(PressKeyType.Down, InputType.Jump))
             {
                 if (!isGround && stickDirection != StickDirection.Idle)
                 {
@@ -98,7 +94,6 @@ namespace Player
                     }
                     else
                     {
-                        Debug.Log("haha");
                         return JumpState.Escape;
                     }
                 }

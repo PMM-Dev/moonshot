@@ -11,11 +11,6 @@ namespace Player
 
         public float GetCurrentSpeed(bool isAccel, LookDirection lookDirection, float currentSpeed, float speed, float acceleration, float deceleration, bool isGround)
         {
-            if (!isGround)
-            {
-                return currentSpeed;
-            }
-
             if (isAccel)
             {
                 currentSpeed += acceleration;
