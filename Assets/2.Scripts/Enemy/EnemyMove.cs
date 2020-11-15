@@ -7,7 +7,7 @@ namespace Enemy{
 
     public class EnemyMove : MonoBehaviour
     {
-        [SerializeField] private GameObject[] _wayPoints;
+        [Tooltip("시계방향으로 배치해야지 잘 작동됨.")] [SerializeField] private GameObject[] _wayPoints;
         [SerializeField] private float _speed = 1;
 
         [Header("Option")]
@@ -54,14 +54,7 @@ namespace Enemy{
             else
             {
                 float _angle = Mathf.Atan2(_dirction.y,_dirction.x)* Mathf.Rad2Deg;
-                if (_angle < 0)
-                {
-                    _angle += 180;
-                }
-                else
-                {
                     _tmpScale = _reversedScale;
-                }
                 transform.rotation = Quaternion.AngleAxis(_angle,Vector3.forward);
             }
                 this.transform.localScale = _tmpScale;
