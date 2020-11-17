@@ -6,22 +6,70 @@ using UnityEngine;
 namespace Enemy{
     public class Pattern : MonoBehaviour
     {
-        [SerializeField]int _pattenDelay;
-        [SerializeField] float _rage;
-        private GameObject _target;
-        float _distance;//차후에 move에서 받아오기
+        protected GameObject _player;
+        protected float _WayPointDistance;
+        protected float _playerDistance;
 
+        [SerializeField]private float _patternDelay;
+        [SerializeField] protected float _patternRage;
+        [Tooltip("패턴 딜레이를 포함한 쿨타임")][SerializeField] protected float _patternCollTime;
+        private bool _isCanPattern = true;
+        //float _time = 0; 2번 패턴 사용시 필요
+        private void Awake()
+        {
+            _player = GameObject.FindWithTag("Player");
+        }
         private void Update()
         {
-            PhysicalCalculation();
+            if (_playerDistance < _patternRage)
+                AttackPattern();
         }
 
+        //패턴을 실행시키는 함수
+        //아래 두가지 보고 피드백좀
+        //코루틴은 프레임,  함수는 시간으로 알고있음
+        //일단은 코루틴이 프레임이기 때문에 퍼포먼스적으로 좋다고 생각해서 코루틴 사용함
 
-        //거리와, 방향을 계산하는 함수
-        void PhysicalCalculation()
+        void AttackPattern() {
+            if (_isCanPattern == true)
+            {
+                StartCoroutine(PatternCoolTime());
+                StartCoroutine(Pattern1());
+            }
+
+        }
+
+        /*
+        void AttackPattern2() {
+            _time +=Time.deltaTime;
+            //에니메이팅 스타트
+            if (_time >= _patternDelay)
+            {
+                _time = 0;
+                ActuallyPattern();
+            }
+        }*/
+
+        IEnumerator Pattern1() {
+            //애니메이팅 스타트 단 애니메이션은 _patternDelay랑 길이가 같아야함
+            Debug.Log("player Find");
+            yield return new WaitForSeconds(_patternDelay);
+            ActuallyPattern();
+        }
+
+        IEnumerator PatternCoolTime()
         {
-            _distance = Vector3.Magnitude(this.gameObject.transform.localPosition - _target.transform.localPosition);
+            _isCanPattern = false;
+            yield return new WaitForSeconds(_patternCollTime);
+            _isCanPattern = true;
+
         }
+
+        //overriding Actually pattern
+        virtual protected void ActuallyPattern() {
+            
+        }
+
 
     }
 
