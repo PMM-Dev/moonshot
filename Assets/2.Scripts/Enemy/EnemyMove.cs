@@ -14,6 +14,7 @@ namespace Enemy{
         [Tooltip ("선형 참조/원형 참조")][SerializeField] private bool _isRound = false;
         [Tooltip("이동시 좌루만 보는지 목표를 보는지 여부")] [SerializeField] private bool _isYAxisLook = false;
         [Tooltip("회전할때 상하 반전 여부")] [SerializeField] private bool _isYAxisReverce = false;
+        [Tooltip("움직이는지 여부")] [SerializeField] private bool _isMove = true;
         private GameObject _target;
         Vector3 _originScale;
         Vector3 _reversedScale;
@@ -34,9 +35,10 @@ namespace Enemy{
 
         private void Update()
         {
-            PhysicalCalculation();
-            MoveToWayPoint();
             LookTarget();
+            PhysicalCalculation();
+            if (_isMove == true)
+                MoveToWayPoint();
             
         }
 
