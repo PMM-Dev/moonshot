@@ -85,7 +85,7 @@ namespace Player
 
         public JumpState GetJumpState(bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
         {
-            if (IsInput(PressKeyType.Stay, InputType.Jump))
+            if (IsInput(PressKeyType.Down, InputType.Jump))
             {
                 if (!isGround && stickDirection != StickDirection.Idle)
                 {
@@ -94,7 +94,10 @@ namespace Player
                         return JumpState.Wall;
                     }
                 }
-                else if (isGround)
+            }
+            else if (IsInput(PressKeyType.Stay, InputType.Jump))
+            {
+                if (isGround)
                     return JumpState.Normal;
             }
             return JumpState.None;
