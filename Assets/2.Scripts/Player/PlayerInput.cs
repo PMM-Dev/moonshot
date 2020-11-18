@@ -16,7 +16,7 @@ namespace Player
             {
                 { InputType.LeftMove, KeyCode.A },
                 { InputType.RightMove, KeyCode.D },
-                { InputType.Jump, KeyCode.RightShift }
+                { InputType.Jump, KeyCode.Space }
             };
 
             _getKeys = new Dictionary<PressKeyType, Func<InputType, bool>>()
