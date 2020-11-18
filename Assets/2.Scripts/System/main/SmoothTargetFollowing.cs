@@ -10,7 +10,7 @@ public class SmoothTargetFollowing : MonoBehaviour
     [SerializeField]
     private Vector3 _offeset;
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         Vector3 targetPosition = _target.position + _offeset;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, targetPosition, _smoothSpeed);
