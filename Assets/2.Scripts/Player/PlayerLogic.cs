@@ -93,10 +93,6 @@ namespace Player
                     {
                         return JumpState.Wall;
                     }
-                    else
-                    {
-                        return JumpState.Escape;
-                    }
                 }
                 else if (isGround)
                     return JumpState.Normal;
@@ -111,7 +107,12 @@ namespace Player
             else if (jumpState == JumpState.Escape)
                 return Vector2.right * (int)stickDirection * -1;
             else
-                return new Vector2((float)stickDirection * -0.2f, 1).normalized;
+            {
+                float angle = 45f;
+                //angle = stickDirection == StickDirection.Left ? angle : 180 - angle;
+                Vector2 lDirection = new Vector2(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle));
+                return lDirection.normalized;
+            }
         }
     }
 }

@@ -126,7 +126,6 @@ namespace Player
 
         private void Jump()
         {
-
             _jumpState = _playerLogic.GetJumpState(_isGround, _moveDirection, _stickDirection);
             if (_jumpState == JumpState.None)
             {
@@ -135,12 +134,12 @@ namespace Player
             
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0f);
             Vector2 jumpDirection = _playerLogic.GetJumpDiretion(_jumpState, _stickDirection);
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0f);
 
             if (_jumpState == JumpState.Wall)
             {
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
                 _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _wallJumpPower), ForceMode2D.Impulse);
-
                 _isMoveInputLocked = true;
                 StartCoroutine(ForceWallJumpTimer(1f));
             }
@@ -166,6 +165,7 @@ namespace Player
                 time += Time.deltaTime;
                 yield return null;
             }
+            _rigidbody2D.velocity = new Vector2(0f, _rigidbody2D.velocity.y);
             _isMoveInputLocked = false;
         }
     }
