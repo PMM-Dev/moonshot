@@ -107,12 +107,10 @@ namespace Player
         {
             if (jumpState == JumpState.Normal)
                 return Vector2.up;
-            else if (jumpState == JumpState.Escape)
-                return Vector2.right * (int)stickDirection * -1;
             else
             {
                 float angle = 45f;
-                //angle = stickDirection == StickDirection.Left ? angle : 180 - angle;
+                angle = stickDirection == StickDirection.Left ? angle : -angle;
                 Vector2 lDirection = new Vector2(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle));
                 return lDirection.normalized;
             }

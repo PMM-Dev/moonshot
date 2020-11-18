@@ -84,17 +84,16 @@ namespace Player
         private void Update()
         {
 
-
         }
 
         private void FixedUpdate()
         {
+            _jumpState = _playerLogic.GetJumpState(_isGround, _moveDirection, _stickDirection);
             _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
-
             Move();
-            Jump();
             Stick();
+            Jump();
         }
 
         private void CheckGrond(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -126,7 +125,7 @@ namespace Player
 
         private void Jump()
         {
-            _jumpState = _playerLogic.GetJumpState(_isGround, _moveDirection, _stickDirection);
+
             if (_jumpState == JumpState.None)
             {
                 return;
@@ -134,14 +133,13 @@ namespace Player
             
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0f);
             Vector2 jumpDirection = _playerLogic.GetJumpDiretion(_jumpState, _stickDirection);
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0f);
 
             if (_jumpState == JumpState.Wall)
             {
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
                 _rigidbody2D.AddForce(_playerSimulation.Jump(jumpDirection, _wallJumpPower), ForceMode2D.Impulse);
                 _isMoveInputLocked = true;
-                StartCoroutine(ForceWallJumpTimer(1f));
+                StartCoroutine(ForceWallJumpTimer(0.25f));
             }
             else
             {
