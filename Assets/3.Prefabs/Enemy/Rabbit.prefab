@@ -74,11 +74,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb002d01728c3e429db48e9c13ec665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wayPoints: []
-  _speed: 1
-  _isRound: 0
-  _isYAxisLook: 0
-  _isYAxisReverce: 0
+  _wayPoints:
+  - {fileID: 567145953967542744}
+  - {fileID: 567145956061699198}
+  _speed: 2
 --- !u!1 &567145955454645526
 GameObject:
   m_ObjectHideFlags: 0
