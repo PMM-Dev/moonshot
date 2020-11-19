@@ -4,9 +4,9 @@ namespace Player
 {
     public class PlayerSimulation
     {
-        public Vector2 MovePosition(Vector2 position, LookDirection lookDirection, float currentSpeed)
+        public float MovePosition(LookDirection lookDirection, float currentSpeed)
         {
-            return position + Vector2.right * (int)lookDirection * currentSpeed * Time.deltaTime;
+            return (int)lookDirection * currentSpeed * Time.deltaTime;
         }
 
         public float GetCurrentSpeed(bool isAccel, LookDirection lookDirection, float currentSpeed, float speed, float acceleration, float deceleration, bool isGround)

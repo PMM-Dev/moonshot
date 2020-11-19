@@ -15,6 +15,12 @@ namespace Player
             set { _colliderType = value; }
         }
 
+        private BoxCollider2D _boxCollider2D;
+        public BoxCollider2D BoxCollider2D
+        {
+            get { return _boxCollider2D; }
+        }
+
         private Action<CollisionType, Collider2D, ColliderType> _onTriggerEnter;
         public Action<CollisionType, Collider2D, ColliderType> OnTriggerEnter
         {
@@ -41,6 +47,7 @@ namespace Player
             _onTriggerEnter = delegate { };
             _onTriggerExit = delegate { };
             _onTriggerStay = delegate { };
+            _boxCollider2D = GetComponent<BoxCollider2D>();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

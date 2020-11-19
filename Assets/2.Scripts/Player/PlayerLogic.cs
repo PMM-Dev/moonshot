@@ -83,8 +83,11 @@ namespace Player
             return ((int)moveDirection != (int)stickDirection);
         }
 
-        public JumpState GetJumpState(bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
+        public JumpState GetJumpState(bool isJumpInputLocked, bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
         {
+            if (isJumpInputLocked)
+                return JumpState.None;
+
             if (IsInput(PressKeyType.Down, InputType.Jump))
             {
                 if (!isGround && stickDirection != StickDirection.Idle)
@@ -109,7 +112,7 @@ namespace Player
                 return Vector2.up;
             else
             {
-                float angle = 45f;
+                float angle = 60f;
                 angle = stickDirection == StickDirection.Left ? angle : -angle;
                 Vector2 lDirection = new Vector2(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle));
                 return lDirection.normalized;
