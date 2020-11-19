@@ -18,6 +18,10 @@ namespace Player
         [SerializeField]
         private float _currentSpeed;
         [SerializeField]
+        private float _gravityScale;
+        [SerializeField]
+        private Vector2 _gravity;
+        [SerializeField]
         private float _normalJumpPower;
         [SerializeField]
         private float _wallJumpPower;
@@ -39,7 +43,9 @@ namespace Player
         [SerializeField]
         private bool _isGround;
         [SerializeField]
-        private bool _isClimb;
+        private bool _isBeside;
+        [SerializeField]
+        private Vector2 _velocity;
 
         [SerializeField]
         private bool _isMoveInputLocked;
@@ -83,17 +89,19 @@ namespace Player
 
         private void Update()
         {
-
+            Gravity();
         }
 
         private void FixedUpdate()
         {
+            /*
             _jumpState = _playerLogic.GetJumpState(_isGround, _moveDirection, _stickDirection);
             _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
             Move();
             Stick();
             Jump();
+            */
         }
 
         private void CheckGrond(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -130,7 +138,8 @@ namespace Player
             {
                 return;
             }
-            
+
+            _isGround = false;
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0f);
             Vector2 jumpDirection = _playerLogic.GetJumpDiretion(_jumpState, _stickDirection);
 
@@ -165,6 +174,21 @@ namespace Player
             }
             _rigidbody2D.velocity = new Vector2(0f, _rigidbody2D.velocity.y);
             _isMoveInputLocked = false;
+        }
+
+        private void Gravity()
+        {
+            if (_isGround)
+            {
+                _velocity = Vector2.zero;
+            }
+            else
+            {
+                _gravity = new Vector2(0, -_gravityScale);
+                _velocity += _gravity * Time.deltaTime;
+            }
+            Vector3 position = transform.position + new Vector3(_velocity.x, _velocity.y, 0) * Time.deltaTime;
+            transform.position = position;
         }
     }
 }
