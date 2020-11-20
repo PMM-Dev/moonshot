@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockCollideDisappear : MonoBehaviour
+namespace Map
 {
-    [SerializeField]
-    private float DestroyTime = 1.0f;
-
-    private void OnTriggerEnter(Collider col)
+    public class BlockCollideDisappear : MonoBehaviour
     {
-         Destroy(gameObject, DestroyTime);
+        [SerializeField]
+        private float _DestroyTime = 1.0f;
+
+        private void OnTriggerEnter(Collider col)
+        {
+            if (col.gameObject.CompareTag("Player"))
+                Destroy(gameObject, _DestroyTime);
+        }
     }
 }
+
