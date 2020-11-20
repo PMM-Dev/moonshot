@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,11 @@ namespace Player
         private bool _isJumpInputLocked;
         #endregion
 
+        #region Event
+        public Action SlashAction;
+        public Action EndSlashAction;
+        #endregion
+
         #region Reference
         private PlayerLogic _playerLogic;
         private PlayerSimulation _playerSimulation;
@@ -69,6 +75,8 @@ namespace Player
         private Animator _animator;
         private Transform _bodyTransform;
         private BoxCollider2D _boxCollider2D;
+        [SerializeField]
+        private Transform _slashRange;
         #endregion
 
         private void Awake()
@@ -90,6 +98,9 @@ namespace Player
 
         private void InitializeEvent()
         {
+            SlashAction = delegate { };
+            EndSlashAction = delegate { };
+
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerExit += CheckStick;
@@ -200,10 +211,11 @@ namespace Player
         {
             if (Input.GetMouseButtonUp(0) && !_isSlash)
             {
+                SlashAction?.Invoke();
+
                 if (_playerInput.GetMouseInputDistance() > 2f)
                 {
-                    Debug.Log(_playerInput.GetMouseInputDistance());
-                    StartCoroutine(ForceSlash(_slashDirection, 0.125f));
+                    StartCoroutine(ForceSlash(_slashDirection, 0.1f));
                 }
             }
         }
@@ -212,8 +224,15 @@ namespace Player
         {
             float time = 0f;
             _isSlash = true;
+            _animator.SetBool("isSlash", _isSlash);
+            _slashRange.localScale = new Vector3(1f, 1f, 1f);
+            _slashRange.position = transform.position;
+            Vector2 origin = _slashRange.position;
 
-            if (_playerInput.GetSlashAngle() < 0)
+            float angle = _playerInput.GetSlashAngle();
+            _slashRange.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+
+            if (angle < 0)
             {
                 _lookDirection = LookDirection.Left;
             }
@@ -228,10 +247,17 @@ namespace Player
                 _currentSpeed = 100f;
                 _velocity = direction * _currentSpeed;
                 transform.Translate(_velocity * Time.deltaTime);
+
                 time += Time.deltaTime;
             }
             _isSlash = false;
             _velocity = Vector2.zero;
+            _animator.SetBool("isSlash", _isSlash);
+
+            Vector2 target = transform.position;
+            float distance = Vector2.Distance(origin, target);
+            _slashRange.localScale = new Vector3(1f, distance, 1f);
+            EndSlashAction?.Invoke();
         }
 
         private void Gravity()
