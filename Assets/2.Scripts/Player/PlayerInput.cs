@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Player
 {
@@ -9,6 +10,9 @@ namespace Player
     {
         private Dictionary<InputType, KeyCode> _inputKeys;
         private Dictionary<PressKeyType, Func<InputType, bool>> _getKeys;
+        
+        private Vector2 _originMousePosition;
+        private Vector2 _targetMousePosition;
 
         public PlayerInput()
         {
@@ -16,7 +20,7 @@ namespace Player
             {
                 { InputType.LeftMove, KeyCode.A },
                 { InputType.RightMove, KeyCode.D },
-                { InputType.Jump, KeyCode.Space }
+                { InputType.Jump, KeyCode.Space },
             };
 
             _getKeys = new Dictionary<PressKeyType, Func<InputType, bool>>()
@@ -43,6 +47,35 @@ namespace Player
         private bool GetKey(InputType inputType)
         {
             return Input.GetKey(_inputKeys[inputType]);
+        }
+
+        public void GetMouseDirection()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                _originMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                _targetMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+        }
+
+        public Vector2 GetSlashDirection()
+        {
+            return (_targetMousePosition - _originMousePosition).normalized;
+        }
+
+        public float GetSlashAngle()
+        {
+            return Mathf.Atan2(_targetMousePosition.x - _originMousePosition.x, _targetMousePosition.y - _originMousePosition.y) * Mathf.Rad2Deg;
+        }
+
+        public float GetMouseInputDistance()
+        {
+
+            return Vector2.Distance(_targetMousePosition, _originMousePosition);
         }
     }
 }

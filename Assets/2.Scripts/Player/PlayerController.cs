@@ -48,7 +48,12 @@ namespace Player
         [SerializeField]
         private bool _isBeside;
         [SerializeField]
+        private bool _isSlash;
+
+        [SerializeField]
         private Vector2 _velocity;
+        [SerializeField]
+        private Vector2 _slashDirection;
 
         [SerializeField]
         private bool _isMoveInputLocked;
@@ -98,6 +103,7 @@ namespace Player
         {
             _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
+
             if (_isGround)
             {
                 _velocity.y = 0f;
@@ -107,13 +113,28 @@ namespace Player
             Gravity();
             Stick();
             Move();
+
+            _playerInput.GetMouseDirection();
+            _slashDirection = _playerInput.GetSlashDirection();
+            Slash();
+
             CollideWithGround();
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
+            if (collisionType == CollisionType.Exit)
+            {
+                _isBeside = false;
+            }
+            else if (collisionType == CollisionType.Stay)
+            {
+                _isBeside = true;
+            }
+
             _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection);
             _currentSpeed = _stickDirection != StickDirection.Idle ? 0 : _currentSpeed;
+
             _animator.SetBool("isStick", _stickDirection != StickDirection.Idle ? true : false);
         }
 
@@ -127,7 +148,8 @@ namespace Player
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed, _stickDirection);
             _velocity.x = _playerSimulation.MovePosition(_lookDirection, _currentSpeed);
 
-            transform.Translate(_velocity * Time.deltaTime);
+            if (!_isSlash)
+                transform.Translate(_velocity * Time.deltaTime);
 
             _animator.SetFloat("currentSpeed", _currentSpeed);
             _bodyTransform.localScale = new Vector3((int)_lookDirection * -1, 1);
@@ -170,7 +192,46 @@ namespace Player
                 _currentSpeed = _speed;
                 time += Time.deltaTime;
             }
+
             _isMoveInputLocked = false;
+        }
+
+        private void Slash()
+        {
+            if (Input.GetMouseButtonUp(0) && !_isSlash)
+            {
+                if (_playerInput.GetMouseInputDistance() > 2f)
+                {
+                    Debug.Log(_playerInput.GetMouseInputDistance());
+                    StartCoroutine(ForceSlash(_slashDirection, 0.125f));
+                }
+            }
+        }
+
+        private IEnumerator ForceSlash(Vector2 direction, float forceTime)
+        {
+            float time = 0f;
+            _isSlash = true;
+
+            if (_playerInput.GetSlashAngle() < 0)
+            {
+                _lookDirection = LookDirection.Left;
+            }
+            else
+            {
+                _lookDirection = LookDirection.Right;
+            }
+
+            while (time < forceTime && !_isBeside)
+            {
+                yield return null;
+                _currentSpeed = 100f;
+                _velocity = direction * _currentSpeed;
+                transform.Translate(_velocity * Time.deltaTime);
+                time += Time.deltaTime;
+            }
+            _isSlash = false;
+            _velocity = Vector2.zero;
         }
 
         private void Gravity()
@@ -196,7 +257,8 @@ namespace Player
 
                     if (Vector2.Angle(colliderDistance.normal, Vector2.up) < 90 && _velocity.y < 0)
                     {
-                        _isGround = true;
+                        if (!_isSlash)
+                            _isGround = true;
                     }
                 }
             }
