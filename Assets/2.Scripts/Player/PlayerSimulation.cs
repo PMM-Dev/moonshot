@@ -6,7 +6,7 @@ namespace Player
     {
         public float MovePosition(LookDirection lookDirection, float currentSpeed)
         {
-            return (int)lookDirection * currentSpeed * Time.deltaTime;
+            return (int)lookDirection * currentSpeed;
         }
 
         public float GetCurrentSpeed(bool isAccel, LookDirection lookDirection, float currentSpeed, float speed, float acceleration, float deceleration, bool isGround)
@@ -40,7 +40,7 @@ namespace Player
 
         public Vector2 Jump(Vector2 direction, float jumpPower)
         {
-            return direction * jumpPower * 1000f * Time.fixedDeltaTime;
+            return direction * jumpPower;
             // return direction * jumpPower * Mathf.Cos(Mathf.Atan2(direction.x, direction.y)) * 1000f * Time.fixedDeltaTime;s
         }
     }
