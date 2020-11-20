@@ -49,7 +49,9 @@ namespace Player
         [SerializeField]
         private bool _isBeside;
         [SerializeField]
-        private bool _isSlash;
+        private bool _isSlashing;
+        [SerializeField]
+        private bool _isSlashLocked;
 
         [SerializeField]
         private Vector2 _velocity;
@@ -118,6 +120,7 @@ namespace Player
             if (_isGround)
             {
                 _velocity.y = 0f;
+                _isSlashLocked = false;
             }
             _jumpState = _playerLogic.GetJumpState(_isJumpInputLocked, _isGround, _moveDirection, _stickDirection);
             Jump();
@@ -143,7 +146,7 @@ namespace Player
                 _isBeside = true;
             }
 
-            _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection);
+            _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection, _isSlashLocked);
             _currentSpeed = _stickDirection != StickDirection.Idle ? 0 : _currentSpeed;
 
             _animator.SetBool("isStick", _stickDirection != StickDirection.Idle ? true : false);
@@ -159,7 +162,7 @@ namespace Player
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed, _stickDirection);
             _velocity.x = _playerSimulation.MovePosition(_lookDirection, _currentSpeed);
 
-            if (!_isSlash)
+            if (!_isSlashing)
                 transform.Translate(_velocity * Time.deltaTime);
 
             _animator.SetFloat("currentSpeed", _currentSpeed);
@@ -188,7 +191,7 @@ namespace Player
 
         private void Stick()
         {
-            if (_stickDirection != StickDirection.Idle && !_isMoveInputLocked)
+            if (_playerLogic.IsStickAvailable(_stickDirection, _isMoveInputLocked, _isSlashLocked))
             {
                 _velocity.y = -_stickGravity ;
             }
@@ -209,22 +212,23 @@ namespace Player
 
         private void Slash()
         {
-            if (Input.GetMouseButtonUp(0) && !_isSlash)
-            {
-                SlashAction?.Invoke();
-
+            if (_playerLogic.IsSlashAvailable(Input.GetMouseButtonUp(0), _isSlashLocked, _stickDirection))
+            { 
                 if (_playerInput.GetMouseInputDistance() > 2f)
                 {
-                    StartCoroutine(ForceSlash(_slashDirection, 0.1f));
+                    StartCoroutine(ForceSlash(_slashDirection, 0.125f));
                 }
             }
         }
 
         private IEnumerator ForceSlash(Vector2 direction, float forceTime)
         {
+            _isSlashLocked = true;
+            SlashAction?.Invoke();
+
             float time = 0f;
-            _isSlash = true;
-            _animator.SetBool("isSlash", _isSlash);
+            _isSlashing = true;
+            _animator.SetBool("isSlash", _isSlashing);
             _slashRange.localScale = new Vector3(1f, 1f, 1f);
             _slashRange.position = transform.position;
             Vector2 origin = _slashRange.position;
@@ -244,15 +248,15 @@ namespace Player
             while (time < forceTime && !_isBeside)
             {
                 yield return null;
-                _currentSpeed = 100f;
+                _currentSpeed = 80f;
                 _velocity = direction * _currentSpeed;
                 transform.Translate(_velocity * Time.deltaTime);
 
                 time += Time.deltaTime;
             }
-            _isSlash = false;
+            _isSlashing = false;
             _velocity = Vector2.zero;
-            _animator.SetBool("isSlash", _isSlash);
+            _animator.SetBool("isSlash", _isSlashing);
 
             Vector2 target = transform.position;
             float distance = Vector2.Distance(origin, target);
@@ -262,7 +266,7 @@ namespace Player
 
         private void Gravity()
         {
-            _velocity.y += -_gravityScale;
+            _velocity.y += -_gravityScale * Time.deltaTime;
         }
 
         private void CollideWithGround()
@@ -281,10 +285,18 @@ namespace Player
                 {
                     transform.Translate(colliderDistance.pointA - colliderDistance.pointB);
 
-                    if (Vector2.Angle(colliderDistance.normal, Vector2.up) < 90 && _velocity.y < 0)
+                    if (Vector2.Angle(colliderDistance.normal, Vector2.up) == 0 && _velocity.y < 0)
                     {
-                        if (!_isSlash)
+                        if (!_isSlashing)
+                        {
                             _isGround = true;
+
+                        }
+
+                    }
+                    else if (Vector2.Angle(colliderDistance.normal, Vector2.up) == 180 && _velocity.y > 0)
+                    {
+                        _velocity.y = 0f;
                     }
                 }
             }

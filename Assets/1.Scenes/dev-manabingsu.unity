@@ -421,7 +421,7 @@ PrefabInstance:
     - target: {fileID: 7150708886123858748, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: orthographic size
-      value: 5.625
+      value: 9.93
       objectReference: {fileID: 0}
     - target: {fileID: 8597603918832396401, guid: 2368295233600479a9822d516976763e,
         type: 3}
@@ -1323,12 +1323,12 @@ PrefabInstance:
     - target: {fileID: 3701850818064872571, guid: 08e0d6613f9ccf84880f77fc6d05bacc,
         type: 3}
       propertyPath: _wallJumpPower
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3701850818064872571, guid: 08e0d6613f9ccf84880f77fc6d05bacc,
         type: 3}
       propertyPath: _gravityScale
-      value: 0.25
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 3701850818064872571, guid: 08e0d6613f9ccf84880f77fc6d05bacc,
         type: 3}
