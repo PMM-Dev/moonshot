@@ -33,6 +33,15 @@ namespace Enemy{
         Vector3 _reversedScale;
         private Vector3 _wayPointDirction;
         private Vector3 _playerDirction;
+        private Transform _transform;
+
+        public Transform Transform
+        {
+            get
+            {
+                return _transform;
+            }
+        }
         private int _targetIndex;
         private int _indexAdd = 1;
 
