@@ -7,7 +7,7 @@ namespace Enemy{
     public class Pattern : MonoBehaviour
     {
         protected GameObject _player;
-        protected float _playerDistance;
+        protected float _playerDistance = 9999f;
 
         [SerializeField]private float _patternDelay;
         [SerializeField] protected float _patternRage;
@@ -21,7 +21,8 @@ namespace Enemy{
 
         private void Update()
         {
-            PlayerDistanceCalculation();
+            if (_player != null)
+                PlayerDistanceCalculation();
             if (_playerDistance < _patternRage)
                 AttackPattern();
         }

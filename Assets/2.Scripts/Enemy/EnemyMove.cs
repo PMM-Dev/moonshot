@@ -9,15 +9,18 @@ namespace Enemy{
     {
         protected GameObject _player;
         protected float _WayPointDistance;
-        protected float _playerDistance;
+        protected float _playerDistance = 9999f;
 
         [Tooltip("시계방향으로 배치해야지 잘 작동됨.")] [SerializeField] private GameObject[] _wayPoints;
         [SerializeField] private float _speed = 1;
 
         [Header("Option")]
         [Tooltip("선형 참조/원형 참조")] [SerializeField] private bool _isRound = false;
-        [Tooltip("이동시 좌루만 보는지 여부")] [SerializeField] private bool _isYAxisLook = false;
         [Tooltip("플레이어 인식 범위 안보면 -1")] [SerializeField] private float _DetectingPlayerRange = 10f;
+
+
+        [Header("굼뱅이 전용")]
+        [Tooltip("이동시 좌루만 보는지 여부")] [SerializeField] private bool _isYAxisLook = false;
 
         [Header("늑대인간 전용")]
         [Tooltip("움직이는지 여부")] [SerializeField] private bool _isMove = true;
@@ -39,14 +42,17 @@ namespace Enemy{
             _originScale = this.transform.localScale;
             _reversedScale = this.transform.localScale;
             _reversedScale.x *= -1;
-            _targetWayPointTarget = _wayPoints[0];
+            if (_wayPoints.Length > 0)
+                _targetWayPointTarget = _wayPoints[0];
         }
 
 
         private void Update()
         {
-            PhysicalCalculation();
-            PlayerDistanceCalculation();
+            if (_wayPoints.Length > 0)
+                PhysicalCalculation();
+            if (_player != null)
+                PlayerDistanceCalculation();
             if (_isMove == true)
             {
                 if (_playerDistance < _DetectingPlayerRange && _isTrakingPlayer == true)
@@ -78,12 +84,10 @@ namespace Enemy{
             Debug.Log(_playerDirction.x);
             if (_playerDirction.x > 0)
             {
-                Debug.Log("reversed");
                 this.transform.localScale = _reversedScale;
             }
             else
             {
-                Debug.Log("origing");
                 this.transform.localScale = _originScale;
             }
         }
