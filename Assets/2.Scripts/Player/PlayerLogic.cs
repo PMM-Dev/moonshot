@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace Player
@@ -50,8 +51,12 @@ namespace Player
             return false;
         }
 
-        public StickDirection GetStickDirection(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType, bool isGround, MoveDirection moveDirection)
+        public StickDirection GetStickDirection(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType, bool isGround, MoveDirection moveDirection, bool isSlashLocked)
         {
+            if (isSlashLocked)
+            {
+                return StickDirection.Idle;
+            }
             if (collisionType != CollisionType.Exit)
             {
                 if (collider2D.tag.Equals("Ground") && (int)colliderType == (int)moveDirection)
@@ -100,6 +105,16 @@ namespace Player
                 Vector2 lDirection = new Vector2(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle));
                 return lDirection.normalized;
             }
+        }
+
+        public bool IsSlashAvailable(bool isInput, bool isSlashLocked, StickDirection stickDirection)
+        {
+            return isInput && !isSlashLocked && stickDirection == StickDirection.Idle;
+        }
+
+        public bool IsStickAvailable(StickDirection stickDirection, bool isMoveInputLocked, bool isSlashLocked)
+        {
+            return stickDirection != StickDirection.Idle && !isMoveInputLocked && !isSlashLocked;
         }
     }
 }

@@ -43,5 +43,11 @@ namespace Player
             return direction * jumpPower;
             // return direction * jumpPower * Mathf.Cos(Mathf.Atan2(direction.x, direction.y)) * 1000f * Time.fixedDeltaTime;s
         }
+
+
+        public float GetAngle(Vector2 origin, Vector2 target)
+        {
+            return Mathf.Atan2(target.x - origin.x, target.y - origin.y) * Mathf.Rad2Deg;
+        }
     }
 }
