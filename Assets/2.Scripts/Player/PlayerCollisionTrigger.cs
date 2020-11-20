@@ -17,7 +17,7 @@ namespace Player
             InitializeCollisionTrigger();
         }
 
-        private void InitializeCollisionTrigger()
+        public void InitializeCollisionTrigger()
         {
             _collisionTriggers = new Dictionary<ColliderType, CollisionTrigger>();
             for (int i = 0; i < transform.childCount; i++)

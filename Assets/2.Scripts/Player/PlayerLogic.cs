@@ -15,16 +15,6 @@ namespace Player
             _playerInput = playerInput;
         }
 
-        public void Update()
-        {
-            
-        }
-
-        public void FixedUpdate()
-        {
-            
-        }
-
         public MoveDirection GetMoveInput()
         {
             if (_playerInput.IsInput(PressKeyType.Stay, InputType.LeftMove))
@@ -80,10 +70,9 @@ namespace Player
         private bool IsMoveAvailable(MoveDirection moveDirection, StickDirection stickDirection, bool isMoveInputLocked)
         {
             return !isMoveInputLocked;
-            return ((int)moveDirection != (int)stickDirection);
         }
 
-        public JumpState GetJumpState(bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
+        public JumpState GetJumpState(bool isJumpInputLocked, bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
         {
             if (IsInput(PressKeyType.Down, InputType.Jump))
             {
@@ -94,10 +83,7 @@ namespace Player
                         return JumpState.Wall;
                     }
                 }
-            }
-            else if (IsInput(PressKeyType.Stay, InputType.Jump))
-            {
-                if (isGround)
+                else if (isGround)
                     return JumpState.Normal;
             }
             return JumpState.None;
@@ -109,7 +95,7 @@ namespace Player
                 return Vector2.up;
             else
             {
-                float angle = 45f;
+                float angle = 60f;
                 angle = stickDirection == StickDirection.Left ? angle : -angle;
                 Vector2 lDirection = new Vector2(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle));
                 return lDirection.normalized;
