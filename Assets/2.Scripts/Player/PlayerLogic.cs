@@ -15,16 +15,6 @@ namespace Player
             _playerInput = playerInput;
         }
 
-        public void Update()
-        {
-            
-        }
-
-        public void FixedUpdate()
-        {
-            
-        }
-
         public MoveDirection GetMoveInput()
         {
             if (_playerInput.IsInput(PressKeyType.Stay, InputType.LeftMove))
@@ -80,7 +70,6 @@ namespace Player
         private bool IsMoveAvailable(MoveDirection moveDirection, StickDirection stickDirection, bool isMoveInputLocked)
         {
             return !isMoveInputLocked;
-            return ((int)moveDirection != (int)stickDirection);
         }
 
         public JumpState GetJumpState(bool isJumpInputLocked, bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)

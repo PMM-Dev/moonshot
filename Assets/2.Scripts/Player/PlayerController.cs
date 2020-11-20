@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerController : MonoBehaviour
     {
@@ -30,7 +29,7 @@ namespace Player
         [SerializeField]
         private float _wallJumpPower;
         [SerializeField]
-        private float _stickPower;
+        private float _stickGravity;
         #endregion
 
         #region State
@@ -62,16 +61,13 @@ namespace Player
         private PlayerSimulation _playerSimulation;
         private PlayerInput _playerInput;
         private PlayerCollisionTrigger _playerCollisionTrigger;
-        private Rigidbody2D _rigidbody2D;
         private Animator _animator;
         private Transform _bodyTransform;
-        private List<Collider2D> _hits;
         private BoxCollider2D _boxCollider2D;
         #endregion
 
         private void Awake()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
             _animator = GetComponentInChildren<Animator>();
             _bodyTransform = GetComponentInChildren<Animator>().transform;
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
@@ -84,12 +80,11 @@ namespace Player
             _playerInput = new PlayerInput();
             _playerLogic = new PlayerLogic(this._playerSimulation, this._playerInput);
 
-            /*
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerEnter += CheckGrond;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerExit += CheckGrond;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Bottom].OnTriggerStay += CheckGrond;
-            */
+            InitializeEvent();
+        }
 
+        private void InitializeEvent()
+        {
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerExit += CheckStick;
@@ -103,42 +98,16 @@ namespace Player
         {
             _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
-
-
             if (_isGround)
             {
                 _velocity.y = 0f;
             }
             _jumpState = _playerLogic.GetJumpState(_isJumpInputLocked, _isGround, _moveDirection, _stickDirection);
-            if (_jumpState != JumpState.None)
-            {
-                Jump();
-            }
-            _velocity.y += -_gravityScale;
-
+            Jump();
+            Gravity();
             Stick();
             Move();
-
-            _isGround = false;
             CollideWithGround();
-            _animator.SetBool("isGround", _isGround);
-        }
-
-        private void FixedUpdate()
-        {
-
-        }
-
-        private void CheckGrond(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
-        {
-            if (_velocity.y <= 0f)
-            {
-                _isGround = _playerLogic.IsGround(collisionType, collider2D);
-            }
-            else
-            {
-                _isGround = false;
-            }
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -166,19 +135,21 @@ namespace Player
 
         private void Jump()
         {
-            Vector2 jumpDirection = _playerLogic.GetJumpDiretion(_jumpState, _stickDirection);
+            if (_jumpState == JumpState.None)
+            {
+                return ;
+            }
 
             if (_jumpState == JumpState.Wall)
             {
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
                 _velocity.y = _wallJumpPower;
                 _isMoveInputLocked = true;
-                StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _speed * Time.deltaTime, 0.25f));
+                StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _speed * Time.deltaTime, 0.35f));
             }
             else
             {
                 _velocity.y = _normalJumpPower;
-                Debug.Log("JU");
             }
         }
 
@@ -186,7 +157,7 @@ namespace Player
         {
             if (_stickDirection != StickDirection.Idle && !_isMoveInputLocked)
             {
-                _velocity.y = -_stickPower ;
+                _velocity.y = -_stickGravity ;
             }
         }
 
@@ -202,32 +173,15 @@ namespace Player
             _isMoveInputLocked = false;
         }
 
-        private IEnumerator ForceJumpTimer(float forceTime)
-        {
-            float time = 0f;
-            while (time < forceTime)
-            {
-                yield return null;
-                time += Time.deltaTime;
-            }
-            _isJumpInputLocked = false;
-        }
-
         private void Gravity()
         {
-            if (!_isGround)
-            {
-                _gravity = new Vector2(0, -_gravityScale);
-                _velocity += _gravity * Time.deltaTime;
-            }
-            else
-            {
-                _velocity.y = 0f;
-            }
+            _velocity.y += -_gravityScale;
         }
 
         private void CollideWithGround()
         {
+            _isGround = false;
+
             Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, _boxCollider2D.size, 0);
             foreach (Collider2D hit in hits)
             {
@@ -246,6 +200,7 @@ namespace Player
                     }
                 }
             }
+            _animator.SetBool("isGround", _isGround);
         }
     }
 }

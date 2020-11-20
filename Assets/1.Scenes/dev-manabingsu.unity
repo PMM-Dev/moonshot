@@ -1133,6 +1133,11 @@ PrefabInstance:
       propertyPath: _stickPower
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3701850818064872571, guid: 08e0d6613f9ccf84880f77fc6d05bacc,
+        type: 3}
+      propertyPath: _stickGravity
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3701850818064872573, guid: 08e0d6613f9ccf84880f77fc6d05bacc,
         type: 3}
       propertyPath: m_Name
