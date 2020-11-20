@@ -41,8 +41,7 @@ public class MapMaking : MonoBehaviour
         for(int i = 0;i< stagePerMapCount; i++)
         {
             int idx = mapOrder[i];
-            Vector3 targetPosition = new Vector3(0, startPointY + mapYlength * (i + 1)+4.2f, 0);
-            Debug.Log(targetPosition);
+            Vector3 targetPosition = new Vector3(0, startPointY + mapYlength * (i + 1), 0);
             if (mapFrequencyCheck[idx]==0)
             {
                 GameObject game = mapCandidate.transform.GetChild(idx).gameObject;
