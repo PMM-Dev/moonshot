@@ -8,7 +8,7 @@ namespace Enemy
     {
         override protected void ActuallyPattern()
         {
-            if (_WayPointDistance < _patternRage)
+            if (_playerDistance < _patternRage)
             {
                 //플레이어 데미지 주는 함수
                 Debug.Log("player dead");

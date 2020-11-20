@@ -7,7 +7,6 @@ namespace Enemy{
     public class Pattern : MonoBehaviour
     {
         protected GameObject _player;
-        protected float _WayPointDistance;
         protected float _playerDistance;
 
         [SerializeField]private float _patternDelay;
@@ -19,11 +18,19 @@ namespace Enemy{
         {
             _player = GameObject.FindWithTag("Player");
         }
+
         private void Update()
         {
+            PlayerDistanceCalculation();
             if (_playerDistance < _patternRage)
                 AttackPattern();
         }
+
+        void PlayerDistanceCalculation()
+        {
+            _playerDistance = Vector3.Magnitude(_player.transform.localPosition - this.gameObject.transform.localPosition);
+        }
+
 
         //패턴을 실행시키는 함수
         //아래 두가지 보고 피드백좀
