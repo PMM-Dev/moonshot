@@ -6,6 +6,10 @@ using UnityEngine;
 public class MainUIManager : MonoBehaviour
 {
     [SerializeField]
+    private GameObject _startPanel;
+    [SerializeField]
+    private GameObject _optionPanel;
+    [SerializeField]
     private GameObject _gameoverPanel;
     [SerializeField]
     private Slider _stageProgressSlider;
@@ -13,6 +17,14 @@ public class MainUIManager : MonoBehaviour
     private Text _killCountText;
     [SerializeField]
     private Text _survivedTimeText;
+
+    public void OnClickStart()
+    {
+        MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
+        MainEventManager.Instance.StartMainGameEvent?.Invoke();
+
+        _startPanel.SetActive(false);
+    }
 
     public void ShowGameoverUI(string killedEnemyCount, string survivedTime)
     {
@@ -23,13 +35,36 @@ public class MainUIManager : MonoBehaviour
 
     public void OnClickRestart()
     {
-        //
-
         _gameoverPanel.SetActive(false);
+
+        OnClickStart();
     }
 
-    public void OnClickLobby()
+    public void OnClickReturn()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
+        _gameoverPanel.SetActive(false);
+
+        // Return to the state before press START after intro
+    }
+
+    public void OnClickOption()
+    {
+        _optionPanel.SetActive(true);
+
+        MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
+    }
+
+    public void OnClickOptionResume()
+    {
+        _optionPanel.SetActive(false);
+
+        MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
+    }
+
+    public void OnClickOptionRestart()
+    {
+        _optionPanel.SetActive(false);
+
+        OnClickRestart();
     }
 }

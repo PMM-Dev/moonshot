@@ -42,11 +42,15 @@ public class MainEventManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    //
+    // SINGLETON
 
     MainDataManager mainEventDataManager;
     MainUIManager mainUIManager;
 
+
     public Action StartMainGameEvent;
+    public Action ResumeGamePlayEvent;
     public Action PauseGamePlayEvent;
 
     public void EnemyDeadEvent()
@@ -62,6 +66,19 @@ public class MainEventManager : MonoBehaviour
 
     private void Start()
     {
+        PauseGamePlayEvent += PauseSystem;
+        ResumeGamePlayEvent += ResumSystem;
 
+        PauseGamePlayEvent?.Invoke();
+    }
+
+    private void PauseSystem()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void ResumSystem()
+    {
+        Time.timeScale = 1f;
     }
 }
