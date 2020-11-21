@@ -6,34 +6,36 @@ namespace Enemy
 {
     public class Raser : MonoBehaviour
     {
-        [Tooltip("늑대와 토끼에 맞는 불릿 넣기")] [SerializeField] GameObject _bullitPrefabs;
-        [Tooltip("늑대면 체크")] [SerializeField] bool _isWolf;
-        [SerializeField] float _builletInterber;
-        Vector3 _localScalse;
-        float time = 0;
+        [Tooltip("늑대와 토끼에 맞는 불릿 넣기")] [SerializeField]
+        private GameObject _bulletPrefabs;
+        [Tooltip("늑대면 체크")][SerializeField]
+        private bool _isWolf;
+        [SerializeField]
+        private float _builletInterver;
+        private float _time = 0;
+        private Vector3 _localScale;
 
         private void Update()
         {
-            time += Time.deltaTime;
-            if (time > _builletInterber)
+            _time += Time.deltaTime;
+            if (_time > _builletInterver)
                 MakingBullet();
-
         }
 
         void MakingBullet()
         {
             Debug.Log("생성");
-            GameObject _bullet = Instantiate(_bullitPrefabs, transform.position, transform.rotation);
-            _localScalse = _bullet.transform.localScale;
+            GameObject bullet = Instantiate(_bulletPrefabs, transform.position, transform.rotation);
+            _localScale = bullet.transform.localScale;
             if (_isWolf == true)
             {
-                _bullet.GetComponent<Bullet>().isVetical = false;
+                bullet.GetComponent<Bullet>().IsVertical = false;
                 if (this.gameObject.transform.localScale.x < 0)
-                    _localScalse.x *= -1;
-                _bullet.transform.localScale = _localScalse;
+                    _localScale.x *= -1;
+                bullet.transform.localScale = _localScale;
 
             }
-            time = 0;
+            _time = 0;
         }
     }
 }

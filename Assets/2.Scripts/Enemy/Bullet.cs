@@ -8,19 +8,19 @@ namespace Enemy
     {
         [SerializeField] private float _bulletSpeed;
         [SerializeField] private float _disapperTime = 3f;
-        [SerializeField] private bool _isVetical;
-        public bool isVetical
+        [SerializeField] private bool _isVertical;
+        public bool IsVertical
         {
             set
             {
-                _isVetical = value;
+                _isVertical = value;
             }
         }
         [SerializeField] private Transform _transform;
 
         private void Update()
         {
-            if (_isVetical == true)
+            if (_isVertical == true)
                 transform.Translate(Vector3.down * _bulletSpeed * Time.smoothDeltaTime, Space.World);
             else
                 transform.Translate(new Vector3(-this.transform.localScale.x,0,0) * _bulletSpeed * 10 * Time.smoothDeltaTime, Space.World);
