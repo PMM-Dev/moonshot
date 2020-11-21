@@ -98,20 +98,6 @@ namespace Player
             InitializeEvent();
         }
 
-        private void InitializeEvent()
-        {
-            SlashAction = delegate { };
-            EndSlashAction = delegate { };
-
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerExit += CheckStick;
-
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerEnter += CheckStick;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerStay += CheckStick;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
-        }
-
         private void Update()
         {
             _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
@@ -135,6 +121,24 @@ namespace Player
             CollideWithGround();
         }
 
+
+        private void InitializeEvent()
+        {
+            SlashAction = delegate { };
+            EndSlashAction = delegate { };
+
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerExit += CheckStick;
+
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerEnter += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerStay += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
+
+
+            _playerInput.InitializeEvent();
+        }
+
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
             if (collisionType == CollisionType.Exit)
@@ -147,7 +151,6 @@ namespace Player
             }
 
             _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection, _isSlashLocked);
-            _currentSpeed = _stickDirection != StickDirection.Idle ? 0 : _currentSpeed;
 
             _animator.SetBool("isStick", _stickDirection != StickDirection.Idle ? true : false);
         }
@@ -155,9 +158,6 @@ namespace Player
         private void Move()
         {
             _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration, _isGround);
-
-            if (_stickDirection != StickDirection.Idle)
-                _currentSpeed = 0f;
 
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed, _stickDirection);
             _velocity.x = _playerSimulation.MovePosition(_lookDirection, _currentSpeed);
@@ -212,7 +212,7 @@ namespace Player
 
         private void Slash()
         {
-            if (_playerLogic.IsSlashAvailable(Input.GetMouseButtonUp(0), _isSlashLocked, _stickDirection))
+            if (_playerLogic.IsSlashAvailable(_playerInput.GetMouseButtonUp(), _isSlashLocked, _stickDirection))
             { 
                 if (_playerInput.GetMouseInputDistance() > 2f)
                 {
@@ -229,12 +229,20 @@ namespace Player
             float time = 0f;
             _isSlashing = true;
             _animator.SetBool("isSlash", _isSlashing);
-            _slashRange.localScale = new Vector3(1f, 1f, 1f);
-            _slashRange.position = transform.position;
-            Vector2 origin = _slashRange.position;
-
             float angle = _playerInput.GetSlashAngle();
-            _slashRange.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+
+            if (_slashRange != null)
+            {
+                _slashRange.localScale = new Vector3(1f, 1f, 1f);
+                _slashRange.position = transform.position;
+
+
+
+
+                _slashRange.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            }
+
+            Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.position;
 
             if (angle < 0)
             {
@@ -259,8 +267,15 @@ namespace Player
             _animator.SetBool("isSlash", _isSlashing);
 
             Vector2 target = transform.position;
-            float distance = Vector2.Distance(origin, target);
-            _slashRange.localScale = new Vector3(1f, distance, 1f);
+
+
+            if (_slashRange != null)
+            {
+                float distance = Vector2.Distance(origin, target);
+                _slashRange.localScale = new Vector3(1f, distance, 1f);
+
+            }
+
             EndSlashAction?.Invoke();
         }
 

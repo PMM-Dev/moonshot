@@ -14,6 +14,27 @@ namespace Player
         private Vector2 _originMousePosition;
         private Vector2 _targetMousePosition;
 
+        private bool _isPause;
+
+        public void InitializeEvent()
+        {
+            if (MainEventManager.Instance != null)
+            {
+                MainEventManager.Instance.PauseGamePlayEvent += PauseGameEvent;
+                // MainEventManager.Instance.ResumeGamePlayEvent += ResumeGameEvent;
+            }
+        }
+
+        public void PauseGameEvent()
+        {
+            _isPause = true;
+        }
+
+        public void ResumeGameEvent()
+        {
+            _isPause = false;
+        }
+
         public PlayerInput()
         {
             _inputKeys = new Dictionary<InputType, KeyCode>()
@@ -38,14 +59,17 @@ namespace Player
 
         private bool GetKeyUp(InputType inputType)
         {
+            if (_isPause) return false;
             return Input.GetKeyUp(_inputKeys[inputType]);
         }
         private bool GetKeyDown(InputType inputType)
         {
+            if (_isPause) return false;
             return Input.GetKeyDown(_inputKeys[inputType]);
         }
         private bool GetKey(InputType inputType)
         {
+            if (_isPause) return false;
             return Input.GetKey(_inputKeys[inputType]);
         }
 
@@ -62,6 +86,12 @@ namespace Player
             }
         }
 
+        public bool GetMouseButtonUp()
+        {
+            if (_isPause) return false;
+            return Input.GetMouseButtonUp(0);
+        }
+
         public Vector2 GetSlashDirection()
         {
             return (_targetMousePosition - _originMousePosition).normalized;
@@ -74,7 +104,6 @@ namespace Player
 
         public float GetMouseInputDistance()
         {
-
             return Vector2.Distance(_targetMousePosition, _originMousePosition);
         }
     }
