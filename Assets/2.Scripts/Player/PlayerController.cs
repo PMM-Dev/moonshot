@@ -100,7 +100,8 @@ namespace Player
 
         private void Update()
         {
-            _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
+            if (!_isSlashing)
+                _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
 
             if (_isGround)
@@ -141,18 +142,21 @@ namespace Player
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
-            if (collisionType == CollisionType.Exit)
+            if (collider2D.gameObject.CompareTag("Ground"))
             {
-                _isBeside = false;
-            }
-            else if (collisionType == CollisionType.Stay)
-            {
-                _isBeside = true;
-            }
+                if (collisionType == CollisionType.Exit)
+                {
+                    _isBeside = false;
+                }
+                else if (collisionType == CollisionType.Stay)
+                {
+                    _isBeside = true;
+                }
 
-            _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection, _isSlashLocked);
+                _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection, _isSlashLocked);
 
-            _animator.SetBool("isStick", _stickDirection != StickDirection.Idle ? true : false);
+                _animator.SetBool("isStick", _stickDirection != StickDirection.Idle ? true : false);
+            }
         }
 
         private void Move()
@@ -231,16 +235,9 @@ namespace Player
             _animator.SetBool("isSlash", _isSlashing);
             float angle = _playerInput.GetSlashAngle();
 
-            if (_slashRange != null)
-            {
-                _slashRange.localScale = new Vector3(1f, 1f, 1f);
-                _slashRange.position = transform.position;
-
-
-
-
-                _slashRange.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
-            }
+            _slashRange.localScale = new Vector3(1f, 1f, 1f);
+            _slashRange.position = transform.position;
+            _slashRange.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
 
             Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.position;
 
@@ -255,26 +252,19 @@ namespace Player
 
             while (time < forceTime && !_isBeside)
             {
-                yield return null;
                 _currentSpeed = 80f;
                 _velocity = direction * _currentSpeed;
                 transform.Translate(_velocity * Time.deltaTime);
-
                 time += Time.deltaTime;
+                yield return null;
             }
             _isSlashing = false;
             _velocity = Vector2.zero;
             _animator.SetBool("isSlash", _isSlashing);
 
             Vector2 target = transform.position;
-
-
-            if (_slashRange != null)
-            {
-                float distance = Vector2.Distance(origin, target);
-                _slashRange.localScale = new Vector3(1f, distance, 1f);
-
-            }
+            float distance = Vector2.Distance(origin, target);
+            _slashRange.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
 
             EndSlashAction?.Invoke();
         }
