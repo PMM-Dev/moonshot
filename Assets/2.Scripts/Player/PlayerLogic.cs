@@ -53,7 +53,7 @@ namespace Player
 
         public StickDirection GetStickDirection(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType, bool isGround, MoveDirection moveDirection, bool isSlashLocked)
         {
-            if (isSlashLocked)
+            if (isSlashLocked || isGround)
             {
                 return StickDirection.Idle;
             }

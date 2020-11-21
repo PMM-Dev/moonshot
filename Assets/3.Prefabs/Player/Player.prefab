@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 3701850818064872569}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,8 +145,7 @@ MonoBehaviour:
   _slashDirection: {x: 0, y: 0}
   _isMoveInputLocked: 0
   _isJumpInputLocked: 0
-  _slashRange: {fileID: 5776373429073499283, guid: f6c3a8a2cd847f446a4d68e05735a25b,
-    type: 3}
+  _slashRange: {fileID: 0}
 --- !u!50 &3701850818064872838
 Rigidbody2D:
   serializedVersion: 4
