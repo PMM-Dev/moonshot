@@ -98,20 +98,6 @@ namespace Player
             InitializeEvent();
         }
 
-        private void InitializeEvent()
-        {
-            SlashAction = delegate { };
-            EndSlashAction = delegate { };
-
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerExit += CheckStick;
-
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerEnter += CheckStick;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerStay += CheckStick;
-            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
-        }
-
         private void Update()
         {
             _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
@@ -133,6 +119,24 @@ namespace Player
             Slash();
 
             CollideWithGround();
+        }
+
+
+        private void InitializeEvent()
+        {
+            SlashAction = delegate { };
+            EndSlashAction = delegate { };
+
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerExit += CheckStick;
+
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerEnter += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerStay += CheckStick;
+            _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
+
+
+            _playerInput.InitializeEvent();
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -212,7 +216,7 @@ namespace Player
 
         private void Slash()
         {
-            if (_playerLogic.IsSlashAvailable(Input.GetMouseButtonUp(0), _isSlashLocked, _stickDirection))
+            if (_playerLogic.IsSlashAvailable(_playerInput.GetMouseButtonUp(), _isSlashLocked, _stickDirection))
             { 
                 if (_playerInput.GetMouseInputDistance() > 2f)
                 {
