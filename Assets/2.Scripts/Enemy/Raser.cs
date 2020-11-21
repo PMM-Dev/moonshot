@@ -19,21 +19,23 @@ namespace Enemy
         {
             _time += Time.deltaTime;
             if (_time > _builletInterver)
-                MakingBullet();
+                CreateBullet();
         }
 
-        void MakingBullet()
+        void CreateBullet()
         {
-            Debug.Log("생성");
             GameObject bullet = Instantiate(_bulletPrefabs, transform.position, transform.rotation);
             _localScale = bullet.transform.localScale;
             if (_isWolf == true)
             {
-                bullet.GetComponent<Bullet>().IsVertical = false;
                 if (this.gameObject.transform.localScale.x < 0)
                     _localScale.x *= -1;
                 bullet.transform.localScale = _localScale;
-
+            }
+            else
+            {
+                bullet.GetComponent<Bullet>().IsVertical = true;
+                bullet.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             _time = 0;
         }

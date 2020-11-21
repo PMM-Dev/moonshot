@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1532932922738596681}
   - component: {fileID: 2491937851082922202}
   - component: {fileID: 703826969113530419}
+  - component: {fileID: 279375689401631134}
   m_Layer: 0
   m_Name: Bullit
   m_TagString: Untagged
@@ -96,5 +97,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletSpeed: 10
   _disapperTime: 3
-  _isVetical: 1
+  _isVertical: 0
   _transform: {fileID: 0}
+--- !u!70 &279375689401631134
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7364957618936433798}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.868454}
+  m_Size: {x: 6.584718, y: 15.558753}
+  m_Direction: 0

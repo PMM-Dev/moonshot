@@ -83,14 +83,13 @@ namespace Enemy{
 
         void PlayerDistanceCalculation()
         {
-            _playerDirction = _player.transform.localPosition - this.gameObject.transform.localPosition;
+            _playerDirction = _player.transform.position - this.gameObject.transform.position;
             _playerDistance = Vector3.Magnitude(_playerDirction);
             _playerDirction = _playerDirction.normalized;
         }
 
         void LookPlayer()
         {
-            Debug.Log(_playerDirction.x);
             if (_playerDirction.x > 0)
             {
                 this.transform.localScale = _reversedScale;
@@ -126,9 +125,9 @@ namespace Enemy{
 
         //거리와, 방향을 계산하는 함수
         void PhysicalCalculation() {
-            _wayPointDirction = _targetWayPointTarget.transform.localPosition  - this.gameObject.transform.localPosition;
+            _wayPointDirction = _targetWayPointTarget.transform.position - this.gameObject.transform.position;
             _wayPointDirction = _wayPointDirction.normalized;
-            _WayPointDistance = Vector3.Magnitude(this.gameObject.transform.localPosition - _targetWayPointTarget.transform.localPosition);
+            _WayPointDistance = Vector3.Magnitude(this.gameObject.transform.position - _targetWayPointTarget.transform.position);
         }
 
         //타겟을 따라 움직이는 함수

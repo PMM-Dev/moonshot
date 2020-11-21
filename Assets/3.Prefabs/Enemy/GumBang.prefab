@@ -157,9 +157,10 @@ GameObject:
   - component: {fileID: 1433824476506698871}
   - component: {fileID: 1433824476506698870}
   - component: {fileID: 8925273440935985243}
+  - component: {fileID: 3313161566358436119}
   m_Layer: 0
   m_Name: GumBang
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -201,8 +202,8 @@ MonoBehaviour:
   _DetectingPlayerRange: 30
   _isYAxisLook: 1
   _isMove: 1
-  _isLookPlayer: 1
-  _isTrakingPlayer: 1
+  _isLookPlayer: 0
+  _isTrakingPlayer: 0
   _targetWayPointTarget: {fileID: 0}
 --- !u!114 &8925273440935985243
 MonoBehaviour:
@@ -217,8 +218,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _patternDelay: 1
-  _patternRage: 5
-  _patternCollTime: 3
+  _patternRage: 1
+  _patternCollTime: 0.1
+--- !u!114 &3313161566358436119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433824476506698868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879f6d4e983b25948aa9bbca7397713b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5134037989943065394
 GameObject:
   m_ObjectHideFlags: 0
