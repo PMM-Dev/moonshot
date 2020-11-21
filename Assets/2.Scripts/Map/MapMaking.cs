@@ -20,7 +20,12 @@ namespace Map
         private int _mapCount;//count candidate map*2 including duplicate 
         List<int> _mapOrder = new List<int>();//random order map
 
-        void Start()
+        private void Start()
+        {
+            MainEventManager.Instance.StartMainGameEvent += CreateMap;
+        }
+
+        void CreateMap() 
         {
             _mapCount = _mapCandidate.transform.childCount;
 
