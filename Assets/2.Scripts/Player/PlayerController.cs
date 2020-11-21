@@ -151,7 +151,6 @@ namespace Player
             }
 
             _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection, _isSlashLocked);
-            _currentSpeed = _stickDirection != StickDirection.Idle ? 0 : _currentSpeed;
 
             _animator.SetBool("isStick", _stickDirection != StickDirection.Idle ? true : false);
         }
@@ -159,9 +158,6 @@ namespace Player
         private void Move()
         {
             _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration, _isGround);
-
-            if (_stickDirection != StickDirection.Idle)
-                _currentSpeed = 0f;
 
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed, _stickDirection);
             _velocity.x = _playerSimulation.MovePosition(_lookDirection, _currentSpeed);
