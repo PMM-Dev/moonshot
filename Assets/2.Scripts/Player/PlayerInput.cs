@@ -21,6 +21,7 @@ namespace Player
             if (MainEventManager.Instance != null)
             {
                 MainEventManager.Instance.PauseGamePlayEvent += PauseGameEvent;
+                // MainEventManager.Instance.ResumeGamePlayEvent += ResumeGameEvent;
             }
         }
 

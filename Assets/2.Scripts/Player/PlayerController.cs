@@ -233,12 +233,20 @@ namespace Player
             float time = 0f;
             _isSlashing = true;
             _animator.SetBool("isSlash", _isSlashing);
-            _slashRange.localScale = new Vector3(1f, 1f, 1f);
-            _slashRange.position = transform.position;
-            Vector2 origin = _slashRange.position;
-
             float angle = _playerInput.GetSlashAngle();
-            _slashRange.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+
+            if (_slashRange != null)
+            {
+                _slashRange.localScale = new Vector3(1f, 1f, 1f);
+                _slashRange.position = transform.position;
+
+
+
+
+                _slashRange.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            }
+
+            Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.position;
 
             if (angle < 0)
             {
@@ -263,8 +271,15 @@ namespace Player
             _animator.SetBool("isSlash", _isSlashing);
 
             Vector2 target = transform.position;
-            float distance = Vector2.Distance(origin, target);
-            _slashRange.localScale = new Vector3(1f, distance, 1f);
+
+
+            if (_slashRange != null)
+            {
+                float distance = Vector2.Distance(origin, target);
+                _slashRange.localScale = new Vector3(1f, distance, 1f);
+
+            }
+
             EndSlashAction?.Invoke();
         }
 
