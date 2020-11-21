@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Player
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IDamage
     {
         #region Setting
         [SerializeField]
@@ -316,6 +316,18 @@ namespace Player
                 }
             }
             _animator.SetBool("isGround", _isGround);
+        }
+
+        public void GetDamage()
+        {
+            if (_isSlashing)
+            {
+                Debug.Log("슬래쉬 중엔 무적");
+            }
+            else
+            {
+                Debug.Log("주금");
+            }
         }
     }
 }
