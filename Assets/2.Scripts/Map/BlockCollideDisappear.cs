@@ -11,8 +11,10 @@ namespace Map
 
         private void OnTriggerEnter(Collider col)
         {
-            if (col.gameObject.CompareTag("Player"))
+            if (col.gameObject.CompareTag("Player"))                
+            {
                 Destroy(gameObject, _DestroyTime);
+            }
         }
     }
 }
