@@ -263,8 +263,7 @@ MonoBehaviour:
   _isYAxisLook: 0
   _isMove: 1
   _isLookPlayer: 1
-  _isTrakingPlayer: 0
-  _targetWayPointTarget: {fileID: 0}
+  _isTrakingPlayer: 1
 --- !u!114 &343452079354908145
 MonoBehaviour:
   m_ObjectHideFlags: 0

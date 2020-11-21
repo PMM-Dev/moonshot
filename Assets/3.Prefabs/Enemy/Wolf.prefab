@@ -171,7 +171,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 184440592331758616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -44.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 184440591820304856}
@@ -199,7 +199,6 @@ MonoBehaviour:
   _isMove: 0
   _isLookPlayer: 1
   _isTrakingPlayer: 0
-  _targetWayPointTarget: {fileID: 0}
 --- !u!114 &7689408825326970935
 MonoBehaviour:
   m_ObjectHideFlags: 0

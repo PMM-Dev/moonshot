@@ -28,22 +28,14 @@ namespace Enemy{
 
         [Header("마스피플 전용")]
         [Tooltip("플레이어 따라가는지 여부")] [SerializeField] private bool _isTrakingPlayer = false;
-        [SerializeField] private GameObject _targetWayPointTarget;
-        Vector3 _originScale;
-        Vector3 _reversedScale;
+        private GameObject _targetWayPointTarget;
+        private Vector3 _originScale;
+        private Vector3 _reversedScale;
         private Vector3 _wayPointDirction;
         private Vector3 _playerDirction;
-        private Transform _transform;
-
-        public Transform Transform
-        {
-            get
-            {
-                return _transform;
-            }
-        }
         private int _targetIndex;
         private int _indexAdd = 1;
+        private bool _isCantrun = true;
 
         private void Awake()
         {
@@ -136,7 +128,8 @@ namespace Enemy{
         {
             transform.Translate(_wayPointDirction * _speed * Time.smoothDeltaTime, Space.World);
 
-            if (_WayPointDistance < 0.5f) {
+            if (_WayPointDistance < 0.5f && _isCantrun == true) {
+                StartCoroutine(turnOnOff());
                 ChangeTarget();
             }
 
@@ -169,5 +162,15 @@ namespace Enemy{
             _targetIndex += _indexAdd;
             _targetWayPointTarget = _wayPoints[_targetIndex];
         }
+
+        IEnumerator turnOnOff()
+        {
+            _isCantrun = false;
+            yield return new WaitForSeconds(0.5f);
+            _isCantrun = true;
+
+        }
     }
+
+    
 }
