@@ -136,7 +136,7 @@ namespace Player
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
 
 
-            _playerInput.InitializeEvent();
+            // _playerInput.InitializeEvent();
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
