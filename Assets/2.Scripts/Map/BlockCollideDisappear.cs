@@ -9,9 +9,9 @@ namespace Map
         [SerializeField]
         private float _DestroyTime = 1.0f;
 
-        private void OnTriggerEnter(Collider col)
+        private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.gameObject.CompareTag("Player"))                
+            if (col.gameObject.CompareTag("Player"))
             {
                 Destroy(gameObject, _DestroyTime);
             }

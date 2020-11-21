@@ -27,6 +27,14 @@ namespace Map
 
         void CreateMap() 
         {
+            /*INITIALIZING*/
+            for(int i = 0; i<20;i++)
+            {
+                _mapFrequency[i] = 0;
+                _mapFrequencyCheck[i] = 0;
+                _mapOrder.Clear();
+            }
+
             _mapCount = _mapCandidate.transform.childCount;
 
             while (true)
