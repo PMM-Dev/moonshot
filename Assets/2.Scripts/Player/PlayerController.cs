@@ -31,6 +31,8 @@ namespace Player
         private float _wallJumpPower;
         [SerializeField]
         private float _stickGravity;
+        [SerializeField]
+        private float _gravityLimit;
         #endregion
 
         #region State
@@ -281,7 +283,8 @@ namespace Player
 
         private void Gravity()
         {
-            _velocity.y += -_gravityScale * Time.deltaTime;
+            if (_velocity.y > _gravityLimit)
+                _velocity.y += -_gravityScale * Time.deltaTime;
         }
 
         private void CollideWithGround()

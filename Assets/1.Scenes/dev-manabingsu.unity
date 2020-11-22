@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &281243660 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1733613855088034123}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &312512997
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +403,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 281243660}
     - target: {fileID: 2514578059184820647, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: _smoothSpeed
@@ -1106,11 +1112,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SlashRange
-      objectReference: {fileID: 0}
-    - target: {fileID: 5776373429073499282, guid: f6c3a8a2cd847f446a4d68e05735a25b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5776373429073499283, guid: f6c3a8a2cd847f446a4d68e05735a25b,
         type: 3}

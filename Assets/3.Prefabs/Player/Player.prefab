@@ -1106,6 +1106,7 @@ MonoBehaviour:
   _normalJumpPower: 25
   _wallJumpPower: 30
   _stickGravity: 0.8
+  _gravityLimit: -30
   _moveDirection: 0
   _lookDirection: -1
   _stickDirection: 0
@@ -1118,8 +1119,7 @@ MonoBehaviour:
   _slashDirection: {x: 0, y: 0}
   _isMoveInputLocked: 0
   _isJumpInputLocked: 0
-  _slashRange: {fileID: 5776373429073499282, guid: f6c3a8a2cd847f446a4d68e05735a25b,
-    type: 3}
+  _slashRange: {fileID: 0}
 --- !u!50 &4337319345603776080
 Rigidbody2D:
   serializedVersion: 4
