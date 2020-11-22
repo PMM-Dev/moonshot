@@ -63,7 +63,7 @@ namespace Player
         [SerializeField]
         private bool _isMoveInputLocked;
         [SerializeField]
-        private bool _isJumpInputLocked;
+        private bool _isJumpLocked;
         #endregion
 
         #region Event
@@ -117,7 +117,7 @@ namespace Player
                 _velocity.y = 0f;
                 _isSlashLocked = false;
             }
-            _jumpState = _playerLogic.GetJumpState(_isJumpInputLocked, _isGround, _moveDirection, _stickDirection);
+            _jumpState = _playerLogic.GetJumpState(_isJumpLocked, _isGround, _moveDirection, _stickDirection);
             Jump();
             Gravity();
             Stick();
@@ -192,6 +192,8 @@ namespace Player
                 return;
             }
 
+            _isJumpLocked = true;
+
             if (_jumpState == JumpState.Wall)
             {
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
@@ -209,6 +211,7 @@ namespace Player
         {
             if (_playerLogic.IsStickAvailable(_stickDirection, _isMoveInputLocked, _isSlashLocked))
             {
+                _isJumpLocked = false;
                 _velocity.y = -_stickGravity;
             }
         }
@@ -318,6 +321,7 @@ namespace Player
                         if (!_isSlashing)
                         {
                             _isGround = true;
+                            _isJumpLocked = false;
                         }
 
                     }
@@ -333,6 +337,7 @@ namespace Player
         private void SuccessSlashEvent()
         {
             _isSlashLocked = false;
+            _isJumpLocked = false;
         }
 
         public bool GetDamage()
