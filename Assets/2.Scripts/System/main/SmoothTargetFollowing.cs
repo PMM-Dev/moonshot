@@ -18,7 +18,7 @@ public class SmoothTargetFollowing : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 targetPosition = _target.position + _offeset;
-        targetPosition.x = Mathf.Clamp(targetPosition.x, _maxCameraMovementOfX, _minCameraMovementOfX);
+        targetPosition.x = Mathf.Clamp(targetPosition.x, _minCameraMovementOfX, _maxCameraMovementOfX);
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, targetPosition, _smoothSpeed);
 
         transform.position = smoothedPosition;
