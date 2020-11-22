@@ -12,30 +12,27 @@ namespace Player
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerController : MonoBehaviour, IDamage
     {
-        #region Setting
+        #region Reference
+        [Header("Reference")]
         [SerializeField]
-        private float _speed;
+        private PlayerData _data;
         [SerializeField]
-        private float _acceleration;
-        [SerializeField]
-        private float _deceleration;
-        [SerializeField]
-        private float _currentSpeed;
-        [SerializeField]
-        private float _gravityScale;
-        [SerializeField]
-        private Vector2 _gravity;
-        [SerializeField]
-        private float _normalJumpPower;
-        [SerializeField]
-        private float _wallJumpPower;
-        [SerializeField]
-        private float _stickGravity;
-        [SerializeField]
-        private float _gravityLimit;
+        private GameObject _slashRangeObject;
+        private SlashRange _slashRange;
+        private PlayerLogic _playerLogic;
+        private PlayerSimulation _playerSimulation;
+        private PlayerInput _playerInput;
+        private PlayerCollisionTrigger _playerCollisionTrigger;
+        private Animator _animator;
+        private Transform _bodyTransform;
+        private BoxCollider2D _boxCollider2D;
         #endregion
 
         #region State
+        [Header("Value State")]
+        [SerializeField]
+        private float _currentSpeed;
+        [Header("Type state")]
         [SerializeField]
         private MoveDirection _moveDirection;
         [SerializeField]
@@ -44,8 +41,8 @@ namespace Player
         private StickDirection _stickDirection;
         [SerializeField]
         private JumpState _jumpState;
-
         private bool _isAccel;
+        [Header("Bool state")]
         [SerializeField]
         private bool _isGround;
         [SerializeField]
@@ -54,33 +51,23 @@ namespace Player
         private bool _isSlashing;
         [SerializeField]
         private bool _isSlashLocked;
-
+        [SerializeField]
+        private bool _isMoveInputLocked;
+        [SerializeField]
+        private bool _isJumpLocked;
+        [Header("Vector state")]
         [SerializeField]
         private Vector2 _velocity;
         [SerializeField]
         private Vector2 _slashDirection;
 
-        [SerializeField]
-        private bool _isMoveInputLocked;
-        [SerializeField]
-        private bool _isJumpInputLocked;
         #endregion
 
         #region Event
         public Action SlashAction;
         public Action EndSlashAction;
-        #endregion
-
-        #region Reference
-        private PlayerLogic _playerLogic;
-        private PlayerSimulation _playerSimulation;
-        private PlayerInput _playerInput;
-        private PlayerCollisionTrigger _playerCollisionTrigger;
-        private Animator _animator;
-        private Transform _bodyTransform;
-        private BoxCollider2D _boxCollider2D;
-        [SerializeField]
-        private GameObject _slashRange;
+        public Action SuccessSlashAction;
+        public Action FailedSlashAction;
         #endregion
 
         private void Awake()
@@ -97,30 +84,34 @@ namespace Player
             _playerInput = new PlayerInput();
             _playerLogic = new PlayerLogic(this._playerSimulation, this._playerInput);
 
+            _slashRange = _slashRangeObject.GetComponentInChildren<SlashRange>();
+            _slashRange.PlayerController = this;
+
             InitializeEvent();
         }
 
         private void Update()
         {
             if (!_isSlashing)
+            {
                 _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
-            _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
+            }
 
             if (_isGround)
             {
                 _velocity.y = 0f;
                 _isSlashLocked = false;
             }
-            _jumpState = _playerLogic.GetJumpState(_isJumpInputLocked, _isGround, _moveDirection, _stickDirection);
+
+            _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
+            _jumpState = _playerLogic.GetJumpState(_isJumpLocked, _isGround, _moveDirection, _stickDirection);
             Jump();
             Gravity();
             Stick();
             Move();
-
             _playerInput.GetMouseDirection();
             _slashDirection = _playerInput.GetSlashDirection();
             Slash();
-
             CollideWithGround();
         }
 
@@ -129,6 +120,10 @@ namespace Player
         {
             SlashAction = delegate { };
             EndSlashAction = delegate { };
+            SuccessSlashAction = delegate { };
+            FailedSlashAction = delegate { };
+
+            SuccessSlashAction += SuccessSlashEvent;
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
@@ -137,7 +132,6 @@ namespace Player
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerStay += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
-
 
             _playerInput.InitializeEvent();
         }
@@ -163,7 +157,7 @@ namespace Player
 
         private void Move()
         {
-            _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration, _isGround);
+            _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _data.Speed, _data.Acceleration, _data.Deceleration, _isGround);
 
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed, _stickDirection);
             _velocity.x = _playerSimulation.MovePosition(_lookDirection, _currentSpeed);
@@ -182,16 +176,18 @@ namespace Player
                 return;
             }
 
+            _isJumpLocked = true;
+
             if (_jumpState == JumpState.Wall)
             {
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
-                _velocity.y = _wallJumpPower;
+                _velocity.y = _data.WallJumpPower;
                 _isMoveInputLocked = true;
-                StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _speed * Time.deltaTime, 0.35f));
+                StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _data.Speed * Time.deltaTime, 0.35f));
             }
             else
             {
-                _velocity.y = _normalJumpPower;
+                _velocity.y = _data.NormalJumpPower;
             }
         }
 
@@ -199,7 +195,8 @@ namespace Player
         {
             if (_playerLogic.IsStickAvailable(_stickDirection, _isMoveInputLocked, _isSlashLocked))
             {
-                _velocity.y = -_stickGravity;
+                _isJumpLocked = false;
+                _velocity.y = -_data.StickGravity;
             }
         }
 
@@ -209,7 +206,7 @@ namespace Player
             while (time < forceTime && !_isGround)
             {
                 yield return null;
-                _currentSpeed = _speed;
+                _currentSpeed = _data.Speed;
                 time += Time.deltaTime;
             }
 
@@ -222,7 +219,7 @@ namespace Player
             {
                 if (_playerInput.GetMouseInputDistance() > 2f)
                 {
-                    StartCoroutine(ForceSlash(_slashDirection, 0.125f));
+                    StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
                 }
             }
         }
@@ -237,11 +234,11 @@ namespace Player
             _animator.SetBool("isSlash", _isSlashing);
             float angle = _playerInput.GetSlashAngle();
 
-            _slashRange.SetActive(true);
+            _slashRangeObject.SetActive(true);
 
-            _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
-            _slashRange.transform.position = transform.position;
-            _slashRange.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            _slashRangeObject.transform.localScale = new Vector3(1f, 1f, 1f);
+            _slashRangeObject.transform.position = transform.position;
+            _slashRangeObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
 
             Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.transform.position;
 
@@ -268,7 +265,7 @@ namespace Player
 
             Vector2 target = transform.position;
             float distance = Vector2.Distance(origin, target);
-            _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
+            _slashRangeObject.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
 
             time = 0f;
             while (time < 0.1f)
@@ -276,15 +273,15 @@ namespace Player
                 time += Time.deltaTime;
                 yield return null;
             }
-            _slashRange.SetActive(false);
+            _slashRangeObject.SetActive(false);
 
             EndSlashAction?.Invoke();
         }
 
         private void Gravity()
         {
-            if (_velocity.y > _gravityLimit)
-                _velocity.y += -_gravityScale * Time.deltaTime;
+            if (_velocity.y > _data.GravityLimit)
+                _velocity.y += -_data.GravityScale * Time.deltaTime;
         }
 
         private void CollideWithGround()
@@ -308,7 +305,7 @@ namespace Player
                         if (!_isSlashing)
                         {
                             _isGround = true;
-
+                            _isJumpLocked = false;
                         }
 
                     }
@@ -321,15 +318,23 @@ namespace Player
             _animator.SetBool("isGround", _isGround);
         }
 
-        public void GetDamage()
+        private void SuccessSlashEvent()
+        {
+            _isSlashLocked = false;
+            _isJumpLocked = false;
+        }
+
+        public bool GetDamage()
         {
             if (_isSlashing)
             {
                 Debug.Log("슬래쉬 중엔 무적");
+                return false;
             }
             else
             {
                 Debug.Log("주금");
+                return true;
             }
         }
     }

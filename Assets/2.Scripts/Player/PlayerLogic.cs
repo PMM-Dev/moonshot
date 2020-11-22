@@ -77,18 +77,21 @@ namespace Player
             return !isMoveInputLocked;
         }
 
-        public JumpState GetJumpState(bool isJumpInputLocked, bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
+        public JumpState GetJumpState(bool isJumpLocked, bool isGround, MoveDirection _moveDirection, StickDirection stickDirection)
         {
+            if (isJumpLocked)
+                return JumpState.None;
+
             if (IsInput(PressKeyType.Down, InputType.Jump))
             {
-                if (!isGround && stickDirection != StickDirection.Idle)
+                if (stickDirection != StickDirection.Idle)
                 {
                     if ((int)GetMoveInput() == (int)stickDirection)
                     {
                         return JumpState.Wall;
                     }
                 }
-                else if (isGround)
+                else
                     return JumpState.Normal;
             }
             return JumpState.None;
