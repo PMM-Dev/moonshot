@@ -1062,7 +1062,7 @@ GameObject:
   - component: {fileID: 4337319345603776080}
   - component: {fileID: 2318172119770180539}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1075,7 +1075,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6462421197099681960}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 0.08, y: 0.08, z: 1}
   m_Children:
@@ -1106,6 +1106,7 @@ MonoBehaviour:
   _normalJumpPower: 25
   _wallJumpPower: 30
   _stickGravity: 0.8
+  _gravityLimit: -30
   _moveDirection: 0
   _lookDirection: -1
   _stickDirection: 0
