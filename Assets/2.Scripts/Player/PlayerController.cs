@@ -139,7 +139,7 @@ namespace Player
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
 
 
-            // _playerInput.InitializeEvent();
+            _playerInput.InitializeEvent();
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -179,7 +179,7 @@ namespace Player
         {
             if (_jumpState == JumpState.None)
             {
-                return ;
+                return;
             }
 
             if (_jumpState == JumpState.Wall)
@@ -199,7 +199,7 @@ namespace Player
         {
             if (_playerLogic.IsStickAvailable(_stickDirection, _isMoveInputLocked, _isSlashLocked))
             {
-                _velocity.y = -_stickGravity ;
+                _velocity.y = -_stickGravity;
             }
         }
 
@@ -219,7 +219,7 @@ namespace Player
         private void Slash()
         {
             if (_playerLogic.IsSlashAvailable(_playerInput.GetMouseButtonUp(), _isSlashLocked, _stickDirection))
-            { 
+            {
                 if (_playerInput.GetMouseInputDistance() > 2f)
                 {
                     StartCoroutine(ForceSlash(_slashDirection, 0.125f));
