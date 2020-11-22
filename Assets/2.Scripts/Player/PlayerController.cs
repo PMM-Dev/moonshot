@@ -78,7 +78,7 @@ namespace Player
         private Transform _bodyTransform;
         private BoxCollider2D _boxCollider2D;
         [SerializeField]
-        private Transform _slashRange;
+        private GameObject _slashRange;
         #endregion
 
         private void Awake()
@@ -235,11 +235,13 @@ namespace Player
             _animator.SetBool("isSlash", _isSlashing);
             float angle = _playerInput.GetSlashAngle();
 
-            _slashRange.localScale = new Vector3(1f, 1f, 1f);
-            _slashRange.position = transform.position;
-            _slashRange.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            _slashRange.SetActive(true);
 
-            Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.position;
+            _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
+            _slashRange.transform.position = transform.position;
+            _slashRange.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+
+            Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.transform.position;
 
             if (angle < 0)
             {
@@ -264,7 +266,15 @@ namespace Player
 
             Vector2 target = transform.position;
             float distance = Vector2.Distance(origin, target);
-            _slashRange.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
+            _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
+
+            time = 0f;
+            while (time < 0.1f)
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
+            _slashRange.SetActive(false);
 
             EndSlashAction?.Invoke();
         }
