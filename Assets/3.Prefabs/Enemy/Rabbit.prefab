@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 567145954081189548}
   - component: {fileID: 1184388942}
   - component: {fileID: 8477465550253585767}
+  - component: {fileID: 3884113856587164206}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Enemy
@@ -114,6 +115,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879f6d4e983b25948aa9bbca7397713b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &3884113856587164206
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567145954081189550}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 6.45
 --- !u!1 &567145955454645526
 GameObject:
   m_ObjectHideFlags: 0

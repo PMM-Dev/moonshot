@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 1433824476506698870}
   - component: {fileID: 8925273440935985243}
   - component: {fileID: 3313161566358436119}
+  - component: {fileID: 4082604755650773476}
   m_Layer: 0
   m_Name: GumBang
   m_TagString: Enemy
@@ -231,6 +232,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879f6d4e983b25948aa9bbca7397713b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!70 &4082604755650773476
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433824476506698868}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 15, y: 8}
+  m_Direction: 1
 --- !u!1 &5134037989943065394
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,6 @@ namespace Enemy{
     {
         protected GameObject _player;
         protected float _playerDistance = 9999f;
-
         [SerializeField]private float _patternDelay;
         [SerializeField] protected float _patternRage;
         [Tooltip("패턴 딜레이를 포함한 쿨타임")][SerializeField] protected float _patternCollTime;
@@ -49,10 +48,8 @@ namespace Enemy{
 
         IEnumerator Pattern1() {
             //애니메이팅 스타트 단 애니메이션은 _patternDelay랑 길이가 같아야함
-            Debug.Log("patternStart");
             yield return new WaitForSeconds(_patternDelay);
             ActuallyPattern();
-            Debug.Log("patternDone");
         }
 
         IEnumerator PatternCoolTime()
