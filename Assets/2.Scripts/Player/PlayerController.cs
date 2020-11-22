@@ -13,29 +13,57 @@ namespace Player
     public class PlayerController : MonoBehaviour, IDamage
     {
         #region Setting
+        [Header("Setting")]
+        [Range(1f, 50f)]
         [SerializeField]
         private float _speed;
+        [Range(0.1f, 50f)]
         [SerializeField]
         private float _acceleration;
+        [Range(0.1f, 50f)]
         [SerializeField]
         private float _deceleration;
-        [SerializeField]
-        private float _currentSpeed;
+        [Range(1f, 200f)]
         [SerializeField]
         private float _gravityScale;
-        [SerializeField]
-        private Vector2 _gravity;
+        [Range(1f, 100f)]
         [SerializeField]
         private float _normalJumpPower;
+        [Range(1f, 100f)]
         [SerializeField]
         private float _wallJumpPower;
+        [Range(0.1f, 10f)]
         [SerializeField]
         private float _stickGravity;
+        [Range(-50f, -5f)]
         [SerializeField]
         private float _gravityLimit;
+        [Range(0.01f, 0.5f)]
+        [SerializeField]
+        private float _slashDistance = 0.01f;
+        #endregion
+
+        #region Reference
+        [Header("Reference")]
+        [SerializeField]
+        private PlayerData _data;
+        [SerializeField]
+        private GameObject _slashRangeObject;
+        private SlashRange _slashRange;
+        private PlayerLogic _playerLogic;
+        private PlayerSimulation _playerSimulation;
+        private PlayerInput _playerInput;
+        private PlayerCollisionTrigger _playerCollisionTrigger;
+        private Animator _animator;
+        private Transform _bodyTransform;
+        private BoxCollider2D _boxCollider2D;
         #endregion
 
         #region State
+        [Header("Value State")]
+        [SerializeField]
+        private float _currentSpeed;
+        [Header("Type state")]
         [SerializeField]
         private MoveDirection _moveDirection;
         [SerializeField]
@@ -44,8 +72,8 @@ namespace Player
         private StickDirection _stickDirection;
         [SerializeField]
         private JumpState _jumpState;
-
         private bool _isAccel;
+        [Header("Bool state")]
         [SerializeField]
         private bool _isGround;
         [SerializeField]
@@ -54,16 +82,16 @@ namespace Player
         private bool _isSlashing;
         [SerializeField]
         private bool _isSlashLocked;
-
+        [SerializeField]
+        private bool _isMoveInputLocked;
+        [SerializeField]
+        private bool _isJumpLocked;
+        [Header("Vector state")]
         [SerializeField]
         private Vector2 _velocity;
         [SerializeField]
         private Vector2 _slashDirection;
 
-        [SerializeField]
-        private bool _isMoveInputLocked;
-        [SerializeField]
-        private bool _isJumpLocked;
         #endregion
 
         #region Event
@@ -71,19 +99,6 @@ namespace Player
         public Action EndSlashAction;
         public Action SuccessSlashAction;
         public Action FailedSlashAction;
-        #endregion
-
-        #region Reference
-        private PlayerLogic _playerLogic;
-        private PlayerSimulation _playerSimulation;
-        private PlayerInput _playerInput;
-        private PlayerCollisionTrigger _playerCollisionTrigger;
-        private Animator _animator;
-        private Transform _bodyTransform;
-        private BoxCollider2D _boxCollider2D;
-        [SerializeField]
-        private GameObject _slashRangeObject;
-        private SlashRange _slashRange;
         #endregion
 
         private void Awake()
@@ -109,24 +124,25 @@ namespace Player
         private void Update()
         {
             if (!_isSlashing)
+            {
                 _moveDirection = _playerLogic.GetMoveDirection(_moveDirection, _playerLogic.GetMoveInput(), _stickDirection, _isGround, _isMoveInputLocked);
-            _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
+            }
 
             if (_isGround)
             {
                 _velocity.y = 0f;
                 _isSlashLocked = false;
             }
+
+            _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
             _jumpState = _playerLogic.GetJumpState(_isJumpLocked, _isGround, _moveDirection, _stickDirection);
             Jump();
             Gravity();
             Stick();
             Move();
-
             _playerInput.GetMouseDirection();
             _slashDirection = _playerInput.GetSlashDirection();
             Slash();
-
             CollideWithGround();
         }
 
@@ -147,7 +163,6 @@ namespace Player
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerStay += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
-
 
             _playerInput.InitializeEvent();
         }
@@ -235,7 +250,7 @@ namespace Player
             {
                 if (_playerInput.GetMouseInputDistance() > 2f)
                 {
-                    StartCoroutine(ForceSlash(_slashDirection, 0.125f));
+                    StartCoroutine(ForceSlash(_slashDirection, _slashDistance));
                 }
             }
         }
