@@ -10,7 +10,7 @@ namespace Player
     {
         private Dictionary<InputType, KeyCode> _inputKeys;
         private Dictionary<PressKeyType, Func<InputType, bool>> _getKeys;
-        
+
         private Vector2 _originMousePosition;
         private Vector2 _targetMousePosition;
 
@@ -21,7 +21,7 @@ namespace Player
             if (MainEventManager.Instance != null)
             {
                 MainEventManager.Instance.PauseGamePlayEvent += PauseGameEvent;
-                // MainEventManager.Instance.ResumeGamePlayEvent += ResumeGameEvent;
+                MainEventManager.Instance.ResumeGamePlayEvent += ResumeGameEvent;
             }
         }
 
