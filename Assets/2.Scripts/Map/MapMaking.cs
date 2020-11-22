@@ -22,7 +22,7 @@ namespace Map
 
         private void Start()
         {
-            MainEventManager.Instance.StartMainGameEvent += CreateMap;
+            //MainEventManager.Instance.StartMainGameEvent += CreateMap;
         }
 
         void CreateMap() 

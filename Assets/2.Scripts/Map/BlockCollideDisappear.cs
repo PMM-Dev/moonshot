@@ -7,14 +7,31 @@ namespace Map
     public class BlockCollideDisappear : MonoBehaviour
     {
         [SerializeField]
-        private float _DestroyTime = 1.0f;
+        private float _destroyTime = 1.0f;
+
+        bool _isCollided;
 
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                Destroy(gameObject, _DestroyTime);
+                if(!_isCollided)
+                {
+                    StartCoroutine(Timer());
+                    _isCollided = true;
+                }
             }
+        }
+
+        private IEnumerator Timer()
+        {
+            float time = 0f;
+            while(time < _destroyTime)
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
+            gameObject.SetActive(false);
         }
     }
 }
