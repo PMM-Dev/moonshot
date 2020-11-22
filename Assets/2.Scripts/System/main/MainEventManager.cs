@@ -68,8 +68,6 @@ public class MainEventManager : MonoBehaviour
     {
         PauseGamePlayEvent += PauseSystem;
         ResumeGamePlayEvent += ResumSystem;
-
-        PauseGamePlayEvent?.Invoke();
     }
 
     private void PauseSystem()
