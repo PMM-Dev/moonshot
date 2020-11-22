@@ -28,22 +28,14 @@ namespace Enemy{
 
         [Header("마스피플 전용")]
         [Tooltip("플레이어 따라가는지 여부")] [SerializeField] private bool _isTrakingPlayer = false;
-        [SerializeField] private GameObject _targetWayPointTarget;
-        Vector3 _originScale;
-        Vector3 _reversedScale;
+        private GameObject _targetWayPointTarget;
+        private Vector3 _originScale;
+        private Vector3 _reversedScale;
         private Vector3 _wayPointDirction;
         private Vector3 _playerDirction;
-        private Transform _transform;
-
-        public Transform Transform
-        {
-            get
-            {
-                return _transform;
-            }
-        }
         private int _targetIndex;
         private int _indexAdd = 1;
+        private bool _isCantrun = true;
 
         private void Awake()
         {
@@ -83,14 +75,13 @@ namespace Enemy{
 
         void PlayerDistanceCalculation()
         {
-            _playerDirction = _player.transform.localPosition - this.gameObject.transform.localPosition;
+            _playerDirction = _player.transform.position - this.gameObject.transform.position;
             _playerDistance = Vector3.Magnitude(_playerDirction);
             _playerDirction = _playerDirction.normalized;
         }
 
         void LookPlayer()
         {
-            Debug.Log(_playerDirction.x);
             if (_playerDirction.x > 0)
             {
                 this.transform.localScale = _reversedScale;
@@ -126,9 +117,9 @@ namespace Enemy{
 
         //거리와, 방향을 계산하는 함수
         void PhysicalCalculation() {
-            _wayPointDirction = _targetWayPointTarget.transform.localPosition  - this.gameObject.transform.localPosition;
+            _wayPointDirction = _targetWayPointTarget.transform.position - this.gameObject.transform.position;
             _wayPointDirction = _wayPointDirction.normalized;
-            _WayPointDistance = Vector3.Magnitude(this.gameObject.transform.localPosition - _targetWayPointTarget.transform.localPosition);
+            _WayPointDistance = Vector3.Magnitude(this.gameObject.transform.position - _targetWayPointTarget.transform.position);
         }
 
         //타겟을 따라 움직이는 함수
@@ -137,7 +128,8 @@ namespace Enemy{
         {
             transform.Translate(_wayPointDirction * _speed * Time.smoothDeltaTime, Space.World);
 
-            if (_WayPointDistance < 0.5f) {
+            if (_WayPointDistance < 0.5f && _isCantrun == true) {
+                StartCoroutine(turnOnOff());
                 ChangeTarget();
             }
 
@@ -170,5 +162,15 @@ namespace Enemy{
             _targetIndex += _indexAdd;
             _targetWayPointTarget = _wayPoints[_targetIndex];
         }
+
+        IEnumerator turnOnOff()
+        {
+            _isCantrun = false;
+            yield return new WaitForSeconds(0.5f);
+            _isCantrun = true;
+
+        }
     }
+
+    
 }

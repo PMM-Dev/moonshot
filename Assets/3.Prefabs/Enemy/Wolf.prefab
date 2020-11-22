@@ -155,9 +155,10 @@ GameObject:
   - component: {fileID: 184440592331758618}
   - component: {fileID: 7689408825326970935}
   - component: {fileID: 3249619357052234157}
+  - component: {fileID: 4809625765655945424}
   m_Layer: 0
   m_Name: Wolf
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,8 +171,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 184440592331758616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -44.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 184440591820304856}
   m_Father: {fileID: 184440591029602210}
@@ -198,7 +199,6 @@ MonoBehaviour:
   _isMove: 0
   _isLookPlayer: 1
   _isTrakingPlayer: 0
-  _targetWayPointTarget: {fileID: 0}
 --- !u!114 &7689408825326970935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _patternDelay: 1
-  _patternRage: 5
+  _patternRage: 3
   _patternCollTime: 3
 --- !u!114 &3249619357052234157
 MonoBehaviour:
@@ -226,7 +226,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb4790a1d6f6634eac333e1f2bce32b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullitPrefabs: {fileID: 7364957618936433798, guid: 1f01060a1f7da7541b75c8264f956e5c,
+  _bulletPrefabs: {fileID: 7364957618936433798, guid: 1f01060a1f7da7541b75c8264f956e5c,
     type: 3}
   _isWolf: 1
-  _builletInterber: 2
+  _builletInterver: 3
+--- !u!114 &4809625765655945424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184440592331758616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879f6d4e983b25948aa9bbca7397713b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

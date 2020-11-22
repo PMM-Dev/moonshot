@@ -40,11 +40,11 @@ GameObject:
   m_Component:
   - component: {fileID: 567145954081189549}
   - component: {fileID: 567145954081189548}
-  - component: {fileID: 1184388941}
   - component: {fileID: 1184388942}
+  - component: {fileID: 8477465550253585767}
   m_Layer: 0
   m_Name: Rabbit
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,27 +81,11 @@ MonoBehaviour:
   - {fileID: 567145956061699198}
   _speed: 5
   _isRound: 1
-  _DetectingPlayerRange: 30
+  _DetectingPlayerRange: 50
   _isYAxisLook: 0
   _isMove: 1
   _isLookPlayer: 1
   _isTrakingPlayer: 0
-  _targetWayPointTarget: {fileID: 0}
---- !u!114 &1184388941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567145954081189550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67e3765d934467e46b90b641c005f3e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _patternDelay: 1
-  _patternRage: 5
-  _patternCollTime: 3
 --- !u!114 &1184388942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,10 +98,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb4790a1d6f6634eac333e1f2bce32b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullitPrefabs: {fileID: 7364957618936433798, guid: 1f01060a1f7da7541b75c8264f956e5c,
+  _bulletPrefabs: {fileID: 7364957618936433798, guid: 1f01060a1f7da7541b75c8264f956e5c,
     type: 3}
   _isWolf: 0
-  _builletInterber: 2
+  _builletInterver: 5
+--- !u!114 &8477465550253585767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567145954081189550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879f6d4e983b25948aa9bbca7397713b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &567145955454645526
 GameObject:
   m_ObjectHideFlags: 0

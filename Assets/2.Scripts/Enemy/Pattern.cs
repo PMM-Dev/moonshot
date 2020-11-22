@@ -29,7 +29,7 @@ namespace Enemy{
 
         void PlayerDistanceCalculation()
         {
-            _playerDistance = Vector3.Magnitude(_player.transform.localPosition - this.gameObject.transform.localPosition);
+            _playerDistance = Vector3.Magnitude(_player.transform.position - this.gameObject.transform.position);
         }
 
 
@@ -47,22 +47,12 @@ namespace Enemy{
 
         }
 
-        /*
-        void AttackPattern2() {
-            _time +=Time.deltaTime;
-            //에니메이팅 스타트
-            if (_time >= _patternDelay)
-            {
-                _time = 0;
-                ActuallyPattern();
-            }
-        }*/
-
         IEnumerator Pattern1() {
             //애니메이팅 스타트 단 애니메이션은 _patternDelay랑 길이가 같아야함
-            Debug.Log("player Find");
+            Debug.Log("patternStart");
             yield return new WaitForSeconds(_patternDelay);
             ActuallyPattern();
+            Debug.Log("patternDone");
         }
 
         IEnumerator PatternCoolTime()
