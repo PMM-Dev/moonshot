@@ -227,6 +227,7 @@ namespace Player
         private IEnumerator ForceSlash(Vector2 direction, float forceTime)
         {
             _isSlashLocked = true;
+            _isJumpLocked = true;
             SlashAction?.Invoke();
 
             float time = 0f;
