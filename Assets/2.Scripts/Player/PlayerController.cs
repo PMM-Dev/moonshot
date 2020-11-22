@@ -12,37 +12,6 @@ namespace Player
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerController : MonoBehaviour, IDamage
     {
-        #region Setting
-        [Header("Setting")]
-        [Range(1f, 50f)]
-        [SerializeField]
-        private float _speed;
-        [Range(0.1f, 50f)]
-        [SerializeField]
-        private float _acceleration;
-        [Range(0.1f, 50f)]
-        [SerializeField]
-        private float _deceleration;
-        [Range(1f, 200f)]
-        [SerializeField]
-        private float _gravityScale;
-        [Range(1f, 100f)]
-        [SerializeField]
-        private float _normalJumpPower;
-        [Range(1f, 100f)]
-        [SerializeField]
-        private float _wallJumpPower;
-        [Range(0.1f, 10f)]
-        [SerializeField]
-        private float _stickGravity;
-        [Range(-50f, -5f)]
-        [SerializeField]
-        private float _gravityLimit;
-        [Range(0.01f, 0.5f)]
-        [SerializeField]
-        private float _slashDistance = 0.01f;
-        #endregion
-
         #region Reference
         [Header("Reference")]
         [SerializeField]
@@ -188,7 +157,7 @@ namespace Player
 
         private void Move()
         {
-            _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _speed, _acceleration, _deceleration, _isGround);
+            _currentSpeed = _playerSimulation.GetCurrentSpeed(_isAccel, _lookDirection, _currentSpeed, _data.Speed, _data.Acceleration, _data.Deceleration, _isGround);
 
             _lookDirection = _playerSimulation.GetLookDirection(_lookDirection, _moveDirection, _currentSpeed, _stickDirection);
             _velocity.x = _playerSimulation.MovePosition(_lookDirection, _currentSpeed);
@@ -212,13 +181,13 @@ namespace Player
             if (_jumpState == JumpState.Wall)
             {
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
-                _velocity.y = _wallJumpPower;
+                _velocity.y = _data.WallJumpPower;
                 _isMoveInputLocked = true;
-                StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _speed * Time.deltaTime, 0.35f));
+                StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _data.Speed * Time.deltaTime, 0.35f));
             }
             else
             {
-                _velocity.y = _normalJumpPower;
+                _velocity.y = _data.NormalJumpPower;
             }
         }
 
@@ -227,7 +196,7 @@ namespace Player
             if (_playerLogic.IsStickAvailable(_stickDirection, _isMoveInputLocked, _isSlashLocked))
             {
                 _isJumpLocked = false;
-                _velocity.y = -_stickGravity;
+                _velocity.y = -_data.StickGravity;
             }
         }
 
@@ -237,7 +206,7 @@ namespace Player
             while (time < forceTime && !_isGround)
             {
                 yield return null;
-                _currentSpeed = _speed;
+                _currentSpeed = _data.Speed;
                 time += Time.deltaTime;
             }
 
@@ -250,7 +219,7 @@ namespace Player
             {
                 if (_playerInput.GetMouseInputDistance() > 2f)
                 {
-                    StartCoroutine(ForceSlash(_slashDirection, _slashDistance));
+                    StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
                 }
             }
         }
@@ -311,8 +280,8 @@ namespace Player
 
         private void Gravity()
         {
-            if (_velocity.y > _gravityLimit)
-                _velocity.y += -_gravityScale * Time.deltaTime;
+            if (_velocity.y > _data.GravityLimit)
+                _velocity.y += -_data.GravityScale * Time.deltaTime;
         }
 
         private void CollideWithGround()
