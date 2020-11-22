@@ -10,8 +10,7 @@ namespace Enemy
         {
             if (_playerDistance < _patternRage)
             {
-                //플레이어 데미지 주는 함수
-                Debug.Log("player dead");
+                _player.GetComponent<IDamage>().GetDamage();
             }
         }
     }

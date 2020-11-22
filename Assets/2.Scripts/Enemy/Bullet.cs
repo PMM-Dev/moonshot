@@ -16,7 +16,6 @@ namespace Enemy
                 _isVertical = value;
             }
         }
-        [SerializeField] private Transform _transform;
 
         private void Update()
         {
