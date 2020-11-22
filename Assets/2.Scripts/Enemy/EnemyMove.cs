@@ -35,7 +35,7 @@ namespace Enemy{
         private Vector3 _playerDirction;
         private int _targetIndex;
         private int _indexAdd = 1;
-        private bool _isCantrun = true;
+        private bool _isturn = true;
 
         private void Awake()
         {
@@ -128,8 +128,8 @@ namespace Enemy{
         {
             transform.Translate(_wayPointDirction * _speed * Time.smoothDeltaTime, Space.World);
 
-            if (_WayPointDistance < 0.5f && _isCantrun == true) {
-                StartCoroutine(turnOnOff());
+            if (_WayPointDistance < 0.5f && _isturn == true) {
+                StartCoroutine(TurnOnOff());
                 ChangeTarget();
             }
 
@@ -163,11 +163,11 @@ namespace Enemy{
             _targetWayPointTarget = _wayPoints[_targetIndex];
         }
 
-        IEnumerator turnOnOff()
+        IEnumerator TurnOnOff()
         {
-            _isCantrun = false;
+            _isturn = false;
             yield return new WaitForSeconds(0.5f);
-            _isCantrun = true;
+            _isturn = true;
 
         }
     }
