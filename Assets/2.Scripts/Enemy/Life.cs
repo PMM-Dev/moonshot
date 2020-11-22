@@ -6,9 +6,10 @@ namespace Enemy
 {
     public class Life : MonoBehaviour, IDamage
     {
-        public void GetDamage()
+        public bool GetDamage()
         {
             Destroy(this.gameObject);
+            return true;
         }
     }
 }

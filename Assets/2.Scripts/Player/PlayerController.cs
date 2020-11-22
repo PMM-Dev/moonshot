@@ -69,6 +69,8 @@ namespace Player
         #region Event
         public Action SlashAction;
         public Action EndSlashAction;
+        public Action SuccessSlashAction;
+        public Action FailedSlashAction;
         #endregion
 
         #region Reference
@@ -80,7 +82,8 @@ namespace Player
         private Transform _bodyTransform;
         private BoxCollider2D _boxCollider2D;
         [SerializeField]
-        private GameObject _slashRange;
+        private GameObject _slashRangeObject;
+        private SlashRange _slashRange;
         #endregion
 
         private void Awake()
@@ -96,6 +99,9 @@ namespace Player
             _playerSimulation = new PlayerSimulation();
             _playerInput = new PlayerInput();
             _playerLogic = new PlayerLogic(this._playerSimulation, this._playerInput);
+
+            _slashRange = _slashRangeObject.GetComponentInChildren<SlashRange>();
+            _slashRange.PlayerController = this;
 
             InitializeEvent();
         }
@@ -129,6 +135,10 @@ namespace Player
         {
             SlashAction = delegate { };
             EndSlashAction = delegate { };
+            SuccessSlashAction = delegate { };
+            FailedSlashAction = delegate { };
+
+            SuccessSlashAction += SuccessSlashEvent;
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
@@ -237,11 +247,11 @@ namespace Player
             _animator.SetBool("isSlash", _isSlashing);
             float angle = _playerInput.GetSlashAngle();
 
-            _slashRange.SetActive(true);
+            _slashRangeObject.SetActive(true);
 
-            _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
-            _slashRange.transform.position = transform.position;
-            _slashRange.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            _slashRangeObject.transform.localScale = new Vector3(1f, 1f, 1f);
+            _slashRangeObject.transform.position = transform.position;
+            _slashRangeObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
 
             Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.transform.position;
 
@@ -268,7 +278,7 @@ namespace Player
 
             Vector2 target = transform.position;
             float distance = Vector2.Distance(origin, target);
-            _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
+            _slashRangeObject.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
 
             time = 0f;
             while (time < 0.1f)
@@ -276,7 +286,7 @@ namespace Player
                 time += Time.deltaTime;
                 yield return null;
             }
-            _slashRange.SetActive(false);
+            _slashRangeObject.SetActive(false);
 
             EndSlashAction?.Invoke();
         }
@@ -308,7 +318,6 @@ namespace Player
                         if (!_isSlashing)
                         {
                             _isGround = true;
-
                         }
 
                     }
@@ -321,15 +330,22 @@ namespace Player
             _animator.SetBool("isGround", _isGround);
         }
 
-        public void GetDamage()
+        private void SuccessSlashEvent()
+        {
+            _isSlashLocked = false;
+        }
+
+        public bool GetDamage()
         {
             if (_isSlashing)
             {
                 Debug.Log("슬래쉬 중엔 무적");
+                return false;
             }
             else
             {
                 Debug.Log("주금");
+                return true;
             }
         }
     }
