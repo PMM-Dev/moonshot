@@ -9,7 +9,7 @@ namespace Map
         [SerializeField]
         private float _destroyTime = 1.0f;
 
-        bool _isCollided;
+        private bool _isCollided;
 
         private void OnTriggerEnter2D(Collider2D col)
         {

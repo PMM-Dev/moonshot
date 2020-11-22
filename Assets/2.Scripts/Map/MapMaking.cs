@@ -16,14 +16,14 @@ namespace Map
         private int[] _mapFrequency = new int[20];//not two times more selected when first random check
         private int[] _mapFrequencyCheck = new int[20];// check the frequency when locating
         private int _mapCount;//count candidate map*2 including duplicate 
-        List<int> _mapOrderIndex = new List<int>();//random order maplist
+        private List<int> _mapOrderIndex = new List<int>();//random order maplist
         private int[] _stagePerMapCount = new int[3]{ 2, 3, 3 };
         private float[] _startPointY = new float[3]{ 26.7f, 230.6f, 503.8f };
         private float[] _connectorPointY = new float[3] { 60.6f, 264.8f, 537.8f };
         private float _mapYlength = 68.2f;
         private float _connectorYlength = 68.2f;
-        List<GameObject> _mapOrder = new List<GameObject>();
-        List<int> _connectOrder = new List<int>();
+        private List<GameObject> _mapOrder = new List<GameObject>();
+        private List<int> _connectOrder = new List<int>();
         private bool[] _connectFrequency = new bool[30];
 
         private void Start()
@@ -32,7 +32,7 @@ namespace Map
         }
         //private void Update()
         //{
-        //    if(Input.GetKeyDown(KeyCode.Return))
+        //    if (Input.GetKeyDown(KeyCode.Return))
         //    {
         //        CreateStage();
         //    }
