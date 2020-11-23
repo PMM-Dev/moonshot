@@ -12,6 +12,23 @@ namespace Map
         private GameObject _mapStart;
         [SerializeField]
         private GameObject _connectorCandidate;
+        [SerializeField]
+        private List<GameObject> _wholeMapOrder = new List<GameObject>();
+        public List<GameObject> WholeMapOrder
+        {
+            get
+            {
+                return _wholeMapOrder;
+            }            
+        }
+        private bool _isMapCreate;
+        public bool IsMapCreate
+        {
+            get
+            {
+                return _isMapCreate;
+            }
+        }
 
         private int[] _mapFrequency = new int[20];//not two times more selected when first random check
         private int[] _mapFrequencyCheck = new int[20];// check the frequency when locating
@@ -22,24 +39,18 @@ namespace Map
         private float[] _connectorPointY = new float[3] { 60.6f, 264.8f, 537.8f };
         private float _mapYlength = 68.2f;
         private float _connectorYlength = 68.2f;
-        private List<GameObject> _mapOrder = new List<GameObject>();
-        private List<int> _connectOrder = new List<int>();
+        private List<int> _connectOrderIndex = new List<int>();
         private bool[] _connectFrequency = new bool[30];
+        private List<GameObject> _mapOrder = new List<GameObject>();
+        private List<GameObject> _connectOrder = new List<GameObject>();
 
-        private void Start()
+        public void CreateStage()
         {
-            MainEventManager.Instance.StartMainGameEvent += CreateStage;
-        }
-        //private void Update()
-        //{
-        //    if (Input.GetKeyDown(KeyCode.Return))
-        //    {
-        //        CreateStage();
-        //    }
-        //}
-        void CreateStage()
-        {
+            /*INITIALIZING*/
             _mapOrder.Clear();
+            _wholeMapOrder.Clear();
+            _connectOrderIndex.Clear();
+            _connectOrder.Clear();
             for (int i = 0; i < 30; i++)
             {
                 _connectFrequency[i] = false;
@@ -48,7 +59,11 @@ namespace Map
             {
                 CreateMap(i);
             }
+            /*INITIALIZING*/
+
             CreateConnector();
+            Merge();
+            _isMapCreate = true;
         }
 
         void CreateMap(int stagenum) 
@@ -60,6 +75,7 @@ namespace Map
                 _mapFrequencyCheck[i] = 0;
                 _mapOrderIndex.Clear();
             }
+            /*INITIALIZING*/
 
             _mapCount = _mapCandidate[stagenum].transform.childCount;
             _mapOrder.Add(_mapStart.transform.GetChild(stagenum).gameObject);
@@ -75,7 +91,6 @@ namespace Map
                     continue;
 
                 _mapOrderIndex.Add(ran);
-                _mapOrder.Add(_mapCandidate[stagenum].transform.GetChild(ran).gameObject);
                 _mapFrequency[ran]++;
             }
 
@@ -88,12 +103,14 @@ namespace Map
                 {
                     GameObject game = _mapCandidate[stagenum].transform.GetChild(idx).gameObject;
                     game.transform.position = targetPosition;
+                    _mapOrder.Add(game);
                     _mapFrequencyCheck[idx]++;
                 }
                 else if (_mapFrequencyCheck[idx] == 1)
                 {
                     GameObject game = _mapCandidate[stagenum].transform.GetChild(idx + _mapCount / 2).gameObject;
                     game.transform.position = targetPosition;
+                    _mapOrder.Add(game);
                     _mapFrequencyCheck[idx]++;
                 }
                 else
@@ -106,19 +123,19 @@ namespace Map
             {
                 if(_mapOrder[i].gameObject.GetComponent<MapAttribute>().MapEnd == MapEndType.Left)
                 {
-                    _connectOrder.Add(0);
+                    _connectOrderIndex.Add(0);
                 }
                 else if(_mapOrder[i].gameObject.GetComponent<MapAttribute>().MapEnd == MapEndType.Middle)
                 {
-                    _connectOrder.Add(1);
+                    _connectOrderIndex.Add(1);
                 }
                 else if (_mapOrder[i].gameObject.GetComponent<MapAttribute>().MapEnd == MapEndType.Right)
                 {
-                    _connectOrder.Add(2);
+                    _connectOrderIndex.Add(2);
                 }
             }
 
-            for (int i = 0; i < _connectOrder.Count; i++)
+            for (int i = 0; i < _connectOrderIndex.Count; i++)
             {
                 int index = 0;
                 int Yindex = 0;
@@ -138,7 +155,7 @@ namespace Map
                     index = 2;
                 }
                     
-                int connector = _connectOrder[i];
+                int connector = _connectOrderIndex[i];
                 int connectorcount = connector*8;
                 Vector3 targetPosition = new Vector3(0, _connectorPointY[index] + _connectorYlength * Yindex, 0);
                 while (_connectFrequency[connectorcount])
@@ -146,7 +163,17 @@ namespace Map
                     connectorcount++;
                 }
                 _connectorCandidate.transform.GetChild(connectorcount).gameObject.transform.position = targetPosition;
+                _connectOrder.Add(_connectorCandidate.transform.GetChild(connectorcount).gameObject);
                 _connectFrequency[connectorcount] = true;
+            }
+        }
+
+        void Merge()
+        {
+            for(int i = 0;i<_mapOrder.Count ;i++)
+            {
+                _wholeMapOrder.Add(_mapOrder[i]);
+                _wholeMapOrder.Add(_connectOrder[i]);
             }
         }
     }
