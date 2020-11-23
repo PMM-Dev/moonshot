@@ -89,6 +89,7 @@ namespace Player
             _playerLogic = new PlayerLogic(this._playerSimulation, this._playerInput);
             _slashRange = SlashRange.Instance.transform.parent.gameObject;
             _slashRange.SetActive(false);
+            _slashArrow.gameObject.SetActive(false);
             SlashRange.Instance.PlayerController = this;
 
             InitializeEvent();
