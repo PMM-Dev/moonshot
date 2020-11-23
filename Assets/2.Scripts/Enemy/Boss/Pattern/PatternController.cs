@@ -28,13 +28,9 @@ namespace Enemy
         private void Start()
         {
 
-            Debug.Log(_patternContainer.Count);
-
             for (int i = 0; i < _patternContainer.Count; i++)
             {
-                Debug.Log(_patternContainer[i]);
                 _patternContainerCopy.Add(_patternContainer[i]);
-                Debug.Log(_patternContainerCopy[i]);
             }
             StartCoroutine(FiniteStateMachine());
         }
@@ -59,10 +55,11 @@ namespace Enemy
             while (true)
             {
                 RandomCurrentPattern();
+                //애니메이션
                 yield return StartCoroutine(_currentPattern.Run());
                 _count++;
                 if (_count >= 5) {
-                    _exhaustPatterns.Run();
+                    //_exhaustPatterns.Run();
                     _count = 0;
                 }
             }

@@ -6,12 +6,6 @@ namespace Enemy
 {
     public class Brass : Projectile
     {
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("Player") == true)
-            {
-                collision.gameObject.GetComponent<IDamage>().GetDamage();
-            }
-        }
+        
     }
 }
