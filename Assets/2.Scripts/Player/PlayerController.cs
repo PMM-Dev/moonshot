@@ -16,8 +16,9 @@ namespace Player
         [Header("Reference")]
         [SerializeField]
         private PlayerData _data;
-        [SerializeField]
         private GameObject _slashRange;
+        [SerializeField]
+        private GameObject _slashArrow;
         private PlayerLogic _playerLogic;
         private PlayerSimulation _playerSimulation;
         private PlayerInput _playerInput;
@@ -334,9 +335,16 @@ namespace Player
             float time = 0f;
             float progress = 0f;
             float currentTimeScale = Time.timeScale;
+
+            _slashArrow.SetActive(true);
+
             while (progress < 1f)
             {
                 time += Time.deltaTime;
+                float angle = _playerInput.GetSlashAngle();
+                _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
+                _playerInput.GetTargetDirection();
+                _slashDirection = _playerInput.GetSlashDirection();
                 if (_playerInput.GetMouseButtonUp() || time > _data.BulletTimeLimit)
                 {
                     break;
@@ -345,6 +353,8 @@ namespace Player
                 Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
                 yield return null;
             }
+
+            _slashArrow.SetActive(false);
 
             Time.timeScale = minSpeed;
             _playerInput.GetTargetDirection();
