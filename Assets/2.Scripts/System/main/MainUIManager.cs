@@ -6,6 +6,9 @@ using UnityEngine;
 public class MainUIManager : MonoBehaviour
 {
     [SerializeField]
+    private MainGameManager _mainGameManager;
+
+    [SerializeField]
     private GameObject _startPanel;
     [SerializeField]
     private GameObject _optionPanel;
@@ -20,8 +23,7 @@ public class MainUIManager : MonoBehaviour
 
     public void OnClickStart()
     {
-        MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
-        MainEventManager.Instance.StartMainGameEvent?.Invoke();
+        _mainGameManager.GameStart();
 
         _startPanel.SetActive(false);
     }

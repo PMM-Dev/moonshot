@@ -110,14 +110,14 @@ namespace Player
             }
         }
 
-        public bool IsSlashAvailable(bool isInput, bool isSlashLocked, StickDirection stickDirection)
+        public bool IsSlashAvailable(bool isSlashLocked, StickDirection stickDirection)
         {
-            return isInput && !isSlashLocked && stickDirection == StickDirection.Idle;
+            return !isSlashLocked && stickDirection == StickDirection.Idle;
         }
 
-        public bool IsStickAvailable(StickDirection stickDirection, bool isMoveInputLocked, bool isSlashLocked)
+        public bool IsStickAvailable(StickDirection stickDirection, bool isMoveInputLocked, bool isSlashLocked, bool isBulletTime)
         {
-            return stickDirection != StickDirection.Idle && !isMoveInputLocked && !isSlashLocked;
+            return stickDirection != StickDirection.Idle && !isMoveInputLocked && !isSlashLocked && !isBulletTime;
         }
     }
 }

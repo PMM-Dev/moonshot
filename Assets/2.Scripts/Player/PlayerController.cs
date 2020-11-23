@@ -17,8 +17,7 @@ namespace Player
         [SerializeField]
         private PlayerData _data;
         [SerializeField]
-        private GameObject _slashRangeObject;
-        private SlashRange _slashRange;
+        private GameObject _slashRange;
         private PlayerLogic _playerLogic;
         private PlayerSimulation _playerSimulation;
         private PlayerInput _playerInput;
@@ -55,6 +54,8 @@ namespace Player
         private bool _isMoveInputLocked;
         [SerializeField]
         private bool _isJumpLocked;
+        [SerializeField]
+        private bool _isBulletTime;
         [Header("Vector state")]
         [SerializeField]
         private Vector2 _velocity;
@@ -70,6 +71,8 @@ namespace Player
         public Action FailedSlashAction;
         #endregion
 
+        private Coroutine _bulletTimeCoroutine;
+
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
@@ -83,9 +86,9 @@ namespace Player
             _playerSimulation = new PlayerSimulation();
             _playerInput = new PlayerInput();
             _playerLogic = new PlayerLogic(this._playerSimulation, this._playerInput);
-
-            _slashRange = _slashRangeObject.GetComponentInChildren<SlashRange>();
-            _slashRange.PlayerController = this;
+            _slashRange = SlashRange.Instance.transform.parent.gameObject;
+            _slashRange.SetActive(false);
+            SlashRange.Instance.PlayerController = this;
 
             InitializeEvent();
         }
@@ -109,8 +112,6 @@ namespace Player
             Gravity();
             Stick();
             Move();
-            _playerInput.GetMouseDirection();
-            _slashDirection = _playerInput.GetSlashDirection();
             Slash();
             CollideWithGround();
         }
@@ -193,7 +194,7 @@ namespace Player
 
         private void Stick()
         {
-            if (_playerLogic.IsStickAvailable(_stickDirection, _isMoveInputLocked, _isSlashLocked))
+            if (_playerLogic.IsStickAvailable(_stickDirection, _isMoveInputLocked, _isSlashLocked, _isBulletTime))
             {
                 _isJumpLocked = false;
                 _velocity.y = -_data.StickGravity;
@@ -215,18 +216,17 @@ namespace Player
 
         private void Slash()
         {
-            if (_playerLogic.IsSlashAvailable(_playerInput.GetMouseButtonUp(), _isSlashLocked, _stickDirection))
+            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown() && !_isBulletTime)
             {
-                if (_playerInput.GetMouseInputDistance() > 2f)
-                {
-                    StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
-                }
+                _isBulletTime = true;
+                _bulletTimeCoroutine = StartCoroutine(BulletTime(5f, 10f, _data.BulletTimeSpeed));
             }
         }
 
         private IEnumerator ForceSlash(Vector2 direction, float forceTime)
         {
             _isSlashLocked = true;
+            _isJumpLocked = true;
             SlashAction?.Invoke();
 
             float time = 0f;
@@ -234,13 +234,14 @@ namespace Player
             _animator.SetBool("isSlash", _isSlashing);
             float angle = _playerInput.GetSlashAngle();
 
-            _slashRangeObject.SetActive(true);
+            _slashRange.SetActive(true);
 
-            _slashRangeObject.transform.localScale = new Vector3(1f, 1f, 1f);
-            _slashRangeObject.transform.position = transform.position;
-            _slashRangeObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
+            _slashRange.transform.position = transform.position;
 
-            Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.transform.position;
+            _slashRange.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+
+            Vector3 origin = transform.position;
 
             if (angle < 0)
             {
@@ -259,13 +260,14 @@ namespace Player
                 time += Time.deltaTime;
                 yield return null;
             }
+
             _isSlashing = false;
             _velocity = Vector2.zero;
             _animator.SetBool("isSlash", _isSlashing);
 
             Vector2 target = transform.position;
             float distance = Vector2.Distance(origin, target);
-            _slashRangeObject.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
+            _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
 
             time = 0f;
             while (time < 0.1f)
@@ -273,7 +275,8 @@ namespace Player
                 time += Time.deltaTime;
                 yield return null;
             }
-            _slashRangeObject.SetActive(false);
+
+            _slashRange.gameObject.SetActive(false);
 
             EndSlashAction?.Invoke();
         }
@@ -322,6 +325,43 @@ namespace Player
         {
             _isSlashLocked = false;
             _isJumpLocked = false;
+        }
+
+        private IEnumerator BulletTime(float decreaseSpeed, float increaseSpeed, float minSpeed)
+        {
+            _playerInput.GetOriginDirection();
+
+            float time = 0f;
+            float progress = 0f;
+            float currentTimeScale = Time.timeScale;
+            while (progress < 1f)
+            {
+                time += Time.deltaTime;
+                if (_playerInput.GetMouseButtonUp() || time > _data.BulletTimeLimit)
+                {
+                    break;
+                }
+                progress += Time.deltaTime * decreaseSpeed;
+                Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+                yield return null;
+            }
+
+            Time.timeScale = minSpeed;
+            _playerInput.GetTargetDirection();
+            _slashDirection = _playerInput.GetSlashDirection();
+            StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
+
+            progress = 0f;
+            currentTimeScale = Time.timeScale;
+            while (progress < 1f)
+            {
+                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
+                progress += Time.deltaTime * increaseSpeed;
+                yield return null;
+            }
+
+            Time.timeScale = 1f;
+            _isBulletTime = false;
         }
 
         public bool GetDamage()

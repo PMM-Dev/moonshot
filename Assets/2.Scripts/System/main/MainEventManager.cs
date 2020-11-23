@@ -45,8 +45,9 @@ public class MainEventManager : MonoBehaviour
     //
     // SINGLETON
 
-    MainDataManager mainEventDataManager;
-    MainUIManager mainUIManager;
+    MainGameManager _mainGameManager;
+    MainDataManager _mainEventDataManager;
+    MainUIManager _mainUIManager;
 
 
     public Action StartMainGameEvent;
@@ -55,13 +56,14 @@ public class MainEventManager : MonoBehaviour
 
     public void EnemyDeadEvent()
     {
-        mainEventDataManager.IncreaseKilledEnemyCount();
+        _mainEventDataManager.IncreaseKilledEnemyCount();
     }
 
     public void GameoverEvent()
     {
         PauseGamePlayEvent?.Invoke();
-        mainUIManager.ShowGameoverUI(mainEventDataManager.GetKilledEnemyCount().ToString(), mainEventDataManager.GetSurvivedSeconds().ToString());
+        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = false;
+        _mainUIManager.ShowGameoverUI(_mainEventDataManager.GetKilledEnemyCount().ToString(), _mainEventDataManager.GetSurvivedSeconds().ToString());
     }
 
     private void Start()

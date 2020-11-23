@@ -16,6 +16,7 @@ namespace Player
 
         private bool _isPause;
 
+
         public void InitializeEvent()
         {
             if (MainEventManager.Instance != null)
@@ -73,23 +74,32 @@ namespace Player
             return Input.GetKey(_inputKeys[inputType]);
         }
 
-        public void GetMouseDirection()
+        public void GetOriginDirection()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                _originMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            }
+            _originMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                _targetMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            }
+        public void GetTargetDirection()
+        {
+            _targetMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        public bool GetMouseButtonDown()
+        {
+            if (_isPause) return false;
+            return Input.GetMouseButtonDown(0);
         }
 
         public bool GetMouseButtonUp()
         {
             if (_isPause) return false;
             return Input.GetMouseButtonUp(0);
+        }
+
+        public bool GetMouseButton()
+        {
+            if (_isPause) return false;
+            return Input.GetMouseButton(0);
         }
 
         public Vector2 GetSlashDirection()
