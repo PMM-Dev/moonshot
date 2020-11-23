@@ -5,17 +5,56 @@ using UnityEngine;
 public class MainGameManager : MonoBehaviour
 {
     [SerializeField]
-    ElevatorMovement _elevatorMovement;
+    private ElevatorMovement _elevatorMovement;
     [SerializeField]
-    CameraFx _cameraFx;
+    private CameraFx _cameraFx;
 
-    void Start()
+    [SerializeField]
+    private GameObject _player;
+    [SerializeField]
+    private Transform _spawnPos;
+
+    private void Start()
     {
         // Pause all game flow before pressing start button
         MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
 
         // 
-        MainEventManager.Instance.StartMainGameEvent += _elevatorMovement.RiseElevator;
-        MainEventManager.Instance.StartMainGameEvent += _cameraFx.ShakeOfElevatorMovement;
     }
+
+    public void GameStart()
+    {
+        StartCoroutine(GameStartCorutine());
+    }
+
+    private IEnumerator GameStartCorutine()
+    {
+        // Set Time.timescale = 1
+        MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
+
+        // Rise elevator
+        StartCoroutine(_elevatorMovement.MoveElevator(true));
+        _cameraFx.ShakeOfElevatorMovement();
+
+        // Elevator Rising 2f + Delay .8f
+        yield return new WaitForSeconds(2.8f);
+
+        // Spawn player
+        Instantiate(_player, _spawnPos.position, _spawnPos.rotation);
+
+        // Open elevator door
+        yield return StartCoroutine(_elevatorMovement.MoveDoor(true));
+
+        // Can player after door opened
+        MainEventManager.Instance.StartMainGameEvent?.Invoke();
+
+        // Close elevator door
+        yield return new WaitForSeconds(0.8f);
+        yield return StartCoroutine(_elevatorMovement.MoveDoor(false));
+
+        // descend elevator
+        StartCoroutine(_elevatorMovement.MoveElevator(false));
+        _cameraFx.ShakeOfElevatorMovement();
+    }
+
 }
