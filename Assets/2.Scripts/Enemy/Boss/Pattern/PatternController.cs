@@ -12,12 +12,15 @@ namespace Enemy
 
     public class PatternController : MonoBehaviour
     {
-        [Tooltip("d")][SerializeField]
+        [SerializeField]
         protected List<Patterns> _patternContainer;
         [SerializeField]
         protected Patterns _exhaustPatterns;
         [SerializeField]
-        int a;
+        protected GameObject _player;
+        [SerializeField]
+        [Range(1, 5)]
+        protected int _patternAfterDelay = 2;
 
         protected List<Patterns> _patternContainerCopy = new List<Patterns>();
         protected Patterns _currentPattern;
@@ -25,38 +28,35 @@ namespace Enemy
         private int _count = 0;
         private int _random = 0;
 
-        private void Start()
+        private void Awake()
         {
-
             for (int i = 0; i < _patternContainer.Count; i++)
             {
+                _patternContainer[i].Player = _player;
                 _patternContainerCopy.Add(_patternContainer[i]);
             }
+
             StartCoroutine(FiniteStateMachine());
         }
-
-        void RandomCurrentPattern() {
+        void RandomCurrentPattern()
+        {
             if (_patternContainerCopy.Count <= 0)
-                ///    _patternContainerCopy = _patternContainer;
-                ///    
                 for (int i = 0; i < _patternContainer.Count; i++)
                     _patternContainerCopy.Add(_patternContainer[i]);
-            else
-            {
-                _random = Random.Range(0, _patternContainerCopy.Count);
-                _currentPattern = _patternContainerCopy[_random];
-                _patternContainerCopy.RemoveAt(_random);
-            }
+
+            _random = Random.Range(0, _patternContainerCopy.Count);
+            _currentPattern = _patternContainerCopy[_random];
+            _patternContainerCopy.RemoveAt(_random);
         }
 
         IEnumerator FiniteStateMachine()
         {
-            RandomCurrentPattern();
             while (true)
             {
-                RandomCurrentPattern();
                 //애니메이션
+                RandomCurrentPattern();
                 yield return StartCoroutine(_currentPattern.Run());
+                yield return new WaitForSeconds(_patternAfterDelay);
                 _count++;
                 if (_count >= 5) {
                     //_exhaustPatterns.Run();
