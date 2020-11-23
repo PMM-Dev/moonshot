@@ -5,9 +5,6 @@ using UnityEngine;
 public class ElevatorMovement : MonoBehaviour
 {
     [SerializeField]
-    private Transform _transform;
-
-    [SerializeField]
     private Vector3 _bottomPosition;
     [SerializeField]
     private Vector3 _upPosition;
@@ -24,23 +21,25 @@ public class ElevatorMovement : MonoBehaviour
 
     public void RiseElevator()
     {
-        StartCoroutine(MoveElevator(_upPosition));
+        StartCoroutine(MoveElevator(_bottomPosition, _upPosition));
     }
 
     public void descendElevator()
     {
-        StartCoroutine(MoveElevator(_bottomPosition));
+        StartCoroutine(MoveElevator(_upPosition, _bottomPosition));
     }
 
-    private IEnumerator MoveElevator(Vector3 targetPos)
+    private IEnumerator MoveElevator(Vector3 srcPos, Vector3 targetPos)
     {
-        float t = 0f;
-        while (t <= _movementDuration)
+        float elapsed = 0.0f;
+        while (elapsed < _movementDuration)
         {
-            t += Time.deltaTime;
-            _transform.position = Vector3.MoveTowards(_transform.position, targetPos, _movementSpeed * Time.deltaTime);
+            elapsed += Time.deltaTime / _movementDuration;
+
+            transform.position = Vector3.Lerp(srcPos, targetPos, elapsed);
+
             yield return null;
         }
-        _transform.position = targetPos;
+        transform.position = targetPos;
     }
 }
