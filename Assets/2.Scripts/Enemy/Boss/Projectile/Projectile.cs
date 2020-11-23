@@ -31,17 +31,26 @@ namespace Enemy
 
         protected void Start()
         {
-            _positionVector3 = this.gameObject.transform.position;
-            SetPosition();
+            _positionVector3 = this.transform.parent.transform.position;
+            if (_player != null)
+                TargetPlayerPosition();
         }
 
         protected void Rotate() {
             this.transform.Rotate(Vector3.forward * Time.deltaTime * _rotationSpeed * _correctionValue);
         }
 
-        protected void SetPosition()
+        public void TargetPlayerPosition(bool reset = false)
         {
-            _positionVector3.y = this.transform.position.y;
+            if (_player == null)
+            {
+                Debug.Log(this.gameObject.name);
+                return;
+            }
+            if (reset == true)
+                _positionVector3.y = this.transform.position.y;
+            else
+                _positionVector3.y = this.transform.parent.position.y;
             _positionVector3.x = _player.transform.position.x;
             this.transform.position = _positionVector3;
         }

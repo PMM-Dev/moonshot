@@ -33,13 +33,14 @@ namespace Enemy
             this.transform.Translate(Vector3.up * _projectileSpeed * Time.smoothDeltaTime, Space.World);
             if (this.transform.position.y >= _player.transform.position.y + _triggerDistance)
             {
+                TargetPlayerPosition();
                 this.gameObject.SetActive(false);
             }
         }
 
         override protected void Pattern() {
             _isDown = false;
-            SetPosition();
+            TargetPlayerPosition(true);
         }
 
     }

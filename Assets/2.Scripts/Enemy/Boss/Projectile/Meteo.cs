@@ -14,7 +14,7 @@ namespace Enemy
 
         override protected void Pattern()
         {
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 }
