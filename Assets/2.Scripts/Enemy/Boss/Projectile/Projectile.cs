@@ -9,6 +9,7 @@ namespace Enemy
         [SerializeField]
         [Range(1, 4)]
         protected float _rotationSpeed = 1f;
+
         [SerializeField]
         [Range(7, 10)]
         protected float _triggerDistance = 7f;
@@ -16,8 +17,6 @@ namespace Enemy
         protected float _correctionValue = 180f;
         protected float _projectileSpeed = 4f;
         protected Vector3 _positionVector3;
-        //임시 외부 할당
-        [SerializeField]
         protected GameObject _player;
 
         public float ProjectileSpeed

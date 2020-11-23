@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    
+
     public abstract class Patterns : MonoBehaviour, IPattern
     {
         [Tooltip("발사체 프리펩 넣기")]
@@ -13,10 +13,13 @@ namespace Enemy
         [Tooltip("발사체 속도")]
         [SerializeField]
         protected float _projectileSpeed;
-        protected int _spwoncount = 0;
-        protected float _time = 0;
-        [SerializeField]
         protected GameObject _player;
+
+        public GameObject Player {
+            set {
+                _player = value;
+            }
+        }
 
         public abstract IEnumerator Run();
     }

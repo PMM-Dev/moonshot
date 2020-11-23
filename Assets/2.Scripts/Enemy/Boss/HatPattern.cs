@@ -21,14 +21,13 @@ namespace Enemy
         {
             _projectile.GetComponent<Hat>().Player = _player;
             _projectile.gameObject.SetActive(true);
-
+            _hat.TargetPlayerPosition();
             _hat.ProjectileSpeed = _projectileSpeed;
             
             while (_projectile.activeSelf == true) {
                 yield return null;
             }
             _hat.IsDown = true;
-            Debug.Log("끝");
         }
     }
 }

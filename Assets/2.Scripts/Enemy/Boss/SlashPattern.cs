@@ -20,31 +20,31 @@ namespace Enemy
 
         private void Awake()
         {
-            _originParentRotation = this.transform.parent.transform.rotation;
-            _originParentScale = this.transform.parent.transform.localScale;
-            _reverceParentScale = this.transform.parent.transform.localScale;
+            _originParentRotation = this.transform.rotation;
+            _originParentScale = this.transform.localScale;
+            _reverceParentScale = this.transform.localScale;
             _reverceParentScale.x *= -1;
         }
         
 
         private void RotationReset()
         {
-            this.transform.parent.transform.localScale = _originParentScale;
-            this.transform.parent.transform.rotation = _originParentRotation;
+            this.transform.localScale = _originParentScale;
+            this.transform.rotation = _originParentRotation;
         }
 
 
         protected void RightSlash()
         {
 
-            this.transform.parent.transform.localScale = _reverceParentScale;
-            this.transform.parent.transform.Rotate(Vector3.back * Time.deltaTime * _rotationSpeed * _correctionValue);
+            this.transform.localScale = _reverceParentScale;
+            this.transform.Rotate(Vector3.back * Time.deltaTime * _rotationSpeed * _correctionValue);
             _accumulate += Time.deltaTime * _rotationSpeed * _correctionValue;
         }
 
         protected void LeftSlash()
         {
-            this.transform.parent.transform.Rotate(Vector3.forward * Time.deltaTime * _rotationSpeed * _correctionValue);
+            this.transform.Rotate(Vector3.forward * Time.deltaTime * _rotationSpeed * _correctionValue);
             _accumulate += Time.deltaTime * _rotationSpeed * _correctionValue;
         }
 
@@ -54,7 +54,7 @@ namespace Enemy
             _accumulate = 0;
             if (Random.Range(0, 2) == 0)
             {
-                this.transform.parent.transform.localScale = _reverceParentScale;
+                this.transform.localScale = _reverceParentScale;
                 while (_accumulate < _maxAngle)
                 {
                     RightSlash();
