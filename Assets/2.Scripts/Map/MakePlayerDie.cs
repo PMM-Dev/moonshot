@@ -6,7 +6,11 @@ namespace Map
 { 
     public class MakePlayerDie : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject _player;
+
         private bool _canMakePlayerDie;
+        
         public bool CanMakePlayerDie
         {
             get
@@ -22,8 +26,7 @@ namespace Map
         {
             if (_canMakePlayerDie == true && col.gameObject.CompareTag("Player"))
             {
-                //사망처리
-                Debug.Log("주금");
+                _player.GetComponent<Player.PlayerController>().GetDamage();
             }
         }
     }

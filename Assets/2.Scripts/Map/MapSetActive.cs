@@ -39,33 +39,31 @@ namespace Map
             _wholeMapOrderCount = gameObject.transform.GetComponent<MapMaking>().WholeMapOrder.Count;
             _wholeMapOrder[0].SetActive(true);
             _wholeMapOrder[1].SetActive(true);
-            _wholeMapOrder[1].gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
 
         void SetMapActive()
         {
             _wholeMapOrder[_mapIndex].SetActive(true);
-            if(_mapIndex%2 == 1)
-            {
-                _wholeMapOrder[_mapIndex].gameObject.GetComponent<BoxCollider2D>().enabled = false;
-            }
             _mapIndex+=1;
             _recentIndex+=1;
         }
 
         void SetMapDisActive()
         {
+            if(_recentIndex==1)
+            {
+                _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
+            }
+
             if(_recentIndex >= 3)
             {
                 if(_recentIndex%2==0)
                 {
-                    _wholeMapOrder[_recentIndex - 3].gameObject.GetComponent<BoxCollider2D>().enabled = true;
-                    _wholeMapOrder[_recentIndex - 3].gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                    _wholeMapOrder[_recentIndex - 3].gameObject.GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
+                    _wholeMapOrder[_recentIndex - 3].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
                     Transform[] allChildren = _wholeMapOrder[_recentIndex - 3].gameObject.GetComponentsInChildren<Transform>();
                     foreach (Transform child in allChildren)
                     {
-                        if (child.name == _wholeMapOrder[_recentIndex - 3].gameObject.name)
+                        if (child.name == _wholeMapOrder[_recentIndex - 3].gameObject.name || child.name == "Collider")
                             continue;
 
                         child.gameObject.SetActive(false);
