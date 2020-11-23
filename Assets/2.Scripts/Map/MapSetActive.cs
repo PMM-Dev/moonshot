@@ -14,6 +14,7 @@ namespace Map
         private List<GameObject> _wholeMapOrder = new List<GameObject>();
         private int _wholeMapOrderCount;
         private MapMaking _mapMaking;
+        private bool _onestageDieCheck;
 
         private void Awake()
         {
@@ -21,6 +22,12 @@ namespace Map
         }
         void Update()
         {
+            if (_mapMaking.IsMapCreate == true && !_onestageDieCheck && _Player.transform.position.y >= 10)
+            {
+                _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
+                _onestageDieCheck = true;
+            }
+
             if (_mapMaking.IsMapCreate == true &&
                 _mapIndex < _wholeMapOrderCount &&
                 _recentIndex < _wholeMapOrderCount &&
@@ -50,10 +57,6 @@ namespace Map
 
         void SetMapDisActive()
         {
-            if(_recentIndex==1)
-            {
-                _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
-            }
 
             if(_recentIndex >= 3)
             {
