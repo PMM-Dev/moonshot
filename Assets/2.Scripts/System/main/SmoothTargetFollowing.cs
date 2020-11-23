@@ -17,10 +17,17 @@ public class SmoothTargetFollowing : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (_target == null) return;
+
         Vector3 targetPosition = _target.position + _offeset;
         targetPosition.x = Mathf.Clamp(targetPosition.x, _minCameraMovementOfX, _maxCameraMovementOfX);
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, targetPosition, _smoothSpeed);
 
         transform.position = smoothedPosition;
+    }
+
+    public void SetTarget(GameObject player)
+    {
+        _target = player.transform;
     }
 }
