@@ -19,6 +19,7 @@ namespace Map
         private void Awake()
         {
             _mapMaking = GetComponent<MapMaking>();
+            _Player = FindObjectOfType< Player.PlayerController > ().gameObject;
         }
         void Update()
         {
