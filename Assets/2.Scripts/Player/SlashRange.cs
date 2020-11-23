@@ -6,6 +6,33 @@ namespace Player
 {
     public class SlashRange : MonoBehaviour
     {
+        private static SlashRange _instance;
+        public static SlashRange Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    var obj = FindObjectOfType<SlashRange>();
+                    if (obj != null)
+                    {
+                        _instance = obj;
+                    }
+                    else
+                    {
+                        var newSingletoneObject = Instantiate(Resources.Load("Player/SlashRange")) as GameObject;
+                        var newSingleton = newSingletoneObject.transform.GetChild(0).GetComponent<SlashRange>();
+                        _instance = newSingleton;
+                    }
+                }
+                return _instance;
+            }
+            private set
+            {
+                _instance = value;
+            }
+        }
+
         private PlayerController _playerController;
         public PlayerController PlayerController
         {
