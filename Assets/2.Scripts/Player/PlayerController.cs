@@ -17,8 +17,7 @@ namespace Player
         [SerializeField]
         private PlayerData _data;
         [SerializeField]
-        private GameObject _slashRangeObject;
-        private SlashRange _slashRange;
+        private GameObject _slashRange;
         private PlayerLogic _playerLogic;
         private PlayerSimulation _playerSimulation;
         private PlayerInput _playerInput;
@@ -87,9 +86,9 @@ namespace Player
             _playerSimulation = new PlayerSimulation();
             _playerInput = new PlayerInput();
             _playerLogic = new PlayerLogic(this._playerSimulation, this._playerInput);
-
-            _slashRange = _slashRangeObject.GetComponentInChildren<SlashRange>();
-            _slashRange.PlayerController = this;
+            _slashRange = SlashRange.Instance.transform.parent.gameObject;
+            _slashRange.SetActive(false);
+            SlashRange.Instance.PlayerController = this;
 
             InitializeEvent();
         }
@@ -235,13 +234,14 @@ namespace Player
             _animator.SetBool("isSlash", _isSlashing);
             float angle = _playerInput.GetSlashAngle();
 
-            _slashRangeObject.SetActive(true);
+            _slashRange.SetActive(true);
 
-            _slashRangeObject.transform.localScale = new Vector3(1f, 1f, 1f);
-            _slashRangeObject.transform.position = transform.position;
-            _slashRangeObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
+            _slashRange.transform.position = transform.position;
 
-            Vector3 origin = _slashRange == null ? Vector3.zero : _slashRange.transform.position;
+            _slashRange.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+
+            Vector3 origin = transform.position;
 
             if (angle < 0)
             {
@@ -267,7 +267,7 @@ namespace Player
 
             Vector2 target = transform.position;
             float distance = Vector2.Distance(origin, target);
-            _slashRangeObject.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f);
+            _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
 
             time = 0f;
             while (time < 0.1f)
@@ -275,7 +275,8 @@ namespace Player
                 time += Time.deltaTime;
                 yield return null;
             }
-            _slashRangeObject.SetActive(false);
+
+            _slashRange.gameObject.SetActive(false);
 
             EndSlashAction?.Invoke();
         }

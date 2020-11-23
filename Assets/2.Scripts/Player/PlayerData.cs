@@ -19,7 +19,7 @@ namespace Player
         [SerializeField]
         private float _deceleration = 2f;
         public float Deceleration => _deceleration;
-        [Range(1f, 200f)]
+        [Range(0f, 200f)]
         [SerializeField]
         private float _gravityScale = 70f;
         public float GravityScale => _gravityScale;
@@ -31,7 +31,7 @@ namespace Player
         [SerializeField]
         private float _wallJumpPower = 30f;
         public float WallJumpPower => _wallJumpPower;
-        [Range(0.1f, 10f)]
+        [Range(0f, 10f)]
         [SerializeField]
         private float _stickGravity = 0.8f;
         public float StickGravity => _stickGravity;
@@ -51,5 +51,12 @@ namespace Player
         [SerializeField]
         private float _bulletTimeSpeed = 0.05f;
         public float BulletTimeSpeed => _bulletTimeSpeed;
+        [Range(0.1f, 5f)]
+        [SerializeField]
+        private float _slashRangeDetection= 3f;
+        public float SlashRangeDetection => _slashRangeDetection;
+        [SerializeField]
+        private Sprite _slashRangeSprite;
+        public Sprite SlashRangeSprite => _slashRangeSprite;
     }
 }

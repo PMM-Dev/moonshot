@@ -1097,16 +1097,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e0519243d105f4fb4eab9014356e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
-  _acceleration: 1
-  _deceleration: 2
+  _data: {fileID: 11400000, guid: 5c8912df709d1f74088ef762f8c02eac, type: 2}
+  _slashRangeObject: {fileID: 0}
   _currentSpeed: 0
-  _gravityScale: 70
-  _gravity: {x: 0, y: 0}
-  _normalJumpPower: 25
-  _wallJumpPower: 30
-  _stickGravity: 0.8
-  _gravityLimit: -30
   _moveDirection: 0
   _lookDirection: -1
   _stickDirection: 0
@@ -1115,11 +1108,11 @@ MonoBehaviour:
   _isBeside: 0
   _isSlashing: 0
   _isSlashLocked: 0
+  _isMoveInputLocked: 0
+  _isJumpLocked: 0
+  _isBulletTime: 0
   _velocity: {x: 0, y: 0}
   _slashDirection: {x: 0, y: 0}
-  _isMoveInputLocked: 0
-  _isJumpInputLocked: 0
-  _slashRange: {fileID: 0}
 --- !u!50 &4337319345603776080
 Rigidbody2D:
   serializedVersion: 4
