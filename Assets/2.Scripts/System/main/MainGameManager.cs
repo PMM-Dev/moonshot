@@ -18,8 +18,6 @@ public class MainGameManager : MonoBehaviour
     {
         // Pause all game flow before pressing start button
         MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
-
-        // 
     }
 
     public void GameStart()
@@ -40,12 +38,14 @@ public class MainGameManager : MonoBehaviour
         yield return new WaitForSeconds(2.8f);
 
         // Spawn player
-        Instantiate(_player, _spawnPos.position, _spawnPos.rotation);
+        _player = Instantiate(_player, _spawnPos.position, _spawnPos.rotation);
+        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = true;
+        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().SetTarget(_player);
 
         // Open elevator door
         yield return StartCoroutine(_elevatorMovement.MoveDoor(true));
 
-        // Can player after door opened
+        // Start game after door opened
         MainEventManager.Instance.StartMainGameEvent?.Invoke();
 
         // Close elevator door

@@ -90,8 +90,8 @@ public class ElevatorMovement : MonoBehaviour
             leftSrcPos = new Vector3(-0.7f, 0f, 0f);
             rightSrcPos = new Vector3(0.7f, 0f, 0f);
 
-            _leftDoorRenderer.sortingOrder = 0;
-            _rightDoorRenderer.sortingOrder = 0;
+            _leftDoorRenderer.sortingOrder = 2;
+            _rightDoorRenderer.sortingOrder = 2;
         }
 
         // Move Animation

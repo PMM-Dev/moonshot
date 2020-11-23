@@ -17,6 +17,7 @@ public class CameraFx : MonoBehaviour
         StartCoroutine(Shake(durationOfelevatorMovement, xMagnitudeOfElevatorMovement, yMagnitudeOfElevatorMovement));
     }
 
+
     private IEnumerator Shake(float duration, float xMagnitude, float yMagnitude)
     {
         Vector3 originalPos = transform.localPosition;
@@ -39,6 +40,6 @@ public class CameraFx : MonoBehaviour
             yield return null;
         }
 
-        // transform.localPosition = originalPos;
+        transform.localPosition = originalPos;
     }
 }
