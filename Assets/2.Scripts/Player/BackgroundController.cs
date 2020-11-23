@@ -12,7 +12,6 @@ public class BackgroundController : MonoBehaviour
 
     private Coroutine _mapChanger;
 
-    [SerializeField]
     private List<SpriteRenderer> _backgroundSpriteRenderers;
 
     private int counter;
