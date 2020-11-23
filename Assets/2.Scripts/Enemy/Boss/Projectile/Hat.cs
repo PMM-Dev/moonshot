@@ -7,6 +7,12 @@ namespace Enemy
     public class Hat : Projectile
     {
         private bool _isDown = true;
+        public bool IsDown {
+            set
+            {
+                _isDown = value;
+            }
+        }
 
         private void Update()
         {
@@ -26,7 +32,9 @@ namespace Enemy
         {
             this.transform.Translate(Vector3.up * _projectileSpeed * Time.smoothDeltaTime, Space.World);
             if (this.transform.position.y >= _player.transform.position.y + _triggerDistance)
+            {
                 this.gameObject.SetActive(false);
+            }
         }
 
         override protected void Pattern() {
