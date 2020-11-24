@@ -21,6 +21,24 @@ namespace Enemy
         private int _spwancount;
         private int _avoidInfiniteLoops;
 
+        private void Start()
+        {
+            for (int i = 0; i < _rabbits.Length; i++)
+            {
+                _rabbits[i].gameObject.transform.parent.gameObject.SetActive(true);
+                _rabbits[i].gameObject.SetActive(false);
+            }
+            for (int i = 0; i < _wolfs.Length; i++)
+            {
+                _wolfs[i].gameObject.transform.parent.gameObject.SetActive(true);
+                _wolfs[i].gameObject.SetActive(false);
+            }
+            for (int i = 0; i < _masPeoples.Length; i++)
+            {
+                _masPeoples[i].gameObject.transform.parent.gameObject.SetActive(true);
+                _masPeoples[i].gameObject.SetActive(false);
+            }
+        }
 
         public override IEnumerator Run()
         {
