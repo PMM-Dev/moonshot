@@ -59,12 +59,14 @@ namespace Enemy
                 //애니메이션
                 RandomCurrentPattern();
                 yield return StartCoroutine(_currentPattern.Run());
-                yield return new WaitForSeconds(_patternAfterDelay);
                 _count++;
-                if (_count >= 5) {
-                    //_exhaustPatterns.Run();
+                if (_count >= 5)
+                {
+                    yield return new WaitForSeconds(_patternAfterDelay);
+                    yield return StartCoroutine(_exhaustPatterns.Run());
                     _count = 0;
                 }
+                yield return new WaitForSeconds(_patternAfterDelay);
             }
         }
     }
