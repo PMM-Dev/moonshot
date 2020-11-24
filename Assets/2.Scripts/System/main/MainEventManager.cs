@@ -45,7 +45,6 @@ public class MainEventManager : MonoBehaviour
     //
     // SINGLETON
 
-    MainGameManager _mainGameManager;
     MainDataManager _mainEventDataManager;
     MainUIManager _mainUIManager;
 

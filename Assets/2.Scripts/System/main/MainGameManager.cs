@@ -4,6 +4,46 @@ using UnityEngine;
 
 public class MainGameManager : MonoBehaviour
 {
+    private static MainGameManager _instance;
+    public static MainGameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                var obj = FindObjectOfType<MainGameManager>();
+                if (obj != null)
+                {
+                    _instance = obj;
+                }
+                else
+                {
+                    var newSingleton = new GameObject("Singleton Class").AddComponent<MainGameManager>();
+                    _instance = newSingleton;
+                }
+            }
+            return _instance;
+        }
+        private set
+        {
+            _instance = value;
+        }
+    }
+
+    private void Awake()
+    {
+        var objs = FindObjectsOfType<MainGameManager>();
+        if (objs.Length != 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
+    //
+    // SINGLETON
+
     [SerializeField]
     private ElevatorMovement _elevatorMovement;
     [SerializeField]
