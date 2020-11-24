@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class Breathlekdml : Projectile
+    public class Breath : Projectile
     {
         
     }
