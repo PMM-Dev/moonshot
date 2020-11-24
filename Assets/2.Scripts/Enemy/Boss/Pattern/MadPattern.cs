@@ -7,7 +7,7 @@ namespace Enemy
     public class MadPattern : Patterns
     {
         [SerializeField]
-        private float _spwonInterval = 0.5f;
+        private float _spwanInterval = 0.5f;
         [SerializeField]
         private List<Meteo> _meteos;
 
@@ -26,7 +26,7 @@ namespace Enemy
             for (int i = 0; i < _meteos.Count; i++) {
                 _meteos[i].TargetPlayerPosition();
                 _meteos[i].gameObject.SetActive(true);
-                yield return new WaitForSeconds(_spwonInterval);
+                yield return new WaitForSeconds(_spwanInterval);
             }
             if(_meteos[_meteos.Count -1 ].gameObject.activeSelf == true)
                 yield return null;
