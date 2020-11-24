@@ -8,7 +8,7 @@ namespace Enemy
     {
         private Hat _hat;
         
-        private void Start()
+        private void Awake()
         {
             if (_hat == null)
             {
