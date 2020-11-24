@@ -6,13 +6,13 @@ namespace Enemy
 {
     public class SingPattern : Patterns, IPattern
     {
-        [Header("안보이는 몹 할당")]
+        [Header("몹 할당(Life를 가진 본체만 할당해줘야함.)")]
         [SerializeField]
-        GameObject[] _rabbitPostion;
+        Life[] _rabbits;
         [SerializeField]
-        GameObject[] _wolfPostion;
+        Life[] _wolfs;
         [SerializeField]
-        GameObject[] _masPeoplePostion;
+        Life[] _masPeoples;
         [Header("전체 몹값보다 충분히 낮게 잡지 않으면 겜 멈춤")]
         [SerializeField]
         int _maxSpownCount;
@@ -36,22 +36,22 @@ namespace Enemy
                 switch (Random.Range(0, 3))
                 {
                     case 0:
-                        _random = Random.Range(0, _rabbitPostion.Length);
-                        if (_rabbitPostion[_random].activeSelf == true)
+                        _random = Random.Range(0, _rabbits.Length);
+                        if (_rabbits[_random].gameObject.activeSelf == true)
                             continue;
-                        _rabbitPostion[_random].SetActive(true);
+                        _rabbits[_random].gameObject.SetActive(true);
                         break;
                     case 1:
-                        _random = Random.Range(0, _wolfPostion.Length);
-                        if (_wolfPostion[_random].activeSelf == true)
+                        _random = Random.Range(0, _wolfs.Length);
+                        if (_wolfs[_random].gameObject.activeSelf == true)
                             continue;
-                        _wolfPostion[_random].SetActive(true);
+                        _wolfs[_random].gameObject.SetActive(true);
                         break;
                     case 2:
-                        _random = Random.Range(0, _masPeoplePostion.Length);
-                        if (_masPeoplePostion[_random].activeSelf == true)
+                        _random = Random.Range(0, _masPeoples.Length);
+                        if (_masPeoples[_random].gameObject.activeSelf == true)
                             continue;
-                        _masPeoplePostion[_random].SetActive(true);
+                        _masPeoples[_random].gameObject.SetActive(true);
                         break;
                 }
                 yield return new WaitForSeconds(1);
