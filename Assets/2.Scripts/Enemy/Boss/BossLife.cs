@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class BossLife : MonoBehaviour
+    public class BossLife : MonoBehaviour, IDamage
     {
         [SerializeField]
         private int _bossLife = 5;
@@ -14,19 +14,23 @@ namespace Enemy
             set { _isCanAttack = value; }
         }
 
-        public void Attacked() {
-            if (_isCanAttack != true)
-                return;
-            _bossLife--;
-            Debug.Log("Life 는" + _bossLife);
-            Die();
-        }
-
         public void Die() {
             if (_bossLife > 0)
                 return;
             //죽는 애니메이션 출력
             //죽은 뒤에 하는 뭐 클리어창.
+        }
+
+        public bool GetDamage()
+        {
+            if (_isCanAttack != true)
+                return false;
+
+            _bossLife--;
+            Debug.Log("Life 는" + _bossLife);
+
+            Die();
+            return true;
         }
     }
 }
