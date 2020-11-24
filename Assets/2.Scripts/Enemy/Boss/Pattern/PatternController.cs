@@ -36,6 +36,9 @@ namespace Enemy
                 _patternContainerCopy.Add(_patternContainer[i]);
             }
 
+            if(_player == null)
+                _player = GameObject.FindWithTag("Player");
+
             StartCoroutine(FiniteStateMachine());
         }
         void RandomCurrentPattern()

@@ -44,9 +44,9 @@ namespace Enemy
         {
             if (_player == null)
             {
-                Debug.Log(this.gameObject.name);
-                return;
+                _player = GameObject.FindWithTag("Player");
             }
+
             if (reset == true)
                 _positionVector3.y = this.transform.position.y;
             else
