@@ -18,14 +18,21 @@ namespace Enemy
         int _maxSpownCount;
 
         int _random;
-        private int _spwoncount;
-        
+        private int _spwancount;
+        private int _avoidInfiniteLoops;
+
 
         public override IEnumerator Run()
         {
-            _spwoncount = 0;
-            while (_maxSpownCount > _spwoncount)
+            _spwancount = 0;
+            _avoidInfiniteLoops = 0;
+            while (_maxSpownCount > _spwancount)
             {
+                if (_avoidInfiniteLoops > _maxSpownCount) {
+                    _spwancount = _avoidInfiniteLoops;
+                    break;
+                }
+                _avoidInfiniteLoops++;
                 switch (Random.Range(0, 3))
                 {
                     case 0:
@@ -48,7 +55,7 @@ namespace Enemy
                         break;
                 }
                 yield return new WaitForSeconds(1);
-                _spwoncount++;
+                _spwancount++;
             }
 
         }
