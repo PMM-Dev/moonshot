@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class Brass : Projectile
+    public class Breath : Projectile
     {
         
     }
