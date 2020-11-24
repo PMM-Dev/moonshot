@@ -11,6 +11,7 @@ namespace Enemy
         private bool _isCanAttack = false;
         public bool IsCanAttack
         {
+            get { return _isCanAttack; }
             set { _isCanAttack = value; }
         }
 
@@ -25,10 +26,9 @@ namespace Enemy
         {
             if (_isCanAttack != true)
                 return false;
-
             _bossLife--;
             Debug.Log("Life 는" + _bossLife);
-
+            _isCanAttack = false;
             Die();
             return true;
         }
