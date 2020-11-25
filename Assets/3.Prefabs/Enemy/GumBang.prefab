@@ -220,6 +220,7 @@ MonoBehaviour:
   _patternDelay: 1
   _patternRage: 1
   _patternCollTime: 0.1
+  _patternParticle: {fileID: 0}
 --- !u!114 &3313161566358436119
 MonoBehaviour:
   m_ObjectHideFlags: 0

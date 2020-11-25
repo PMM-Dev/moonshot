@@ -10,7 +10,8 @@ namespace Enemy{
         protected float _playerDistance = 9999f;
         [SerializeField]private float _patternDelay;
         [SerializeField] protected float _patternRage;
-        [Tooltip("패턴 딜레이를 포함한 쿨타임")][SerializeField] protected float _patternCollTime;
+        [Tooltip("패턴 딜레이를 포함한 쿨타임")][SerializeField]
+        protected float _patternCollTime;
         private bool _isCanPattern = true;
         //float _time = 0; 2번 패턴 사용시 필요
         private void Start()
