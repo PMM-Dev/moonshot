@@ -74,14 +74,6 @@ public class BackgroundController : MonoBehaviour
         _heights.Add(new Vector2(480f, 900f));
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Initialize();
-        }
-    }
-
     public void Initialize()
     {
         if (_mapMaking != null && _playerController != null)
