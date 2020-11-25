@@ -101,8 +101,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefabs: {fileID: 7364957618936433798, guid: 1f01060a1f7da7541b75c8264f956e5c,
     type: 3}
-  _isWolf: 0
+  _isRabbit: 0
   _builletInterver: 5
+  _recognitionRange: 10
 --- !u!114 &8477465550253585767
 MonoBehaviour:
   m_ObjectHideFlags: 0

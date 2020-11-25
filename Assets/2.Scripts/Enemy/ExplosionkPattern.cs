@@ -12,7 +12,7 @@ namespace Enemy
             {
                 _player.GetComponent<IDamage>().GetDamage();
             }
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 }
