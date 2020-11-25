@@ -5,41 +5,11 @@ using UnityEngine;
 
 public class MainEventManager : MonoBehaviour
 {
-    private static MainEventManager _instance;
-    public static MainEventManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                var obj = FindObjectOfType<MainEventManager>();
-                if (obj != null)
-                {
-                    _instance = obj;
-                }
-                else
-                {
-                    var newSingleton = new GameObject("Singleton Class").AddComponent<MainEventManager>();
-                    _instance = newSingleton;
-                }
-            }
-            return _instance;
-        }
-        private set
-        {
-            _instance = value;
-        }
-    }
+    public MainEventManager Instance { get; private set; }
 
     private void Awake()
     {
-        var objs = FindObjectsOfType<MainEventManager>();
-        if (objs.Length != 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
+        Instance = this;
     }
 
     //
