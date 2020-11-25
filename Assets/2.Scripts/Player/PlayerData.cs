@@ -45,12 +45,24 @@ namespace Player
         public float SlashDistance => _slashDistance;
         [Range(0.01f, 5f)]
         [SerializeField]
-        private float _bulletTimeLimit = 1f;
+        private float _readyToSlashTimeLimit = 1f;
+        public float ReadyToSlashTimeLimit => _readyToSlashTimeLimit;
+        [Range(0.01f, 5f)]
+        [SerializeField]
+        private float _bulletTimeLimit = 0.5f;
         public float BulletTimeLimit => _bulletTimeLimit;
         [Range(0.01f, 1f)]
         [SerializeField]
         private float _bulletTimeSpeed = 0.05f;
         public float BulletTimeSpeed => _bulletTimeSpeed;
+        [Range(0.01f, 100f)]
+        [SerializeField]
+        private float _bulletTimeDecreaseSpeed = 5f;
+        public float BulletTimeDecreaseSpeed => _bulletTimeDecreaseSpeed;
+        [Range(0.01f, 100f)]
+        [SerializeField]
+        private float _bulletTimeIncreaseSpeed = 30f;
+        public float BulletTimeIncreaseSpeed => _bulletTimeIncreaseSpeed;
         [Range(0.1f, 5f)]
         [SerializeField]
         private float _slashRangeDetection= 3f;

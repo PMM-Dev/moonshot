@@ -224,7 +224,12 @@ namespace Player
             if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown() && !_isBulletTime)
             {
                 _isBulletTime = true;
-                _bulletTimeCoroutine = StartCoroutine(BulletTime(5f, 30f, _data.BulletTimeSpeed));
+                if (_bulletTimeCoroutine != null)
+                {
+                    StopCoroutine(_bulletTimeCoroutine);
+                }
+
+                _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
             }
         }
 
@@ -257,12 +262,20 @@ namespace Player
 
             SlashAction?.Invoke(_lookDirection, rotateValue);
 
+            Vector2 target = transform.position;
+            float distance = Vector2.Distance(origin, target);
+
             float time = 0f;
             while (time < forceTime && !_isBeside)
             {
                 _currentSpeed = 80f;
                 _velocity = direction * _currentSpeed;
                 transform.Translate(_velocity * Time.deltaTime);
+
+                target = transform.position;
+                distance = Vector2.Distance(origin, target);
+                _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
+
                 time += Time.deltaTime;
                 yield return null;
             }
@@ -271,8 +284,8 @@ namespace Player
             _velocity = Vector2.zero;
             _animator.SetBool("isSlash", _isSlashing);
 
-            Vector2 target = transform.position;
-            float distance = Vector2.Distance(origin, target);
+            target = transform.position;
+            distance = Vector2.Distance(origin, target);
             _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
 
             time = 0f;
@@ -331,9 +344,55 @@ namespace Player
         {
             _isSlashLocked = false;
             _isJumpLocked = false;
+            _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
         }
 
-        private IEnumerator BulletTime(float decreaseSpeed, float increaseSpeed, float minSpeed)
+        private IEnumerator BulletTime(float currentTime, float decreaseSpeed, float increaseSpeed, float minSpeed)
+        {
+            float time = 0f;
+            float progress = 0f;
+            float currentTimeScale = currentTime;
+
+            while (progress < 1f)
+            {
+                time += Time.deltaTime / Time.timeScale;
+                progress += Time.deltaTime * decreaseSpeed;
+                Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+                Debug.Log(time);
+                if (time > _data.BulletTimeLimit)
+                {
+                    break;
+                }
+                yield return null;
+            }
+
+            progress = 0f;
+            currentTimeScale = Time.timeScale;
+            while (progress < 1f)
+            {
+                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
+                progress += Time.deltaTime * increaseSpeed;
+                yield return null;
+            }
+
+            Time.timeScale = 1f;
+        }
+
+        public bool GetDamage()
+        {
+            if (_isSlashing)
+            {
+                Debug.Log("슬래쉬 중엔 무적");
+                return false;
+            }
+            else
+            {
+                Debug.Log("주금");
+                return true;
+            }
+        }
+
+        private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
         {
             _playerInput.GetOriginDirection();
 
@@ -343,19 +402,23 @@ namespace Player
 
             _slashArrow.SetActive(true);
 
-            while (progress < 1f)
+            while (true)
             {
-                time += Time.deltaTime;
+                time += Time.deltaTime / Time.timeScale;
                 float angle = _playerInput.GetSlashAngle();
                 _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
                 _playerInput.GetTargetDirection();
                 _slashDirection = _playerInput.GetSlashDirection();
-                if (_playerInput.GetMouseButtonUp() || time > _data.BulletTimeLimit)
+                if (_playerInput.GetMouseButtonUp() || time > _data.ReadyToSlashTimeLimit)
                 {
                     break;
                 }
-                progress += Time.deltaTime * decreaseSpeed;
-                Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+                if (progress < 1f)
+                {
+                    progress += Time.deltaTime * decreaseSpeed;
+                    Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+                }
+
                 yield return null;
             }
 
@@ -377,20 +440,6 @@ namespace Player
 
             Time.timeScale = 1f;
             _isBulletTime = false;
-        }
-
-        public bool GetDamage()
-        {
-            if (_isSlashing)
-            {
-                Debug.Log("슬래쉬 중엔 무적");
-                return false;
-            }
-            else
-            {
-                Debug.Log("주금");
-                return true;
-            }
         }
     }
 }
