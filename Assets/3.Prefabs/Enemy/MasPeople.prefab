@@ -260,7 +260,7 @@ MonoBehaviour:
   - {fileID: 8056962675144066953}
   _speed: 3
   _isRound: 0
-  _DetectingPlayerRange: 30
+  _DetectingPlayerRange: 5
   _isYAxisLook: 0
   _isMove: 1
   _isLookPlayer: 1
