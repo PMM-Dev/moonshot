@@ -47,7 +47,7 @@ namespace Player
         [SerializeField]
         private bool _isGround;
         [SerializeField]
-        private bool _isBeside;
+        private MoveDirection _besideDirection;
         [SerializeField]
         private bool _isSlashing;
         [SerializeField]
@@ -148,11 +148,11 @@ namespace Player
             {
                 if (collisionType == CollisionType.Exit)
                 {
-                    _isBeside = false;
+                    _besideDirection = MoveDirection.Idle;
                 }
                 else if (collisionType == CollisionType.Stay)
                 {
-                    _isBeside = true;
+                    _besideDirection = (MoveDirection)((int)colliderType);
                 }
 
                 _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection, _isSlashLocked);
@@ -266,8 +266,11 @@ namespace Player
             float distance = Vector2.Distance(origin, target);
 
             float time = 0f;
-            while (time < forceTime && !_isBeside)
+            while (time < forceTime)
             {
+                if ((int)_besideDirection == (int)_lookDirection)
+                    break;
+
                 _currentSpeed = 80f;
                 _velocity = direction * _currentSpeed;
                 transform.Translate(_velocity * Time.deltaTime);
