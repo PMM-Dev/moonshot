@@ -24,7 +24,7 @@ public class DashGhostFxPool : MonoBehaviour
 
     private void Start()
     {
-        _playerLocalscal = MainGameManager.Instance.Player.transform.localScale;
+        _playerLocalscal = MainPlayerManager.Instance.Player.transform.localScale;
     }
 
     public IEnumerator PlayGhostFx(bool isLeft)
