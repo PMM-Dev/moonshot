@@ -64,6 +64,7 @@ namespace Map
             CreateConnector();
             Merge();
             _isMapCreate = true;
+            BackgroundController.Instance.Initialize();
         }
 
         void CreateMap(int stagenum) 
