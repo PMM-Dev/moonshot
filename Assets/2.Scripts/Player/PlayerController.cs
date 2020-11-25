@@ -367,7 +367,7 @@ namespace Player
                 time += Time.deltaTime / Time.timeScale;
                 progress += Time.deltaTime * decreaseSpeed;
                 Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
-                Debug.Log(time);
+
                 if (time > _data.BulletTimeLimit)
                 {
                     break;
