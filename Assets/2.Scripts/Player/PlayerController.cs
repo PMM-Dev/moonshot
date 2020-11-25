@@ -253,7 +253,6 @@ namespace Player
 
         private IEnumerator ForceSlash(Vector2 direction, float forceTime)
         {
-            _isSlashLocked = true;
             _isJumpLocked = true;
             _isSlashing = true;
             _animator.SetBool("isSlash", _isSlashing);
@@ -288,6 +287,10 @@ namespace Player
             {
                 if ((int)_besideDirection == (int)_lookDirection)
                     break;
+                if (time < 0.05f)
+                {
+                    _isSlashLocked = true;
+                }
 
                 _currentSpeed = 80f;
                 _velocity = direction * _currentSpeed;
