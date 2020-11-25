@@ -95,6 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
-  _activeTime: 0.1
-  _alphaSet: 0.8
+  _activeTime: 0.25
+  _alphaSet: 0.85
   _alphaMultiplier: 0.85

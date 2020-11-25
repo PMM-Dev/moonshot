@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class DashGhostFxPool : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _ghostPrefab;
-
-    private Queue<GameObject> availableObjects = new Queue<GameObject>();
-
     public static DashGhostFxPool Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;
         GrowPool();
+    }
+
+    //
+    // SINGLETON
+
+    [SerializeField]
+    private GameObject _ghostPrefab;
+    private Queue<GameObject> availableObjects = new Queue<GameObject>();
+
+    private Vector3 _playerLocalscal;
+
+
+    private void Start()
+    {
+        _playerLocalscal = MainGameManager.Instance.Player.transform.localScale;
     }
 
     public IEnumerator PlayGhostFx(bool isLeft)
@@ -50,8 +60,8 @@ public class DashGhostFxPool : MonoBehaviour
             GrowPool();
         }
         var instance = availableObjects.Dequeue();
-        if (isLeft) instance.transform.localScale = new Vector3(1, 1, 1);
-        else instance.transform.localScale = new Vector3(-1, 1, 1);
+        if (isLeft) instance.transform.localScale = _playerLocalscal;
+        else instance.transform.localScale = new Vector3(-1 * _playerLocalscal.x, _playerLocalscal.y, _playerLocalscal.z);
 
         instance.SetActive(true);
         return instance;
