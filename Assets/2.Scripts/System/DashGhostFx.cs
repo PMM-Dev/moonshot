@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DashGhostFx : MonoBehaviour
 {
+    [SerializeField]
     private Transform _player;
     private SpriteRenderer _sr;
 
