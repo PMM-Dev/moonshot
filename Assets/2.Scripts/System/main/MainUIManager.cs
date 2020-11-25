@@ -18,9 +18,12 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private Text _survivedTimeText;
 
+    [SerializeField]
+    private MainGameManager _mainGameManager;
+
     public void OnClickStart()
     {
-        MainGameManager.Instance.GameStart();
+        _mainGameManager.GameStart();
 
         _startPanel.SetActive(false);
     }
