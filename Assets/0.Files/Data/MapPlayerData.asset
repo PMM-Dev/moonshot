@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 966c5a48a64c45d4481cd6e1c54a37c6, type: 3}
+  m_Name: MapPlayerData
+  m_EditorClassIdentifier: 
+  _speed: 10
+  _acceleration: 1
+  _deceleration: 2
+  _gravityScale: 60
+  _normalJumpPower: 25
+  _wallJumpPower: 30
+  _stickGravity: 0.8
+  _gravityLimit: -30
+  _slashDistance: 0.078
+  _bulletTimeLimit: 1
+  _bulletTimeSpeed: 0.05
+  _slashRangeDetection: 3.5
+  _slashRangeSprite: {fileID: 0}
