@@ -19,13 +19,13 @@ public class BackgroundController : MonoBehaviour
     private void Awake()
     {
         _mapMaking = FindObjectOfType<MapMaking>();
-        if (MainGameManager.Instance == null)
+        if (MainPlayerManager.Instance == null)
         {
             _playerController = FindObjectOfType<PlayerController>();
         }
         else
         {
-            _playerController = MainGameManager.Instance.Player.GetComponent<PlayerController>();
+            _playerController = MainPlayerManager.Instance.Player.GetComponent<PlayerController>();
         }
         _backgroundSpriteRenderers = new List<SpriteRenderer>();
         for (int i = 0; i < transform.childCount; i++)
