@@ -247,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
         type: 3}
@@ -818,7 +818,7 @@ RectTransform:
   - {fileID: 352440445}
   - {fileID: 760354262}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1241,7 +1241,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &950480702
 GameObject:
@@ -1377,7 +1377,7 @@ Transform:
   m_Children:
   - {fileID: 1605831974}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1046203697
 GameObject:
@@ -1676,6 +1676,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!82 &1255376144 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1255376144, guid: 2368295233600479a9822d516976763e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2147450366172969700}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1288484858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,10 +1950,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1604407119}
   - component: {fileID: 1604407122}
-  - component: {fileID: 1604407121}
   - component: {fileID: 1604407120}
   - component: {fileID: 1604407123}
   - component: {fileID: 1604407124}
+  - component: {fileID: 1604407121}
   m_Layer: 0
   m_Name: Main Manager
   m_TagString: Untagged
@@ -1967,7 +1973,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1604407120
 MonoBehaviour:
@@ -1997,10 +2003,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1604407118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0846d5bfc6b52482781749d3b6ba0a8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 87266eb4715554acd81b84556afe24f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _killedEnemeyCount: 0
+  _audioSource: {fileID: 1255376144}
+  _explode: {fileID: 8300000, guid: ca73ecac5a1714db1b6f0c00ed5d9d53, type: 3}
+  _elevatorRising: {fileID: 8300000, guid: b166f51a42dc24f198a6e1885ccc058d, type: 3}
+  _elevatorDoorOpen: {fileID: 8300000, guid: 8075393422a064d88afde656b9b77a1e, type: 3}
+  _slash: {fileID: 8300000, guid: e9f74948102744e31a1d4bc513f8eb11, type: 3}
+  _shootLazer: {fileID: 8300000, guid: 809dd6a5ad22f456bb7817124eebd55c, type: 3}
+  _wolfAttack: {fileID: 8300000, guid: 3d765557a899d408e8b3d4a8c8894127, type: 3}
 --- !u!114 &1604407122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2027,6 +2039,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _elevatorMovement: {fileID: 1738080128}
   _cameraFx: {fileID: 6675946029453174493}
+  _moonPrefab: {fileID: 494841950891121341, guid: 430b734749359014eb81e129750b3105,
+    type: 3}
 --- !u!114 &1604407124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2335,7 +2349,7 @@ Transform:
   - {fileID: 14299967}
   - {fileID: 1377740177}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1738080128
 MonoBehaviour:
@@ -2352,7 +2366,7 @@ MonoBehaviour:
   _leftDoor: {fileID: 1235799284}
   _rightDoor: {fileID: 14299966}
   _doorMovementDistance: 0.7
-  _doorMovementDuration: 1
+  _doorMovementDuration: 0.5
   _elevatorBottomPosition: {x: 0, y: -8.2, z: 0}
   _elevatorUpPosition: {x: 0, y: -4.41, z: 0}
   _elevatorMovementDuration: 2
@@ -2904,16 +2918,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 4622895873811711072, guid: 2368295233600479a9822d516976763e,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 8063973525345304224, guid: 2368295233600479a9822d516976763e,
-        type: 3}
-      propertyPath: m_TagString
-      value: MainCamera
-      objectReference: {fileID: 0}
     - target: {fileID: 8112891280794791767, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2952,7 +2956,7 @@ PrefabInstance:
     - target: {fileID: 8112891280794791767, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8112891280794791767, guid: 2368295233600479a9822d516976763e,
         type: 3}
