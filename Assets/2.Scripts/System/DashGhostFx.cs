@@ -6,7 +6,6 @@ public class DashGhostFx : MonoBehaviour
 {
     [SerializeField]
     private Transform _player;
-
     private SpriteRenderer _sr;
 
     private Color _color;
@@ -23,8 +22,7 @@ public class DashGhostFx : MonoBehaviour
     private void OnEnable()
     {
         _sr = GetComponent<SpriteRenderer>();
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
-        // _player = MainGameManager.Instance.Player.transform;
+        _player = MainGameManager.Instance.Player.transform;
 
         _alpha = _alphaSet;
         transform.position = _player.position;

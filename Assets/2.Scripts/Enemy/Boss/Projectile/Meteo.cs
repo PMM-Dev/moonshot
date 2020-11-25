@@ -4,12 +4,17 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class Life : MonoBehaviour, IDamage
+    public class Meteo : Projectile
     {
-        public bool GetDamage()
+        private void Update()
+        {
+            Rotate();
+            Run();
+        }
+
+        override protected void Pattern()
         {
             this.gameObject.SetActive(false);
-            return true;
         }
     }
 }
