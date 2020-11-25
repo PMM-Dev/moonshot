@@ -4,15 +4,63 @@ using UnityEngine;
 
 public class MainGameManager : MonoBehaviour
 {
+    private static MainGameManager _instance;
+    public static MainGameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                var obj = FindObjectOfType<MainGameManager>();
+                if (obj != null)
+                {
+                    _instance = obj;
+                }
+                else
+                {
+                    var newSingleton = new GameObject("Singleton Class").AddComponent<MainGameManager>();
+                    _instance = newSingleton;
+                }
+            }
+            return _instance;
+        }
+        private set
+        {
+            _instance = value;
+        }
+    }
+
+    private void Awake()
+    {
+        var objs = FindObjectsOfType<MainGameManager>();
+        if (objs.Length != 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
+    //
+    // SINGLETON
+
     [SerializeField]
     private ElevatorMovement _elevatorMovement;
     [SerializeField]
     private CameraFx _cameraFx;
 
     [SerializeField]
-    private GameObject _player;
-    [SerializeField]
     private Transform _spawnPos;
+    [SerializeField]
+    private GameObject _playerPrefab;
+    private GameObject _player;
+    public GameObject Player
+    {
+        get
+        {
+            return _player;
+        }
+    }
 
     private void Start()
     {
@@ -38,9 +86,9 @@ public class MainGameManager : MonoBehaviour
         yield return new WaitForSeconds(2.8f);
 
         // Spawn player
-        _player = Instantiate(_player, _spawnPos.position, _spawnPos.rotation);
+        _player = Instantiate(_playerPrefab, _spawnPos.position, _spawnPos.rotation);
         Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = true;
-        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().SetTarget(_player);
+        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().SetTarget(Player);
 
         // Open elevator door
         yield return StartCoroutine(_elevatorMovement.MoveDoor(true));
