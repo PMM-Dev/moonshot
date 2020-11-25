@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3129342093669576982}
   - component: {fileID: 2932385683846229754}
   m_Layer: 8
-  m_Name: Block_verShort
+  m_Name: Block_verShort_p
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.353, y: -1.042, z: 1}
   m_LocalScale: {x: 0.14, y: 0.08, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 8841692183903021651}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -122,3 +123,78 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 6}
   m_EdgeRadius: 0
+--- !u!1001 &4015739182694784447
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3129342093669576983}
+    m_Modifications:
+    - target: {fileID: 2139946730208521137, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_Name
+      value: Tile Break Particle Ver Short
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e53c5046e4c613546bb70ad2f26a183e, type: 3}
+--- !u!4 &8841692183903021651 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5552592752677550060, guid: e53c5046e4c613546bb70ad2f26a183e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4015739182694784447}
+  m_PrefabAsset: {fileID: 0}

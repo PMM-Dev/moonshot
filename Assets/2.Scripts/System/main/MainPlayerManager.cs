@@ -9,6 +9,8 @@ public class MainPlayerManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     //
@@ -30,11 +32,6 @@ public class MainPlayerManager : MonoBehaviour
     [SerializeField]
     private Transform _spawnPos;
 
-
-    private void Start()
-    {
-        Player = GameObject.FindGameObjectWithTag("Player");
-    }
 
     public void SpawnPlayerfromElevator()
     {

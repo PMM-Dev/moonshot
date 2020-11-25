@@ -99,6 +99,7 @@ namespace Player
             _playerLogic = new PlayerLogic(this._playerSimulation, this._playerInput);
             _slashRange = SlashRange.Instance.transform.parent.gameObject;
             _slashRange.SetActive(false);
+            _slashArrow.gameObject.SetActive(false);
             SlashRange.Instance.PlayerController = this;
             _slashArrow.SetActive(false);
             InitializeEvent();
@@ -114,7 +115,8 @@ namespace Player
             if (_isGround)
             {
                 _velocity.y = 0f;
-                _isSlashLocked = false;
+                if (!_isSlashing)
+                    _isSlashLocked = false;
             }
 
             _isAccel = _playerLogic.IsLookSameAsMove(_lookDirection, _moveDirection);
@@ -282,15 +284,13 @@ namespace Player
             Vector2 target = transform.position;
             float distance = Vector2.Distance(origin, target);
 
+            _isSlashLocked = true;
+
             float time = 0f;
             while (time < forceTime)
             {
                 if ((int)_besideDirection == (int)_lookDirection)
                     break;
-                if (time < 0.05f)
-                {
-                    _isSlashLocked = true;
-                }
 
                 _currentSpeed = 80f;
                 _velocity = direction * _currentSpeed;
