@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Map;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,12 +43,17 @@ namespace Player
         private StickDirection _stickDirection;
         [SerializeField]
         private JumpState _jumpState;
+        [SerializeField]
+        private MoveDirection _besideDirection;
+
         private bool _isAccel;
         [Header("Bool state")]
         [SerializeField]
-        private bool _isGround;
+        private bool _isTestMode;
         [SerializeField]
-        private MoveDirection _besideDirection;
+        private bool _isGodMode;
+        [SerializeField]
+        private bool _isGround;
         [SerializeField]
         private bool _isSlashing;
         [SerializeField]
@@ -362,7 +368,7 @@ namespace Player
                 time += Time.deltaTime / Time.timeScale;
                 progress += Time.deltaTime * decreaseSpeed;
                 Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
-                Debug.Log(time);
+
                 if (time > _data.BulletTimeLimit)
                 {
                     break;
@@ -384,14 +390,17 @@ namespace Player
 
         public bool GetDamage()
         {
-            if (_isSlashing)
+            if (_isSlashing || _isGodMode)
             {
-                Debug.Log("슬래쉬 중엔 무적");
                 return false;
             }
             else
             {
-                Debug.Log("주금");
+                gameObject.SetActive(false);
+                if (!_isTestMode)
+                {
+                    MainEventManager.Instance.GameoverEvent();
+                }
                 return true;
             }
         }
