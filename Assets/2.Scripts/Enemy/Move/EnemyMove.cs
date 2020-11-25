@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Enemy
 {
 
-    public class TestMove : MonoBehaviour
+    public class EnemyMove : MonoBehaviour
     {
         protected GameObject _player;
 
@@ -14,27 +14,27 @@ namespace Enemy
         private GameObject[] _wayPoints;
         [Tooltip("1초당 얼마나 가는가 거리/s")]
         [SerializeField]
-        [Range(1, 5)]
+        [Range(1, 10)]
         protected float _startSpeed = 2f;
 
         [Tooltip("플레이어 인식 범위 안보면 -1")]
         [SerializeField]
-        protected float _DetectingPlayerRange = 10f;
+        protected float _lookingPlayerRange = 10f;
 
         [SerializeField]
         protected AnimationCurve _wayPointCurve;
 
-        private Vector3 _originScale;
-        private Vector3 _reversedScale;
-        private Vector3 _targetDirction;
         private float _requiredTime;
         private int _targetIndex = 1;
         private int _tempStartIndex = 0;
 
+        protected Vector3 _targetDirction;
+        protected Vector3 _originScale;
+        protected Vector3 _reversedScale;
         protected Vector3 _playerDirction;
         protected Vector3 _startPosition;
         protected float _speed;
-        protected float _maxSpeed = 5f;
+        protected float _maxSpeed = 10f;
         protected float _targetDistance;
         protected float _playerDistance = 9999f;
         protected float _time = 0;
@@ -45,16 +45,13 @@ namespace Enemy
         {
             _speed = _startSpeed;
             _player = MainPlayerManager.Instance.Player;
-            _originScale = this.transform.localScale;
-            _reversedScale = this.transform.localScale;
-            _reversedScale.x *= -1;
             this.transform.position = _wayPoints[_tempStartIndex].gameObject.transform.position;
+            SetFlipSize();
             StartCoroutine(Translate());
-
         }
 
 
-        protected IEnumerator Translate()
+        virtual protected IEnumerator Translate()
         {
             _time = 0;
             if (_targetIndex >= _wayPoints.Length)
@@ -79,7 +76,7 @@ namespace Enemy
 
                 PlayerDistanceCalculation();
 
-                if (_playerDistance < _DetectingPlayerRange)
+                if (_playerDistance < _lookingPlayerRange)
                     yield return StartCoroutine(TrackingPlayer());
 
                 this.transform.position = Vector3.Lerp(_startPosition , _wayPoints[_targetIndex].transform.position, _wayPointCurve.Evaluate(_time/ _requiredTime));
@@ -99,6 +96,12 @@ namespace Enemy
             yield return null;
         }
 
+        virtual protected void SetFlipSize()
+        {
+            _originScale = this.transform.localScale;
+            _reversedScale = this.transform.localScale;
+            _reversedScale.x *= -1;
+        }
 
         public void CalculationDistance(Vector3 _targetPosition )
         {
@@ -106,7 +109,7 @@ namespace Enemy
             _targetDistance = Vector3.Magnitude(this.gameObject.transform.position - _targetPosition);
         }
 
-        public void FlipSize() {
+        virtual public void FlipSize() {
 
             if (_targetDirction.x > 0)
                 this.transform.localScale = _reversedScale;

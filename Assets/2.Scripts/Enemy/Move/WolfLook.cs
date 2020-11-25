@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Filp : MonoBehaviour
+public class WolfLook : MonoBehaviour
 {
 
     protected GameObject _player;

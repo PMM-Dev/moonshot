@@ -8,10 +8,12 @@ namespace Enemy
     {
         [SerializeField]
         private GameObject _explosionPaticle;
+        [SerializeField]
+        private float _exPosionkRange = 5f;
 
         override protected void ActuallyPattern()
         {
-            if (_playerDistance < _patternRage)
+            if (_playerDistance < _exPosionkRange)
             {
                 _player.GetComponent<IDamage>().GetDamage();
             }

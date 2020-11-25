@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class TestMasPeoPle : TestMove
+    public class MaspeopleMove : EnemyMove
     {
 
         override protected IEnumerator TrackingPlayer()
         {
-            Debug.Log("find Player");
 
             _time = 0;
             _startPosition = this.transform.position;
@@ -23,7 +22,7 @@ namespace Enemy
                 
                 yield return null;
                 PlayerDistanceCalculation();
-                if (_playerDistance > _DetectingPlayerRange)
+                if (_playerDistance > _lookingPlayerRange)
                 {
                     _speed = _startSpeed;
                     yield return StartCoroutine(Translate());

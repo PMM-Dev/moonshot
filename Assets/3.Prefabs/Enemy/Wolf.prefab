@@ -152,7 +152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 184440592331758619}
-  - component: {fileID: 184440592331758618}
+  - component: {fileID: 1095360004}
   - component: {fileID: 7689408825326970935}
   - component: {fileID: 3249619357052234157}
   - component: {fileID: 4809625765655945424}
@@ -181,7 +181,7 @@ Transform:
   m_Father: {fileID: 184440591029602210}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &184440592331758618
+--- !u!114 &1095360004
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,18 +190,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 184440592331758616}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdb002d01728c3e429db48e9c13ec665, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ee77caaf461a354282b75ae86f93613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wayPoints:
-  - {fileID: 1051664087}
-  _speed: 0
-  _isRound: 0
-  _DetectingPlayerRange: 30
-  _isYAxisLook: 0
-  _isMove: 0
-  _isLookPlayer: 1
-  _isTrakingPlayer: 0
 --- !u!114 &7689408825326970935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,11 +347,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2051123386171532, guid: 8e8e1c781da464240a654c37d6e5210e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.932
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 2051123386171532, guid: 8e8e1c781da464240a654c37d6e5210e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.224
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2051123386171532, guid: 8e8e1c781da464240a654c37d6e5210e, type: 3}
       propertyPath: m_LocalPosition.z

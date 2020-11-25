@@ -216,10 +216,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7853478351377758685}
-  - component: {fileID: 7853478351377758684}
   - component: {fileID: 966520499070119920}
   - component: {fileID: 2160291097400953860}
   - component: {fileID: 1164097586224696407}
+  - component: {fileID: 2490994810562594482}
   m_Layer: 0
   m_Name: MasPeople
   m_TagString: Enemy
@@ -242,30 +242,6 @@ Transform:
   m_Father: {fileID: 7853478350075208292}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7853478351377758684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7853478351377758686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdb002d01728c3e429db48e9c13ec665, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _wayPoints:
-  - {fileID: 2566044772171781434}
-  - {fileID: 1283303567267223}
-  - {fileID: 4046232928077543064}
-  - {fileID: 8056962675144066953}
-  _speed: 3
-  _isRound: 0
-  _DetectingPlayerRange: 10
-  _isYAxisLook: 0
-  _isMove: 1
-  _isLookPlayer: 1
-  _isTrakingPlayer: 1
 --- !u!114 &966520499070119920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,9 +255,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _patternDelay: 3
-  _patternRage: 3
+  _patternRage: 10
   _patternCollTime: 999
   _explosionPaticle: {fileID: 6629701556245251099}
+  _exPosionkRange: 5
 --- !u!114 &2160291097400953860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +287,31 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2
+--- !u!114 &2490994810562594482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853478351377758686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bfe54233785dae4ea2765a0b0300b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wayPoints:
+  - {fileID: 2566044772171781434}
+  - {fileID: 1283303567267223}
+  - {fileID: 4046232928077543064}
+  - {fileID: 8056962675144066953}
+  _startSpeed: 2
+  _lookingPlayerRange: 10
+  _wayPointCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8056962675144066953
 GameObject:
   m_ObjectHideFlags: 0
