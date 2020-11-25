@@ -30,19 +30,15 @@ public class MainPlayerManager : MonoBehaviour
     [SerializeField]
     private Transform _spawnPos;
 
-    [SerializeField]
-    private GameObject _playerPrefab;
-
 
     private void Start()
     {
-        // Init player property for develop
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     public void SpawnPlayerfromElevator()
     {
-        Player = Instantiate(_playerPrefab, _spawnPos.position, _spawnPos.rotation);
+        Player.transform.position = _spawnPos.transform.position;
     }
 
     public void SetPlayerAsCameraFocus()
