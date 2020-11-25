@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MainEventManager : MonoBehaviour
 {
-    public MainEventManager Instance { get; private set; }
+    public static MainEventManager Instance { get; private set; }
 
     private void Awake()
     {
