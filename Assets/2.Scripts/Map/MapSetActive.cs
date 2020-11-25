@@ -42,7 +42,7 @@ namespace Map
             }
             else
             {
-                _Player = MainGameManager.Instance.Player;
+                _Player = MainPlayerManager.Instance.Player;
             }
         }
 
