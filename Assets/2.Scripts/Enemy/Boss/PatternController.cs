@@ -36,8 +36,8 @@ namespace Enemy
                 _patternContainerCopy.Add(_patternContainer[i]);
             }
 
-            if(_player == null)
-                _player = GameObject.FindWithTag("Player");
+            if (_player == null)
+                _player = MainPlayerManager.Instance.Player;
 
             StartCoroutine(FiniteStateMachine());
         }

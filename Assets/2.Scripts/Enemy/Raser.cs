@@ -16,14 +16,13 @@ namespace Enemy
         [SerializeField]
         private float _recognitionRange = 10f;
         private float _time = 0;
-        private bool _stop = false;
         private GameObject _player;
         private float _playerDistance;
 
 
         private void Start()
         {
-            _player = GameObject.FindWithTag("Player");
+            _player = MainPlayerManager.Instance.Player;
         }
 
         private void Update()

@@ -37,9 +37,9 @@ namespace Enemy{
         private int _indexAdd = 1;
         private bool _isturn = true;
 
-        private void Awake()
+        private void Start()
         {
-            _player = GameObject.FindWithTag("Player");
+            _player = MainPlayerManager.Instance.Player;
             _originScale = this.transform.localScale;
             _reversedScale = this.transform.localScale;
             _reversedScale.x *= -1;
