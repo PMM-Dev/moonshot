@@ -8,7 +8,7 @@ namespace Enemy
     {
         public bool GetDamage()
         {
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
             return true;
         }
     }

@@ -6,9 +6,6 @@ using UnityEngine;
 public class MainUIManager : MonoBehaviour
 {
     [SerializeField]
-    private MainGameManager _mainGameManager;
-
-    [SerializeField]
     private GameObject _startPanel;
     [SerializeField]
     private GameObject _optionPanel;
@@ -21,6 +18,9 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private Text _survivedTimeText;
 
+    [SerializeField]
+    private MainGameManager _mainGameManager;
+
     public void OnClickStart()
     {
         _mainGameManager.GameStart();
@@ -28,11 +28,9 @@ public class MainUIManager : MonoBehaviour
         _startPanel.SetActive(false);
     }
 
-    public void ShowGameoverUI(string killedEnemyCount, string survivedTime)
+    public void ShowGameoverUI()
     {
         _gameoverPanel.SetActive(true);
-        _killCountText.text = killedEnemyCount;
-        _survivedTimeText.text = survivedTime;
     }
 
     public void OnClickRestart()

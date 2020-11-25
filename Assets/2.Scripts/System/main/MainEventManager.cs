@@ -5,48 +5,16 @@ using UnityEngine;
 
 public class MainEventManager : MonoBehaviour
 {
-    private static MainEventManager _instance;
-    public static MainEventManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                var obj = FindObjectOfType<MainEventManager>();
-                if (obj != null)
-                {
-                    _instance = obj;
-                }
-                else
-                {
-                    var newSingleton = new GameObject("Singleton Class").AddComponent<MainEventManager>();
-                    _instance = newSingleton;
-                }
-            }
-            return _instance;
-        }
-        private set
-        {
-            _instance = value;
-        }
-    }
+    public static MainEventManager Instance { get; private set; }
 
     private void Awake()
     {
-        var objs = FindObjectsOfType<MainEventManager>();
-        if (objs.Length != 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
+        Instance = this;
     }
 
     //
     // SINGLETON
 
-    MainGameManager _mainGameManager;
-    MainDataManager _mainEventDataManager;
     MainUIManager _mainUIManager;
 
 
@@ -54,16 +22,11 @@ public class MainEventManager : MonoBehaviour
     public Action ResumeGamePlayEvent;
     public Action PauseGamePlayEvent;
 
-    public void EnemyDeadEvent()
-    {
-        _mainEventDataManager.IncreaseKilledEnemyCount();
-    }
-
     public void GameoverEvent()
     {
         PauseGamePlayEvent?.Invoke();
         Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = false;
-        _mainUIManager.ShowGameoverUI(_mainEventDataManager.GetKilledEnemyCount().ToString(), _mainEventDataManager.GetSurvivedSeconds().ToString());
+        _mainUIManager.ShowGameoverUI();
     }
 
     private void Start()

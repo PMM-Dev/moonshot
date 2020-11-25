@@ -10,9 +10,8 @@ public class MainGameManager : MonoBehaviour
     private CameraFx _cameraFx;
 
     [SerializeField]
-    private GameObject _player;
-    [SerializeField]
-    private Transform _spawnPos;
+    private GameObject _moonPrefab;
+
 
     private void Start()
     {
@@ -38,9 +37,9 @@ public class MainGameManager : MonoBehaviour
         yield return new WaitForSeconds(2.8f);
 
         // Spawn player
-        _player = Instantiate(_player, _spawnPos.position, _spawnPos.rotation);
-        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = true;
-        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().SetTarget(_player);
+        MainPlayerManager.Instance.SpawnPlayerfromElevator();
+
+        MainPlayerManager.Instance.SetPlayerAsCameraFocus();
 
         // Open elevator door
         yield return StartCoroutine(_elevatorMovement.MoveDoor(true));
@@ -57,4 +56,8 @@ public class MainGameManager : MonoBehaviour
         _cameraFx.ShakeOfElevatorMovement();
     }
 
+    public void SpawnBoss(Transform spawn)
+    {
+        Instantiate(_moonPrefab, spawn.position, spawn.rotation);
+    }
 }
