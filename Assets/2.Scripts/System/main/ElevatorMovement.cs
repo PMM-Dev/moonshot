@@ -53,6 +53,8 @@ public class ElevatorMovement : MonoBehaviour
             targetPos = _elevatorBottomPosition;
         }
 
+        MainSoundManager.Instance.PlayElevatorRisingSound();
+
         float elapsed = 0.0f;
         while (elapsed < _elevatorMovementDuration)
         {
@@ -93,6 +95,8 @@ public class ElevatorMovement : MonoBehaviour
             _leftDoorRenderer.sortingOrder = 2;
             _rightDoorRenderer.sortingOrder = 2;
         }
+
+        MainSoundManager.Instance.PlayElevatorDoorOpenSound();
 
         // Move Animation
         float elapsed = 0.0f;
