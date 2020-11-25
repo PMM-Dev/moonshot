@@ -2366,7 +2366,7 @@ MonoBehaviour:
   _leftDoor: {fileID: 1235799284}
   _rightDoor: {fileID: 14299966}
   _doorMovementDistance: 0.7
-  _doorMovementDuration: 0.5
+  _doorMovementDuration: 1
   _elevatorBottomPosition: {x: 0, y: -8.2, z: 0}
   _elevatorUpPosition: {x: 0, y: -4.41, z: 0}
   _elevatorMovementDuration: 2
