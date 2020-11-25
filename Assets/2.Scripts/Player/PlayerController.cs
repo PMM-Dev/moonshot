@@ -464,7 +464,8 @@ namespace Player
                 progress += Time.deltaTime * increaseSpeed;
                 yield return null;
             }
-
+            _playerInput.GetOriginDirection();
+            _playerInput.GetTargetDirection();
             Time.timeScale = 1f;
             _isBulletTime = false;
         }

@@ -22,7 +22,7 @@ MonoBehaviour:
   _gravityLimit: -30
   _slashDistance: 0.1
   _readyToSlashTimeLimit: 0.45
-  _bulletTimeLimit: 0.2
+  _bulletTimeLimit: 0.25
   _bulletTimeSpeed: 0.15
   _bulletTimeDecreaseSpeed: 5
   _bulletTimeIncreaseSpeed: 30

@@ -471,7 +471,7 @@ PrefabInstance:
     - target: {fileID: 2473765824154600257, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: orthographic size
-      value: 5.625
+      value: 9.01
       objectReference: {fileID: 0}
     - target: {fileID: 2514578059184820647, guid: 2368295233600479a9822d516976763e,
         type: 3}
@@ -1329,6 +1329,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 273421728819999543, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: _isGodMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
         type: 3}
       propertyPath: m_LocalPosition.x
