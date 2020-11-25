@@ -28,7 +28,7 @@ namespace Enemy
         private int _count = 0;
         private int _random = 0;
 
-        private void Awake()
+        private void Start()
         {
             for (int i = 0; i < _patternContainer.Count; i++)
             {
