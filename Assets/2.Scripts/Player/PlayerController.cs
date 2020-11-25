@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
@@ -69,6 +70,7 @@ namespace Player
         private Vector2 _velocity;
         [SerializeField]
         private Vector2 _slashDirection;
+        private bool _isSlashAvailable;
 
         #endregion
 
@@ -227,15 +229,25 @@ namespace Player
 
         private void Slash()
         {
-            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown() && !_isBulletTime)
+            if (_playerInput.GetMouseButtonDown())
             {
-                _isBulletTime = true;
-                if (_bulletTimeCoroutine != null)
-                {
-                    StopCoroutine(_bulletTimeCoroutine);
-                }
+                _playerInput.GetOriginDirection();
+            }
 
-                _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButton() && !_isBulletTime)
+            {
+                _playerInput.GetTargetDirection();
+
+                if (_playerInput.GetMouseInputDistance() > _data.SlashRangeSensitive)
+                {
+                    _isBulletTime = true;
+                    if (_bulletTimeCoroutine != null)
+                    {
+                        StopCoroutine(_bulletTimeCoroutine);
+                    }
+
+                    _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+                }
             }
         }
 
