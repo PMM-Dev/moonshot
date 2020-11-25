@@ -13,8 +13,15 @@ namespace Enemy
         protected float _playerDistance = 9999f;
 
         [Tooltip("시계방향으로 배치해야지 잘 작동됨.")]
-        [SerializeField] private GameObject[] _wayPoints;
-        [SerializeField] private float _speed = 1;
+        [SerializeField]
+        private GameObject[] _wayPoints;
+        [Tooltip("1초당 얼마나 가는가 거리/s")]
+        [SerializeField]
+        [Range(1, 10)]
+        private float _speed = 2f;
+        [SerializeField]
+        [Range(2, 5)]
+        private float _trakingSpeed = 3f;
 
         [Header("Option")]
         [Tooltip("선형 참조/원형 참조")]
@@ -52,11 +59,13 @@ namespace Enemy
         private int _tempStartIndex;
         private int _indexAdd = 1;
         private bool _isturn = true;
-        public AnimationCurve a;
-        public float time = 0;
+        public AnimationCurve _wayPointCurve;
+        public AnimationCurve _trakingPlayerCurve;
+        public float _time = 0;
         [SerializeField]
         [Range(0, 1)]
         public float _value = 1;
+        private float _requiredTime;
         private void Start()
         {
             _player = MainPlayerManager.Instance.Player;
@@ -66,61 +75,138 @@ namespace Enemy
             if (_wayPoints.Length > 0)
                 _targetWayPointTarget = _wayPoints[0];
             _tempStartIndex = _wayPoints.Length - 1;
-            StartCoroutine(translate());
+            this.transform.position = _wayPoints[_tempStartIndex].gameObject.transform.position;
+            StartCoroutine(Translate());
+
         }
 
 
         private void Update()
         {
+            /*
+            
+            //웨이포인트 거리 계산
             if (_wayPoints.Length > 0)
                 PhysicalCalculation();
+            //플레이어와 거리 계산
             if (_player != null)
                 PlayerDistanceCalculation();
             if (_isMove == true)
             {
+            //플레이어를 따라감
                 if (_playerDistance < _DetectingPlayerRange && _isTrakingPlayer == true)
                     TrackingPlayer();
+            //웨이포인트 따라감.
                 else
                     MoveToWayPoint();
             }
-
-            if (_playerDistance < _DetectingPlayerRange && _isLookPlayer == true)
-            {
-                LookPlayer();
-            }
-            else
-            {
-                LookTarget();
-            }
-
+            */
         }
-        IEnumerator translate()
+        IEnumerator Translate()
         {
-            float _time = 0;
-
             if (_targetIndex >= _wayPoints.Length)
             {
                 _targetIndex = 0;
                 _tempStartIndex = _wayPoints.Length - 1;
             }
+            CalculationWayPointsn();
 
-            Debug.Log(_tempStartIndex + " " + _targetIndex);
+            _time = 0;
+            _requiredTime = _WayPointDistance / _speed;
+
+
+            FlipSize();
 
             while (true)
             {
                 _time += Time.deltaTime * _speed;
+
                 if (_time > 1f)
                     break;
-                this.transform.position = Vector3.Lerp(_wayPoints[_tempStartIndex].transform.position, _wayPoints[_targetIndex].transform.position, a.Evaluate(_time));
+                PlayerDistanceCalculation();
+
+                if (_playerDistance < _DetectingPlayerRange)
+                    yield return StartCoroutine(IETrackingPlayer());
+
+                this.transform.position = Vector3.Lerp(_wayPoints[_tempStartIndex].transform.position, _wayPoints[_targetIndex].transform.position, _wayPointCurve.Evaluate(_time));
+                
                 yield return null;
             }
 
             _targetIndex++;
             _tempStartIndex = _targetIndex - 1;
-            StartCoroutine(translate());
-
+            
+            //반복 시키기 위해 함.
+            StartCoroutine(Translate());
         }
 
+        IEnumerator IETrackingPlayer()
+        {
+            Debug.Log("find Player");
+
+            _time = 0;
+            Vector3 _tempStartPosition = this.transform.position;
+
+
+            while (true)
+            {
+
+                transform.Translate(_playerDirction * _trakingSpeed * Time.smoothDeltaTime, Space.World);
+                /*
+                if (_time < 1f)
+                    _time += Time.deltaTime;
+                this.transform.position = Vector3.Lerp(this.transform.position, _player.transform.position, 0.2f);
+                */
+
+                yield return null;
+                PlayerDistanceCalculation();
+                if (_playerDistance > _DetectingPlayerRange)
+                {
+                    yield return StartCoroutine(BackWayPoint());
+                    break;
+                }
+            }
+        }
+        IEnumerator BackWayPoint()
+        {
+             _time = 0;
+            Vector3 _TmpStartPosition = this.transform.position;
+
+            FlipSize();
+
+            while (true)
+            {
+                _time += Time.deltaTime * _speed;
+
+                if (_time > 1f)
+                    break;
+                PlayerDistanceCalculation();
+                if (_playerDistance < _DetectingPlayerRange)
+                    yield return StartCoroutine(IETrackingPlayer());
+
+                this.transform.position = Vector3.Lerp(_TmpStartPosition, _wayPoints[_targetIndex].transform.position, _wayPointCurve.Evaluate(_time));
+                yield return null;
+            }
+
+            _targetIndex++;
+            _tempStartIndex = _targetIndex - 1;
+
+            StartCoroutine(Translate());
+        }
+
+        public void CalculationWayPointsn()
+        {
+            _wayPointDirction = (_wayPoints[_targetIndex].transform.position - this.gameObject.transform.position).normalized;
+            _WayPointDistance = Vector3.Magnitude(_wayPoints[_tempStartIndex].transform.position - _wayPoints[_targetIndex].transform.position);
+        }
+
+        public void FlipSize() {
+
+            if (_wayPointDirction.x > 0)
+                this.transform.localScale = _reversedScale;
+            else
+                this.transform.localScale = _originScale;
+        }
 
         void PlayerDistanceCalculation()
         {
@@ -129,6 +215,13 @@ namespace Enemy
             _playerDistance = Vector3.Magnitude(_playerDirction);
             _playerDirction = _playerDirction.normalized;
         }
+
+
+
+        /*------------------------------------------------------------------------
+         ------------------------------이전 move함수.-----------------------------
+         ------------------------------------------------------------------------*/
+
 
         void LookPlayer()
         {
@@ -177,8 +270,7 @@ namespace Enemy
         //거리와, 방향을 계산하는 함수
         void PhysicalCalculation()
         {
-            _wayPointDirction = _targetWayPointTarget.transform.position - this.gameObject.transform.position;
-            _wayPointDirction = _wayPointDirction.normalized;
+            _wayPointDirction = (_targetWayPointTarget.transform.position - this.gameObject.transform.position).normalized;
             _WayPointDistance = Vector3.Magnitude(this.gameObject.transform.position - _targetWayPointTarget.transform.position);
         }
 
@@ -196,10 +288,10 @@ namespace Enemy
         }
 
         //플레이어 따라가기만 하는 함수
-        void TrackingPlayer()
+       /* void TrackingPlayer()
         {
             transform.Translate(_playerDirction * _speed * Time.smoothDeltaTime, Space.World);
-        }
+        }*/
 
         //타겟을 적절하게 바꿔줌
         //만약 끝이나 처음에 도달하면 역순/정순으로 다시 돌아다님
