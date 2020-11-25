@@ -9,6 +9,9 @@ public class MainGameManager : MonoBehaviour
     [SerializeField]
     private CameraFx _cameraFx;
 
+    [SerializeField]
+    private GameObject _moonPrefab;
+
 
     private void Start()
     {
@@ -53,4 +56,8 @@ public class MainGameManager : MonoBehaviour
         _cameraFx.ShakeOfElevatorMovement();
     }
 
+    public void SpawnBoss(Transform spawn)
+    {
+        Instantiate(_moonPrefab, spawn.position, spawn.rotation);
+    }
 }
