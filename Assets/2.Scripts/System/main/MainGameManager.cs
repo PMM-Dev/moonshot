@@ -51,6 +51,7 @@ public class MainGameManager : MonoBehaviour
 
     [SerializeField]
     private Transform _spawnPos;
+
     [SerializeField]
     private GameObject _playerPrefab;
     private GameObject _player;
@@ -60,10 +61,17 @@ public class MainGameManager : MonoBehaviour
         {
             return _player;
         }
+        private set
+        {
+            _player = value;
+        }
     }
 
     private void Start()
     {
+        // Init player property for develop
+        Player = GameObject.FindGameObjectWithTag("Player");
+
         // Pause all game flow before pressing start button
         MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
     }
@@ -86,7 +94,7 @@ public class MainGameManager : MonoBehaviour
         yield return new WaitForSeconds(2.8f);
 
         // Spawn player
-        _player = Instantiate(_playerPrefab, _spawnPos.position, _spawnPos.rotation);
+        Player = Instantiate(_playerPrefab, _spawnPos.position, _spawnPos.rotation);
         Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = true;
         Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().SetTarget(Player);
 
