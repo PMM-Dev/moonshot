@@ -10,7 +10,12 @@ namespace Map
         private GameObject _player;
 
         private bool _canMakePlayerDie;
-        
+
+        private void Start()
+        {
+            _player = MainPlayerManager.Instance.Player;
+        }
+
         public bool CanMakePlayerDie
         {
             get
