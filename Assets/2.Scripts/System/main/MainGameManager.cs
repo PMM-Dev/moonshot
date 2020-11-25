@@ -65,7 +65,6 @@ public class MainGameManager : MonoBehaviour
 
         // Spawn player
         Player = Instantiate(_playerPrefab, _spawnPos.position, _spawnPos.rotation);
-        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = true;
         Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().SetTarget(Player);
 
         // Open elevator door
