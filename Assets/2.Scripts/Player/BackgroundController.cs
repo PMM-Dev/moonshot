@@ -19,8 +19,15 @@ public class BackgroundController : MonoBehaviour
     private void Awake()
     {
         _mapMaking = FindObjectOfType<MapMaking>();
-        _playerController = FindObjectOfType<PlayerController>();
-
+        if (MainPlayerManager.Instance == null)
+        {
+            _playerController = FindObjectOfType<PlayerController>();
+        }
+        else
+        {
+            _playerController = MainPlayerManager.Instance.Player.GetComponent<PlayerController>();
+        }
+        _backgroundSpriteRenderers = new List<SpriteRenderer>();
         for (int i = 0; i < transform.childCount; i++)
         {
             _backgroundSpriteRenderers.Add(transform.GetChild(i).GetComponent<SpriteRenderer>());
