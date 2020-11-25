@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 45997a9667829384d81657c1d9aed71c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3dd9a107e78aed1449254393f3fda42c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &703826969113530419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,7 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpeed: 10
-  _disapperTime: 3
+  _distroyTime: 3
+  _distroyYlocation: 3
   _isVertical: 0
 --- !u!70 &279375689401631134
 CapsuleCollider2D:
