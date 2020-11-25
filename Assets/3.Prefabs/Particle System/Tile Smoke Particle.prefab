@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3763129691846274220}
   - component: {fileID: 1054277158269690415}
   m_Layer: 0
-  m_Name: Tile Destroy Particle
+  m_Name: Tile Smoke Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
