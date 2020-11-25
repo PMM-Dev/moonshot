@@ -8,7 +8,7 @@ namespace Map
     {
         [SerializeField]
         private GameObject _Player;
-        
+
         private int _mapIndex = 2;
         private int _recentIndex = 0;
         private List<GameObject> _wholeMapOrder = new List<GameObject>();
@@ -19,22 +19,30 @@ namespace Map
         private void Awake()
         {
             _mapMaking = GetComponent<MapMaking>();
+            _Player = FindObjectOfType<Player.PlayerController>().gameObject;
         }
         void Update()
         {
-            if (_mapMaking.IsMapCreate == true && !_onestageDieCheck && _Player.transform.position.y >= 10)
+            if (_Player != null)
             {
-                _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
-                _onestageDieCheck = true;
-            }
+                if (_mapMaking.IsMapCreate == true && !_onestageDieCheck && _Player.transform.position.y >= 10)
+                {
+                    _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
+                    _onestageDieCheck = true;
+                }
 
-            if (_mapMaking.IsMapCreate == true &&
-                _mapIndex < _wholeMapOrderCount &&
-                _recentIndex < _wholeMapOrderCount &&
-                    _Player.transform.position.y >= _wholeMapOrder[_recentIndex].transform.position.y)
+                if (_mapMaking.IsMapCreate == true &&
+                    _mapIndex < _wholeMapOrderCount &&
+                    _recentIndex < _wholeMapOrderCount &&
+                        _Player.transform.position.y >= _wholeMapOrder[_recentIndex].transform.position.y)
+                {
+                    SetMapActive();
+                    SetMapDisActive();
+                }
+            }
+            else
             {
-                SetMapActive();
-                SetMapDisActive();
+                _Player = MainPlayerManager.Instance.Player;
             }
         }
 
@@ -51,16 +59,16 @@ namespace Map
         void SetMapActive()
         {
             _wholeMapOrder[_mapIndex].SetActive(true);
-            _mapIndex+=1;
-            _recentIndex+=1;
+            _mapIndex += 1;
+            _recentIndex += 1;
         }
 
         void SetMapDisActive()
         {
 
-            if(_recentIndex >= 3)
+            if (_recentIndex >= 3)
             {
-                if(_recentIndex%2==0)
+                if (_recentIndex % 2 == 0)
                 {
                     _wholeMapOrder[_recentIndex - 3].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
                     Transform[] allChildren = _wholeMapOrder[_recentIndex - 3].gameObject.GetComponentsInChildren<Transform>();
@@ -75,7 +83,7 @@ namespace Map
                 else
                     _wholeMapOrder[_recentIndex - 3].SetActive(false);
 
-                if(_recentIndex >=5)
+                if (_recentIndex >= 5)
                 {
                     _wholeMapOrder[_recentIndex - 5].SetActive(false);
                 }
