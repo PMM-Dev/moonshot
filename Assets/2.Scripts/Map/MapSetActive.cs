@@ -19,22 +19,30 @@ namespace Map
         private void Awake()
         {
             _mapMaking = GetComponent<MapMaking>();
+            _Player = FindObjectOfType< Player.PlayerController > ().gameObject;
         }
         void Update()
         {
-            if (_mapMaking.IsMapCreate == true && !_onestageDieCheck && _Player.transform.position.y >= 10)
+            if(_Player != null)
             {
-                _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
-                _onestageDieCheck = true;
-            }
+                if (_mapMaking.IsMapCreate == true && !_onestageDieCheck && _Player.transform.position.y >= 10)
+                {
+                    _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
+                    _onestageDieCheck = true;
+                }
 
-            if (_mapMaking.IsMapCreate == true &&
-                _mapIndex < _wholeMapOrderCount &&
-                _recentIndex < _wholeMapOrderCount &&
-                    _Player.transform.position.y >= _wholeMapOrder[_recentIndex].transform.position.y)
+                if (_mapMaking.IsMapCreate == true &&
+                    _mapIndex < _wholeMapOrderCount &&
+                    _recentIndex < _wholeMapOrderCount &&
+                        _Player.transform.position.y >= _wholeMapOrder[_recentIndex].transform.position.y)
+                {
+                    SetMapActive();
+                    SetMapDisActive();
+                }
+            }
+            else
             {
-                SetMapActive();
-                SetMapDisActive();
+                _Player = MainGameManager.Instance.Player;
             }
         }
 
