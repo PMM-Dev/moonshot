@@ -15,7 +15,6 @@ public class MainEventManager : MonoBehaviour
     //
     // SINGLETON
 
-    MainDataManager _mainEventDataManager;
     MainUIManager _mainUIManager;
 
 
@@ -23,16 +22,11 @@ public class MainEventManager : MonoBehaviour
     public Action ResumeGamePlayEvent;
     public Action PauseGamePlayEvent;
 
-    public void EnemyDeadEvent()
-    {
-        _mainEventDataManager.IncreaseKilledEnemyCount();
-    }
-
     public void GameoverEvent()
     {
         PauseGamePlayEvent?.Invoke();
         Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = false;
-        _mainUIManager.ShowGameoverUI(_mainEventDataManager.GetKilledEnemyCount().ToString(), _mainEventDataManager.GetSurvivedSeconds().ToString());
+        _mainUIManager.ShowGameoverUI();
     }
 
     private void Start()

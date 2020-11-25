@@ -202,6 +202,75 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &59617403
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -14.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6462421197099681960, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e9afd70734db0c2459f5c91d2112ab0e, type: 3}
 --- !u!1001 &106215612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1820,6 +1889,7 @@ GameObject:
   - component: {fileID: 1604407121}
   - component: {fileID: 1604407120}
   - component: {fileID: 1604407123}
+  - component: {fileID: 1604407124}
   m_Layer: 0
   m_Name: Main Manager
   m_TagString: Untagged
@@ -1853,13 +1923,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1d0cf9a3ae6844558f0be0ff5cd2ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainGameManager: {fileID: 1604407123}
   _startPanel: {fileID: 352440444}
   _optionPanel: {fileID: 1126010771}
   _gameoverPanel: {fileID: 1808018916}
   _stageProgressSlider: {fileID: 1288484860}
   _killCountText: {fileID: 1980584888}
   _survivedTimeText: {fileID: 950480704}
+  _mainGameManager: {fileID: 1604407123}
 --- !u!114 &1604407121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1898,8 +1968,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _elevatorMovement: {fileID: 1738080128}
   _cameraFx: {fileID: 6675946029453174493}
-  _player: {fileID: 6462421197099681960, guid: e9afd70734db0c2459f5c91d2112ab0e, type: 3}
+--- !u!114 &1604407124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604407118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c757815ec7c25438399be3935635ea1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _spawnPos: {fileID: 1377740177}
+  _playerPrefab: {fileID: 0}
 --- !u!1 &1710528109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2184,7 +2266,7 @@ MonoBehaviour:
   _doorMovementDistance: 0.7
   _doorMovementDuration: 1
   _elevatorBottomPosition: {x: 0, y: -8.2, z: 0}
-  _elevatorUpPosition: {x: 0, y: -4, z: 0}
+  _elevatorUpPosition: {x: 0, y: -4.41, z: 0}
   _elevatorMovementDuration: 2
 --- !u!1 &1761583027
 GameObject:
