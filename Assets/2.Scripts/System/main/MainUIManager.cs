@@ -28,11 +28,9 @@ public class MainUIManager : MonoBehaviour
         _startPanel.SetActive(false);
     }
 
-    public void ShowGameoverUI(string killedEnemyCount, string survivedTime)
+    public void ShowGameoverUI()
     {
         _gameoverPanel.SetActive(true);
-        _killCountText.text = killedEnemyCount;
-        _survivedTimeText.text = survivedTime;
     }
 
     public void OnClickRestart()
