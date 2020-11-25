@@ -26,6 +26,7 @@ namespace Player
         private Animator _animator;
         private Transform _bodyTransform;
         private BoxCollider2D _boxCollider2D;
+        private PlayerFX _playerFX;
         #endregion
 
         #region State
@@ -66,7 +67,7 @@ namespace Player
         #endregion
 
         #region Event
-        public Action SlashAction;
+        public Action<LookDirection, Vector3> SlashAction;
         public Action EndSlashAction;
         public Action SuccessSlashAction;
         public Action FailedSlashAction;
@@ -80,6 +81,7 @@ namespace Player
             _bodyTransform = GetComponentInChildren<Animator>().transform;
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
+            _playerFX = GetComponent<PlayerFX>();
         }
 
         private void Start()
@@ -90,7 +92,7 @@ namespace Player
             _slashRange = SlashRange.Instance.transform.parent.gameObject;
             _slashRange.SetActive(false);
             SlashRange.Instance.PlayerController = this;
-
+            _slashArrow.SetActive(false);
             InitializeEvent();
         }
 
@@ -136,6 +138,8 @@ namespace Player
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
 
             _playerInput.InitializeEvent();
+
+            _playerFX.InitializeEvent(this);
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -220,7 +224,7 @@ namespace Player
             if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown() && !_isBulletTime)
             {
                 _isBulletTime = true;
-                _bulletTimeCoroutine = StartCoroutine(BulletTime(5f, 10f, _data.BulletTimeSpeed));
+                _bulletTimeCoroutine = StartCoroutine(BulletTime(5f, 30f, _data.BulletTimeSpeed));
             }
         }
 
@@ -228,19 +232,17 @@ namespace Player
         {
             _isSlashLocked = true;
             _isJumpLocked = true;
-            SlashAction?.Invoke();
-
-            float time = 0f;
             _isSlashing = true;
             _animator.SetBool("isSlash", _isSlashing);
-            float angle = _playerInput.GetSlashAngle();
-
             _slashRange.SetActive(true);
+
+            float angle = _playerInput.GetSlashAngle();
+            Vector3 rotateValue = new Vector3(0f, 0f, angle * -1);
 
             _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
             _slashRange.transform.position = transform.position;
 
-            _slashRange.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            _slashRange.transform.rotation = Quaternion.Euler(rotateValue);
 
             Vector3 origin = transform.position;
 
@@ -253,6 +255,9 @@ namespace Player
                 _lookDirection = LookDirection.Right;
             }
 
+            SlashAction?.Invoke(_lookDirection, rotateValue);
+
+            float time = 0f;
             while (time < forceTime && !_isBeside)
             {
                 _currentSpeed = 80f;
