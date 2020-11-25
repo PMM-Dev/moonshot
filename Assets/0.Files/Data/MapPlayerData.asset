@@ -21,7 +21,11 @@ MonoBehaviour:
   _stickGravity: 0.8
   _gravityLimit: -30
   _slashDistance: 0.078
+  _readyToSlashTimeLimit: 1
   _bulletTimeLimit: 1
   _bulletTimeSpeed: 0.05
+  _bulletTimeDecreaseSpeed: 5
+  _bulletTimeIncreaseSpeed: 30
   _slashRangeDetection: 3.5
+  _slashRangeSensitive: 1.17
   _slashRangeSprite: {fileID: 0}
