@@ -1,8 +1,10 @@
 ﻿using JetBrains.Annotations;
+using Map;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
@@ -26,6 +28,7 @@ namespace Player
         private Animator _animator;
         private Transform _bodyTransform;
         private BoxCollider2D _boxCollider2D;
+        private PlayerFX _playerFX;
         #endregion
 
         #region State
@@ -41,12 +44,17 @@ namespace Player
         private StickDirection _stickDirection;
         [SerializeField]
         private JumpState _jumpState;
+        [SerializeField]
+        private MoveDirection _besideDirection;
+
         private bool _isAccel;
         [Header("Bool state")]
         [SerializeField]
-        private bool _isGround;
+        private bool _isTestMode;
         [SerializeField]
-        private bool _isBeside;
+        private bool _isGodMode;
+        [SerializeField]
+        private bool _isGround;
         [SerializeField]
         private bool _isSlashing;
         [SerializeField]
@@ -62,11 +70,12 @@ namespace Player
         private Vector2 _velocity;
         [SerializeField]
         private Vector2 _slashDirection;
+        private bool _isSlashAvailable;
 
         #endregion
 
         #region Event
-        public Action SlashAction;
+        public Action<LookDirection, Vector3> SlashAction;
         public Action EndSlashAction;
         public Action SuccessSlashAction;
         public Action FailedSlashAction;
@@ -80,6 +89,7 @@ namespace Player
             _bodyTransform = GetComponentInChildren<Animator>().transform;
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
+            _playerFX = GetComponent<PlayerFX>();
         }
 
         private void Start()
@@ -90,7 +100,7 @@ namespace Player
             _slashRange = SlashRange.Instance.transform.parent.gameObject;
             _slashRange.SetActive(false);
             SlashRange.Instance.PlayerController = this;
-
+            _slashArrow.SetActive(false);
             InitializeEvent();
         }
 
@@ -136,6 +146,8 @@ namespace Player
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Right].OnTriggerExit += CheckStick;
 
             _playerInput.InitializeEvent();
+
+            _playerFX.InitializeEvent(this);
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
@@ -144,11 +156,11 @@ namespace Player
             {
                 if (collisionType == CollisionType.Exit)
                 {
-                    _isBeside = false;
+                    _besideDirection = MoveDirection.Idle;
                 }
                 else if (collisionType == CollisionType.Stay)
                 {
-                    _isBeside = true;
+                    _besideDirection = (MoveDirection)((int)colliderType);
                 }
 
                 _stickDirection = _playerLogic.GetStickDirection(collisionType, collider2D, colliderType, _isGround, _moveDirection, _isSlashLocked);
@@ -217,30 +229,42 @@ namespace Player
 
         private void Slash()
         {
-            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown() && !_isBulletTime)
+            if (_playerInput.GetMouseButtonDown())
             {
-                _isBulletTime = true;
-                _bulletTimeCoroutine = StartCoroutine(BulletTime(5f, 10f, _data.BulletTimeSpeed));
+                _playerInput.GetOriginDirection();
+            }
+
+            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButton() && !_isBulletTime)
+            {
+                _playerInput.GetTargetDirection();
+
+                if (_playerInput.GetMouseInputDistance() > _data.SlashRangeSensitive)
+                {
+                    _isBulletTime = true;
+                    if (_bulletTimeCoroutine != null)
+                    {
+                        StopCoroutine(_bulletTimeCoroutine);
+                    }
+
+                    _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+                }
             }
         }
 
         private IEnumerator ForceSlash(Vector2 direction, float forceTime)
         {
-            _isSlashLocked = true;
             _isJumpLocked = true;
-            SlashAction?.Invoke();
-
-            float time = 0f;
             _isSlashing = true;
             _animator.SetBool("isSlash", _isSlashing);
-            float angle = _playerInput.GetSlashAngle();
-
             _slashRange.SetActive(true);
+
+            float angle = _playerInput.GetSlashAngle();
+            Vector3 rotateValue = new Vector3(0f, 0f, angle * -1);
 
             _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
             _slashRange.transform.position = transform.position;
 
-            _slashRange.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * -1));
+            _slashRange.transform.rotation = Quaternion.Euler(rotateValue);
 
             Vector3 origin = transform.position;
 
@@ -253,11 +277,29 @@ namespace Player
                 _lookDirection = LookDirection.Right;
             }
 
-            while (time < forceTime && !_isBeside)
+            SlashAction?.Invoke(_lookDirection, rotateValue);
+
+            Vector2 target = transform.position;
+            float distance = Vector2.Distance(origin, target);
+
+            float time = 0f;
+            while (time < forceTime)
             {
+                if ((int)_besideDirection == (int)_lookDirection)
+                    break;
+                if (time < 0.05f)
+                {
+                    _isSlashLocked = true;
+                }
+
                 _currentSpeed = 80f;
                 _velocity = direction * _currentSpeed;
                 transform.Translate(_velocity * Time.deltaTime);
+
+                target = transform.position;
+                distance = Vector2.Distance(origin, target);
+                _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
+
                 time += Time.deltaTime;
                 yield return null;
             }
@@ -266,8 +308,8 @@ namespace Player
             _velocity = Vector2.zero;
             _animator.SetBool("isSlash", _isSlashing);
 
-            Vector2 target = transform.position;
-            float distance = Vector2.Distance(origin, target);
+            target = transform.position;
+            distance = Vector2.Distance(origin, target);
             _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
 
             time = 0f;
@@ -326,9 +368,58 @@ namespace Player
         {
             _isSlashLocked = false;
             _isJumpLocked = false;
+            _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
         }
 
-        private IEnumerator BulletTime(float decreaseSpeed, float increaseSpeed, float minSpeed)
+        private IEnumerator BulletTime(float currentTime, float decreaseSpeed, float increaseSpeed, float minSpeed)
+        {
+            float time = 0f;
+            float progress = 0f;
+            float currentTimeScale = currentTime;
+
+            while (progress < 1f)
+            {
+                time += Time.deltaTime / Time.timeScale;
+                progress += Time.deltaTime * decreaseSpeed;
+                Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+
+                if (time > _data.BulletTimeLimit)
+                {
+                    break;
+                }
+                yield return null;
+            }
+
+            progress = 0f;
+            currentTimeScale = Time.timeScale;
+            while (progress < 1f)
+            {
+                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
+                progress += Time.deltaTime * increaseSpeed;
+                yield return null;
+            }
+
+            Time.timeScale = 1f;
+        }
+
+        public bool GetDamage()
+        {
+            if (_isSlashing || _isGodMode)
+            {
+                return false;
+            }
+            else
+            {
+                gameObject.SetActive(false);
+                if (!_isTestMode)
+                {
+                    MainEventManager.Instance.GameoverEvent();
+                }
+                return true;
+            }
+        }
+
+        private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
         {
             _playerInput.GetOriginDirection();
 
@@ -338,19 +429,23 @@ namespace Player
 
             _slashArrow.SetActive(true);
 
-            while (progress < 1f)
+            while (true)
             {
-                time += Time.deltaTime;
+                time += Time.deltaTime / Time.timeScale;
                 float angle = _playerInput.GetSlashAngle();
                 _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
                 _playerInput.GetTargetDirection();
                 _slashDirection = _playerInput.GetSlashDirection();
-                if (_playerInput.GetMouseButtonUp() || time > _data.BulletTimeLimit)
+                if (_playerInput.GetMouseButtonUp() || time > _data.ReadyToSlashTimeLimit)
                 {
                     break;
                 }
-                progress += Time.deltaTime * decreaseSpeed;
-                Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+                if (progress < 1f)
+                {
+                    progress += Time.deltaTime * decreaseSpeed;
+                    Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+                }
+
                 yield return null;
             }
 
@@ -369,23 +464,10 @@ namespace Player
                 progress += Time.deltaTime * increaseSpeed;
                 yield return null;
             }
-
+            _playerInput.GetOriginDirection();
+            _playerInput.GetTargetDirection();
             Time.timeScale = 1f;
             _isBulletTime = false;
-        }
-
-        public bool GetDamage()
-        {
-            if (_isSlashing)
-            {
-                Debug.Log("슬래쉬 중엔 무적");
-                return false;
-            }
-            else
-            {
-                Debug.Log("주금");
-                return true;
-            }
         }
     }
 }

@@ -402,7 +402,7 @@ PrefabInstance:
     - target: {fileID: 567145955454645524, guid: 56dd2d7d9aec9bb499471c47133605d5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.24
+      value: 2.46
       objectReference: {fileID: 0}
     - target: {fileID: 567145955454645524, guid: 56dd2d7d9aec9bb499471c47133605d5,
         type: 3}
@@ -471,7 +471,7 @@ PrefabInstance:
     - target: {fileID: 2473765824154600257, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: orthographic size
-      value: 5.625
+      value: 9.01
       objectReference: {fileID: 0}
     - target: {fileID: 2514578059184820647, guid: 2368295233600479a9822d516976763e,
         type: 3}
@@ -595,7 +595,7 @@ PrefabInstance:
     - target: {fileID: 567145955454645524, guid: 56dd2d7d9aec9bb499471c47133605d5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.8
+      value: 12.86
       objectReference: {fileID: 0}
     - target: {fileID: 567145955454645524, guid: 56dd2d7d9aec9bb499471c47133605d5,
         type: 3}
@@ -664,7 +664,7 @@ PrefabInstance:
     - target: {fileID: 567145955454645524, guid: 56dd2d7d9aec9bb499471c47133605d5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.79
+      value: 9.46
       objectReference: {fileID: 0}
     - target: {fileID: 567145955454645524, guid: 56dd2d7d9aec9bb499471c47133605d5,
         type: 3}
@@ -949,7 +949,7 @@ PrefabInstance:
     - target: {fileID: 567145955454645524, guid: 56dd2d7d9aec9bb499471c47133605d5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.13
+      value: 6.07
       objectReference: {fileID: 0}
     - target: {fileID: 567145955454645524, guid: 56dd2d7d9aec9bb499471c47133605d5,
         type: 3}
@@ -1329,17 +1329,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1726688937, guid: e9afd70734db0c2459f5c91d2112ab0e, type: 3}
-      propertyPath: m_Color.r
+    - target: {fileID: 273421728819999543, guid: e9afd70734db0c2459f5c91d2112ab0e,
+        type: 3}
+      propertyPath: _isGodMode
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726688937, guid: e9afd70734db0c2459f5c91d2112ab0e, type: 3}
-      propertyPath: m_Color.g
-      value: 0.42695218
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726688937, guid: e9afd70734db0c2459f5c91d2112ab0e, type: 3}
-      propertyPath: m_Color.b
-      value: 0.3066038
       objectReference: {fileID: 0}
     - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
         type: 3}
