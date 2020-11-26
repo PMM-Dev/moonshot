@@ -246,25 +246,14 @@ namespace Player
 
         private void Slash()
         {
-            if (_playerInput.GetMouseButtonDown())
+            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown(0) && !_isBulletTime)
             {
-                _playerInput.GetOriginDirection();
-            }
-
-            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButton() && !_isBulletTime)
-            {
-                _playerInput.GetTargetDirection();
-
-                if (_playerInput.GetMouseInputDistance() > _data.SlashRangeSensitive)
+                _isBulletTime = true;
+                if (_bulletTimeCoroutine != null)
                 {
-                    _isBulletTime = true;
-                    if (_bulletTimeCoroutine != null)
-                    {
-                        StopCoroutine(_bulletTimeCoroutine);
-                    }
-
-                    _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+                    StopCoroutine(_bulletTimeCoroutine);
                 }
+                _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
             }
         }
 
@@ -436,7 +425,7 @@ namespace Player
 
         private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
         {
-            _playerInput.GetOriginDirection();
+            _playerInput.GetOriginDirection(transform.position + new Vector3(0f, 0.5f, 0f));
 
             float time = 0f;
             float progress = 0f;
@@ -448,10 +437,9 @@ namespace Player
             {
                 time += Time.deltaTime / Time.timeScale;
                 float angle = _playerInput.GetSlashAngle();
-                _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
                 _playerInput.GetTargetDirection();
-                _slashDirection = _playerInput.GetSlashDirection();
-                if (_playerInput.GetMouseButtonUp() || time > _data.ReadyToSlashTimeLimit)
+                _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
+                if (_playerInput.GetMouseButtonUp(0) || time > _data.ReadyToSlashTimeLimit)
                 {
                     break;
                 }
@@ -460,18 +448,16 @@ namespace Player
                     progress += Time.deltaTime * decreaseSpeed;
                     Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
                 }
-
                 yield return null;
             }
 
             _slashArrow.SetActive(false);
 
-            Time.timeScale = minSpeed;
-            _playerInput.GetTargetDirection();
             _slashDirection = _playerInput.GetSlashDirection();
             StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
 
             progress = 0f;
+            Time.timeScale = minSpeed;
             currentTimeScale = Time.timeScale;
             while (progress < 1f)
             {
@@ -479,7 +465,7 @@ namespace Player
                 progress += Time.deltaTime * increaseSpeed;
                 yield return null;
             }
-            _playerInput.GetOriginDirection();
+
             _playerInput.GetTargetDirection();
             Time.timeScale = 1f;
             _isBulletTime = false;
