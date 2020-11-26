@@ -209,11 +209,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 273421728819999543, guid: e9afd70734db0c2459f5c91d2112ab0e,
-        type: 3}
-      propertyPath: _isGodMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1733613856200267191, guid: e9afd70734db0c2459f5c91d2112ab0e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2012,12 +2007,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 1255376144}
-  _explode: {fileID: 8300000, guid: ca73ecac5a1714db1b6f0c00ed5d9d53, type: 3}
-  _elevatorRising: {fileID: 8300000, guid: b166f51a42dc24f198a6e1885ccc058d, type: 3}
-  _elevatorDoorOpen: {fileID: 8300000, guid: 8075393422a064d88afde656b9b77a1e, type: 3}
-  _slash: {fileID: 8300000, guid: e9f74948102744e31a1d4bc513f8eb11, type: 3}
-  _shootLazer: {fileID: 8300000, guid: 809dd6a5ad22f456bb7817124eebd55c, type: 3}
-  _wolfAttack: {fileID: 8300000, guid: 3d765557a899d408e8b3d4a8c8894127, type: 3}
   _fxVolume: 1
   _bgVolume: 1
   _masterVolume: 1
