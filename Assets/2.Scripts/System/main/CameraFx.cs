@@ -17,6 +17,10 @@ public class CameraFx : MonoBehaviour
         StartCoroutine(Shake(durationOfelevatorMovement, xMagnitudeOfElevatorMovement, yMagnitudeOfElevatorMovement));
     }
 
+    public void CustomShakeOfCamera(float duration, float xMagnitude, float yMagnitude)
+    {
+        StartCoroutine(Shake(duration, xMagnitude, yMagnitude));
+    }
 
     private IEnumerator Shake(float duration, float xMagnitude, float yMagnitude)
     {

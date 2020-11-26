@@ -15,17 +15,18 @@ public class MainEventManager : MonoBehaviour
     //
     // SINGLETON
 
+    [SerializeField]
     MainUIManager _mainUIManager;
 
 
     public Action StartMainGameEvent;
     public Action ResumeGamePlayEvent;
     public Action PauseGamePlayEvent;
+    public Action ClearMainGameEvent;
 
     public void GameoverEvent()
     {
         PauseGamePlayEvent?.Invoke();
-        Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>().enabled = false;
         _mainUIManager.ShowGameoverUI();
     }
 

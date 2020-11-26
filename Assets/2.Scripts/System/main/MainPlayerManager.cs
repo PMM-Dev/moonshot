@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Player;
 
 public class MainPlayerManager : MonoBehaviour
 {
@@ -30,12 +31,15 @@ public class MainPlayerManager : MonoBehaviour
     }
 
     [SerializeField]
+    private GameObject _playerPrefab;
+    [SerializeField]
     private Transform _spawnPos;
+
 
 
     public void SpawnPlayerfromElevator()
     {
-        Player.transform.position = _spawnPos.transform.position;
+        Player.transform.position = _spawnPos.position;
     }
 
     public void SetPlayerAsCameraFocus()

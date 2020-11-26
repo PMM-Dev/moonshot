@@ -52,7 +52,9 @@ namespace Enemy
             _player = MainPlayerManager.Instance.Player;
             if (_wayPoints.Length > 0)
                 this.transform.position = _wayPoints[_tempStartIndex].gameObject.transform.position;
+
             StartCoroutine(Translate());
+
         }
         
         private void OnEnable()
