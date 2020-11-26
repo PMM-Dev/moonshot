@@ -42,8 +42,8 @@ public class SoundHelper : MonoBehaviour
         _soundManager = MainSoundManager.Instance;
     }
 
-    public void PlaySound(MainSoundManager.SoundFXType type)
+    public void PlaySound(string clipName)
     {
-        _soundManager.PlayFXSound(ref _audioSource, type);
+        _soundManager.PlayFXSound(ref _audioSource, clipName);
     }
 }

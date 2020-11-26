@@ -23,20 +23,9 @@ public class MainSoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource _audioSource;
 
-    [SerializeField]
-    private AudioClip _explode;
-    [SerializeField]
-    private AudioClip _elevatorRising;
-    [SerializeField]
-    private AudioClip _elevatorDoorOpen;
-    [SerializeField]
-    private AudioClip _slash;
-    [SerializeField]
-    private AudioClip _shootLazer;
-    [SerializeField]
-    private AudioClip _wolfAttack;
-
-    private Dictionary<SoundFXType, AudioClip> _clips;
+    // Resources - Sound - FX
+    private AudioClip[] _clipFiles;
+    private Dictionary<string, AudioClip> _audioClips;
 
     [Range(0f, 1f)]
     [SerializeField]
@@ -54,22 +43,27 @@ public class MainSoundManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        _clips = new Dictionary<SoundFXType, AudioClip>()
-        {
-            { SoundFXType.Explode, _explode },
-            { SoundFXType.ElevatorRising, _elevatorRising },
-            { SoundFXType.ElevatorDoorOpen, _elevatorDoorOpen },
-            { SoundFXType.Slash, _slash },
-            { SoundFXType.ShootLazer, _shootLazer },
-            { SoundFXType.WolfAttack, _wolfAttack }
-        };
+
+        GetSoundsFromResources();
+
     }
 
-    public void PlayFXSound(ref AudioSource audio, SoundFXType type)
+    private void GetSoundsFromResources()
+    {
+        _clipFiles = Resources.LoadAll<AudioClip>("Sound/FX");
+
+        _audioClips = new Dictionary<string, AudioClip>();
+        for (int i = 0; i < _clipFiles.Length; i++)
+        {
+            _audioClips.Add(_clipFiles[i].name, _clipFiles[i]);
+        }
+    }
+
+    public void PlayFXSound(ref AudioSource audio, string fileName)
     {
         audio.volume = GetCurrentVolume();
         audio.loop = false;
-        audio.clip = _clips[type];
+        audio.clip = _audioClips[fileName];
         audio.Play();
     }
 
