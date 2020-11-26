@@ -22,6 +22,7 @@ public class MainEventManager : MonoBehaviour
     public Action StartMainGameEvent;
     public Action ResumeGamePlayEvent;
     public Action PauseGamePlayEvent;
+    public Action ClearMainGameEvent;
 
     public void GameoverEvent()
     {
