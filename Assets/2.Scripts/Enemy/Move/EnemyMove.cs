@@ -45,7 +45,8 @@ namespace Enemy
         {
             _speed = _startSpeed;
             _player = MainPlayerManager.Instance.Player;
-            this.transform.position = _wayPoints[_tempStartIndex].gameObject.transform.position;
+            if (_wayPoints.Length > 0)
+                this.transform.position = _wayPoints[_tempStartIndex].gameObject.transform.position;
             SetFlipSize();
             StartCoroutine(Translate());
         }
@@ -88,7 +89,7 @@ namespace Enemy
             _tempStartIndex = _targetIndex - 1;
 
             //반복 시키기 위해 함.
-            yield return StartCoroutine(Translate());
+            StartCoroutine(Translate());
         }
 
         virtual protected IEnumerator TrackingPlayer()

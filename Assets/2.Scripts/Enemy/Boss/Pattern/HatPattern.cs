@@ -17,17 +17,23 @@ namespace Enemy
             _projectile.gameObject.SetActive(false);
         }
 
+
         public override IEnumerator Run()
         {
             _projectile.GetComponent<Hat>().Player = _player;
-            _projectile.gameObject.SetActive(true);
             _hat.TargetPlayerPosition();
             _hat.ProjectileSpeed = _projectileSpeed;
             
+            _projectile.gameObject.SetActive(true);
+            _hat.StartCoroutine(_hat.Down());
             while (_projectile.activeSelf == true) {
                 yield return null;
             }
-            _hat.IsDown = true;
+        }
+
+        public override void Play()
+        {
+            _patternAni.Play("Hat");
         }
     }
 }

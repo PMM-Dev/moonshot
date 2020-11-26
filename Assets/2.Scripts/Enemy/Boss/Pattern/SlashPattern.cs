@@ -77,5 +77,10 @@ namespace Enemy
             _projectile.SetActive(false);
             RotationReset();
         }
+
+        public override void Play()
+        {
+            _patternAni.Play("Slash");
+        }
     }
 }

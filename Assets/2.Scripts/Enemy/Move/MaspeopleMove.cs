@@ -25,7 +25,7 @@ namespace Enemy
                 if (_playerDistance > _lookingPlayerRange)
                 {
                     _speed = _startSpeed;
-                    yield return StartCoroutine(Translate());
+                    StartCoroutine(Translate());
                     break;
                 }
             }

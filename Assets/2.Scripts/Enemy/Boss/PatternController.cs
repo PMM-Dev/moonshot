@@ -8,6 +8,10 @@ namespace Enemy
     {
         IEnumerator Run();
     }
+    public interface IAnimation
+    {
+        void Play();
+    }
 
 
     public class PatternController : MonoBehaviour
@@ -17,10 +21,15 @@ namespace Enemy
         [SerializeField]
         protected Patterns _exhaustPatterns;
         [SerializeField]
+        protected Animator _pattrenAni;
+        [SerializeField]
         protected GameObject _player;
         [SerializeField]
         [Range(1, 5)]
         protected int _patternAfterDelay = 2;
+        [SerializeField]
+        [Range(1, 5)]
+        protected int _exhaustPatternsCount = 5;
 
         protected List<Patterns> _patternContainerCopy = new List<Patterns>();
         protected Patterns _currentPattern;
@@ -33,8 +42,10 @@ namespace Enemy
             for (int i = 0; i < _patternContainer.Count; i++)
             {
                 _patternContainer[i].Player = _player;
+                _patternContainer[i].PatternAni = _pattrenAni;
                 _patternContainerCopy.Add(_patternContainer[i]);
             }
+            _exhaustPatterns.PatternAni = _pattrenAni;
 
             if (_player == null)
                 _player = MainPlayerManager.Instance.Player;
@@ -56,14 +67,19 @@ namespace Enemy
         {
             while (true)
             {
+                yield return new WaitForSeconds(_patternAfterDelay);
                 //애니메이션
                 RandomCurrentPattern();
+                _currentPattern.Play();
                 yield return StartCoroutine(_currentPattern.Run());
                 _count++;
-                if (_count >= 5)
+                if (_count >= _exhaustPatternsCount)
                 {
                     yield return new WaitForSeconds(_patternAfterDelay);
+                    _exhaustPatterns.Play();
                     yield return StartCoroutine(_exhaustPatterns.Run());
+                    _pattrenAni.Play("Defult");
+
                     _count = 0;
                 }
                 yield return new WaitForSeconds(_patternAfterDelay);

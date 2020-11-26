@@ -6,42 +6,84 @@ namespace Enemy
 {
     public class Hat : Projectile
     {
-        private bool _isDown = true;
-        public bool IsDown {
-            set
-            {
-                _isDown = value;
-            }
+        [SerializeField]
+        [Range(0, 1)]
+        protected new float _correctionValue = 0.5f;
+        [SerializeField]
+        protected AnimationCurve _hatCurve;
+        Vector3 _upPosition;
+        Vector3 _downPosition;
+
+        private void Start()
+        {
+
+            if (_player == null)
+                _player = MainPlayerManager.Instance.Player;
+            if (_player != null)
+                TargetPlayerPosition();
+            SettingPosition();
+            SetDownPosition();
+            //StartCoroutine(Down());
+        }
+
+        private void SettingPosition()
+        {
+            _parentPosition = this.transform.parent.transform.position;
+            _downPosition = this.transform.position;
+            _upPosition = this.transform.position;
+            _upPosition = _parentPosition;
+            _downPosition = _parentPosition;
+            _downPosition.y -= (_parentPosition.y * _triggerDistance);
         }
 
         private void Update()
         {
             Rotate();
-            if (_isDown == true)
-            {
-                Run();
-            }
-            else
-            {
-                ReverseRun();
-            }
         }
 
-
-        protected void ReverseRun()
+        private void SetDownPosition()
         {
-            this.transform.Translate(Vector3.up * _projectileSpeed * Time.smoothDeltaTime, Space.World);
-            if (this.transform.position.y >= _player.transform.position.y + _triggerDistance)
-            {
-                TargetPlayerPosition();
-                this.gameObject.SetActive(false);
-            }
+            _upPosition.x = _player.transform.position.x;
+            _downPosition.x = _player.transform.position.x;
         }
 
-        override protected void Pattern() {
-            _isDown = false;
-            TargetPlayerPosition(true);
+
+        public IEnumerator Down()
+        {
+            float _time = 0;
+
+
+            while (true)
+            {
+                _time += Time.deltaTime * _correctionValue;
+                if (_time > 1f)
+                    break;
+
+                this.transform.position = Vector3.Lerp(_upPosition, _downPosition, _hatCurve.Evaluate(_time));
+
+                yield return null;
+            }
+            SetDownPosition();
+            yield return StartCoroutine(Up());
+            this.gameObject.SetActive(false);
         }
+
+        IEnumerator Up()
+        {
+            float _time = 0;
+            while (true)
+            {
+                _time += Time.deltaTime * _correctionValue;
+                if (_time > 1f)
+                    break;
+
+                this.transform.position = Vector3.Lerp( _downPosition, _upPosition, _hatCurve.Evaluate(_time));
+
+                yield return null;
+            }
+            yield return null;
+        }
+
 
     }
 }

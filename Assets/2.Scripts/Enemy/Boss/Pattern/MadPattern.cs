@@ -32,5 +32,10 @@ namespace Enemy
                 yield return null;
 
         }
+
+        public override void Play()
+        {
+            _patternAni.Play("Mad");
+        }
     }
 }
