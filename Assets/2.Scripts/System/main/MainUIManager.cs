@@ -16,13 +16,6 @@ public class MainUIManager : MonoBehaviour
     private GameObject _endingPanel;
 
     [SerializeField]
-    private Slider _stageProgressSlider;
-    [SerializeField]
-    private Text _killCountText;
-    [SerializeField]
-    private Text _survivedTimeText;
-
-    [SerializeField]
     private MainGameManager _mainGameManager;
 
     public void OnClickStart()
