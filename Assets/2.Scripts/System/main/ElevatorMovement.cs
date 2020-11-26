@@ -27,12 +27,16 @@ public class ElevatorMovement : MonoBehaviour
     [SerializeField]
     private float _elevatorMovementDuration;
 
+    private SoundHelper _soundHelper;
+
     private void Start()
     {
         _leftDoorTransform = _leftDoor.GetComponent<Transform>();
         _leftDoorRenderer = _leftDoor.GetComponent<SpriteRenderer>();
         _rightDoorTransform = _rightDoor.GetComponent<Transform>();
         _rightDoorRenderer = _rightDoor.GetComponent<SpriteRenderer>();
+
+        _soundHelper = gameObject.AddComponent<SoundHelper>();
     }
 
 
@@ -53,7 +57,7 @@ public class ElevatorMovement : MonoBehaviour
             targetPos = _elevatorBottomPosition;
         }
 
-        MainSoundManager.Instance.PlayElevatorRisingSound();
+        _soundHelper.PlaySound("ElevatorRising");
 
         float elapsed = 0.0f;
         while (elapsed < _elevatorMovementDuration)
@@ -96,7 +100,7 @@ public class ElevatorMovement : MonoBehaviour
             _rightDoorRenderer.sortingOrder = 2;
         }
 
-        MainSoundManager.Instance.PlayElevatorDoorOpenSound();
+        _soundHelper.PlaySound("ElevatorDoorOpen");
 
         // Move Animation
         float elapsed = 0.0f;

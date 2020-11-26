@@ -1,14 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class MainSoundManager : MonoBehaviour
 {
     public static MainSoundManager Instance { get; private set; }
 
-    private void Awake()
+    public enum SoundFXType
     {
-        Instance = this;
+        Explode,
+        ElevatorRising,
+        ElevatorDoorOpen,
+        Slash,
+        ShootLazer,
+        WolfAttack
     }
 
     //
@@ -17,46 +23,52 @@ public class MainSoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource _audioSource;
 
-    [SerializeField]
-    private AudioClip _explode;
-    [SerializeField]
-    private AudioClip _elevatorRising;
-    [SerializeField]
-    private AudioClip _elevatorDoorOpen;
-    [SerializeField]
-    private AudioClip _slash;
-    [SerializeField]
-    private AudioClip _shootLazer;
-    [SerializeField]
-    private AudioClip _wolfAttack;
+    // Resources - Sound - FX
+    private AudioClip[] _clipFiles;
+    private Dictionary<string, AudioClip> _audioClips;
 
-    public void PlayExplodeSound()
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float _fxVolume = 1f;
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float _bgVolume = 1f;
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float _masterVolume = 1f;
+
+    private bool _isMute;
+
+
+    private void Awake()
     {
-        _audioSource.PlayOneShot(_explode);
+        Instance = this;
+
+        GetSoundsFromResources();
+
     }
 
-    public void PlayElevatorRisingSound()
+    private void GetSoundsFromResources()
     {
-        _audioSource.PlayOneShot(_elevatorRising);
+        _clipFiles = Resources.LoadAll<AudioClip>("Sound/FX");
+
+        _audioClips = new Dictionary<string, AudioClip>();
+        for (int i = 0; i < _clipFiles.Length; i++)
+        {
+            _audioClips.Add(_clipFiles[i].name, _clipFiles[i]);
+        }
     }
 
-    public void PlayElevatorDoorOpenSound()
+    public void PlayFXSound(ref AudioSource audio, string fileName)
     {
-        _audioSource.PlayOneShot(_elevatorDoorOpen);
+
+        audio.loop = false;
+        audio.clip = _audioClips[fileName];
+        audio.Play();
     }
 
-    public void PlaySlashSound()
+    public float GetCurrentVolume()
     {
-        _audioSource.PlayOneShot(_slash);
-    }
-
-    public void PlayShootLazerSound()
-    {
-        _audioSource.PlayOneShot(_shootLazer);
-    }
-
-    public void PlayWolfAttackSound()
-    {
-        _audioSource.PlayOneShot(_wolfAttack);
+        return _isMute ? 0 : _fxVolume * _bgVolume * _masterVolume;
     }
 }

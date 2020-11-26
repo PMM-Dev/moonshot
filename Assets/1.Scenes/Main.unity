@@ -2018,6 +2018,9 @@ MonoBehaviour:
   _slash: {fileID: 8300000, guid: e9f74948102744e31a1d4bc513f8eb11, type: 3}
   _shootLazer: {fileID: 8300000, guid: 809dd6a5ad22f456bb7817124eebd55c, type: 3}
   _wolfAttack: {fileID: 8300000, guid: 3d765557a899d408e8b3d4a8c8894127, type: 3}
+  _fxVolume: 1
+  _bgVolume: 1
+  _masterVolume: 1
 --- !u!114 &1604407122
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,0 +1,75 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
+public class SoundHelper : MonoBehaviour
+{
+    private AudioSource _audioSource;
+    private MainSoundManager _soundManager;
+
+    [Range(0f, 1000f)]
+    [SerializeField]
+    private float _minDistance = 10f;
+    [Range(0f, 1000f)]
+    [SerializeField]
+    private float _maxDistance = 100f;
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float _audioVolume = 1f;
+
+    private void Awake()
+    {
+        InitializeAudioSource();
+    }
+
+    private void InitializeAudioSource()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.minDistance = _minDistance;
+        _audioSource.maxDistance = _maxDistance;
+        AnimationCurve ac = _audioSource.GetCustomCurve(AudioSourceCurveType.SpatialBlend);
+        Keyframe[] keys = new Keyframe[1];
+
+        for (int i = 0; i < keys.Length; ++i)
+        {
+            keys[i].value = 1f;
+        }
+
+        ac.keys = keys;
+        _audioSource.SetCustomCurve(AudioSourceCurveType.SpatialBlend, ac);
+    }
+
+    private void Start()
+    {
+        _soundManager = MainSoundManager.Instance;
+    }
+
+    public void PlaySound(string clipName)
+    {
+        _audioSource.volume = _audioVolume * _soundManager.GetCurrentVolume();
+        _soundManager.PlayFXSound(ref _audioSource, clipName);
+    }
+
+    public void PlaySound(string clipName, float customVolume)
+    {
+        _audioSource.volume = customVolume * _soundManager.GetCurrentVolume();
+
+        _soundManager.PlayFXSound(ref _audioSource, clipName);
+
+        _audioSource.volume = _audioVolume;
+    }
+
+    public void PlaySound(string clipName, float customVolume, float tempMinDistance, float tempMaxDistance)
+    {
+        _audioSource.volume = customVolume * _soundManager.GetCurrentVolume();
+        _audioSource.minDistance = tempMinDistance;
+        _audioSource.maxDistance = tempMaxDistance;
+
+        _soundManager.PlayFXSound(ref _audioSource, clipName);
+
+        _audioSource.minDistance = _minDistance;
+        _audioSource.maxDistance = _maxDistance;
+        _audioSource.volume = _audioVolume;
+    }
+}
