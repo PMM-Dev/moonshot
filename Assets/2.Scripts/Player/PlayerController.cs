@@ -286,7 +286,7 @@ namespace Player
             }
 
             _animator.SetBool("isSlash", _isSlashing);
-            _soundHelper.PlaySound("Slash");
+            _soundHelper.PlaySound(false, "Slash");
             SlashAction?.Invoke(_lookDirection, rotateValue);
 
             Vector2 target = transform.position;
