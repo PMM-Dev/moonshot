@@ -6,17 +6,23 @@ using UnityEngine;
 namespace Enemy{
     public class Pattern : MonoBehaviour
     {
-        protected GameObject _player;
-        protected float _playerDistance = 9999f;
-        [SerializeField]private float _patternDelay;
-        [SerializeField] protected float _patternRage;
+        [SerializeField]
+        protected Animator _patternAni;
+        [SerializeField]
+        private float _patternDelay;
+        [SerializeField]
+        protected float _patternRage;
         [Tooltip("패턴 딜레이를 포함한 쿨타임")][SerializeField]
         protected float _patternCollTime;
         private bool _isCanPattern = true;
+        protected GameObject _player;
+        protected float _playerDistance = 9999f;
+        protected SoundHelper _soundhelper;
         //float _time = 0; 2번 패턴 사용시 필요
         private void Start()
         {
             _player = MainPlayerManager.Instance.Player;
+            _soundhelper = this.gameObject.AddComponent<SoundHelper>();
         }
 
         private void Update()
@@ -49,6 +55,7 @@ namespace Enemy{
 
         IEnumerator Pattern1() {
             //애니메이팅 스타트 단 애니메이션은 _patternDelay랑 길이가 같아야함
+            _patternAni.Play("Pattern");
             yield return new WaitForSeconds(_patternDelay);
             ActuallyPattern();
         }

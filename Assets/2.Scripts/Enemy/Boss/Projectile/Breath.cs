@@ -6,6 +6,9 @@ namespace Enemy
 {
     public class Breath : Projectile
     {
-        
+        private void Start()
+        {
+            
+        }
     }
 }

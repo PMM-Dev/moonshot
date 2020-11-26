@@ -20,6 +20,7 @@ namespace Enemy
             _explosionPaticle.SetActive(true);
             _explosionPaticle.transform.parent = null;
             _explosionPaticle.transform.position = this.transform.position;
+            //gameObject.transform.parent.gameObject.AddComponent<SoundHelper>().PlaySound(false,"Boom");
             this.gameObject.SetActive(false);
         }
     }

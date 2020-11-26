@@ -6,14 +6,9 @@ namespace Enemy
 {
     public class SlashPattern : Patterns
     {
-        [SerializeField]
-        [Range(1, 5)]
-        private float _rotationSpeed;
+        
         [SerializeField]
         private float _correctionValue = 180;
-        [SerializeField]
-        private float _maxAngle = 120;
-        private float _accumulate = 0;
         private Vector3 _originParentScale;
         private Vector3 _reverceParentScale;
         private Quaternion _originParentRotation;
@@ -34,53 +29,28 @@ namespace Enemy
         }
 
 
-        protected void RightSlash()
-        {
-
-            this.transform.localScale = _reverceParentScale;
-            this.transform.Rotate(Vector3.back * Time.deltaTime * _rotationSpeed * _correctionValue);
-            _accumulate += Time.deltaTime * _rotationSpeed * _correctionValue;
-        }
-
-        protected void LeftSlash()
-        {
-            this.transform.Rotate(Vector3.forward * Time.deltaTime * _rotationSpeed * _correctionValue);
-            _accumulate += Time.deltaTime * _rotationSpeed * _correctionValue;
-        }
-
         public override IEnumerator Run()
         {
+            float _time = 0;
             _projectile.SetActive(true);
-            _accumulate = 0;
-            if (Random.Range(0, 2) == 0)
+            while (_time < _patternTime)
             {
-                this.transform.localScale = _reverceParentScale;
-                while (_accumulate < _maxAngle)
-                {
-                    RightSlash();
-                    yield return null;
-                }
-                //애니메이션 스타트
-            }
-            else
-            {
-
-                //애니메이션 스타트
-                while (_accumulate < _maxAngle)
-                {
-                    LeftSlash();
-                    yield return null;
-                }
+                _time += Time.deltaTime;
+                yield return null;
             }
             //시간끝나면
-
+            _patternAni.Play("Defult");
             _projectile.SetActive(false);
             RotationReset();
+
         }
 
         public override void Play()
         {
-            _patternAni.Play("Slash");
+            if (Random.Range(0, 2) == 0)
+                _patternAni.Play("SlashRight");
+            else
+                _patternAni.Play("SlashLeft");
         }
     }
 }

@@ -6,8 +6,6 @@ namespace Enemy
 {
     public class ExhaustPatterns : Patterns
     {
-        [SerializeField][Range(1,10)]
-        private float _grogyTime = 1;
         private BossLife _bossLife;
         private float _time = 0;
 
@@ -20,15 +18,13 @@ namespace Enemy
         {
             Debug.Log("죽기 가능");
             _bossLife.IsCanAttack = true;
-            while (_time < _grogyTime) {
+            while (_time < _patternTime) {
                 _time += Time.deltaTime;
                 
                 yield return null;
 
                 if (_bossLife.IsCanAttack == false)
                 {
-
-                    _patternAni.Play("BakcDefult");
                     break;
                 }
                 
