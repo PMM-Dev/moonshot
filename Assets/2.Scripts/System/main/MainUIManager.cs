@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainUIManager : MonoBehaviour
 {
@@ -35,16 +36,7 @@ public class MainUIManager : MonoBehaviour
 
     public void OnClickRestart()
     {
-        _gameoverPanel.SetActive(false);
-
-        OnClickStart();
-    }
-
-    public void OnClickReturn()
-    {
-        _gameoverPanel.SetActive(false);
-
-        // Return to the state before press START after intro
+        SceneManager.LoadScene("Main");
     }
 
     public void OnClickOption()
