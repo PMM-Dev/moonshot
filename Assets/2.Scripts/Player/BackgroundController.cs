@@ -8,22 +8,16 @@ public class BackgroundController : MonoBehaviour
 {
     public static BackgroundController Instance;
 
-    private const float StageHalfLength = 34.1f;
     private MapMaking _mapMaking;
-    private PlayerController _playerController;
-
     private Coroutine _mapChanger;
-
     private List<SpriteRenderer> _backgroundSpriteRenderers;
-
     public List<Vector2> _heights;
+    private Transform _cameraTransform;
 
-    float x;
-    float y;
-    float pastY;
-
+    private float _x;
+    private float _y;
+    private float _pastY;
     private Color _color;
-
     private int _heightIndex;
 
     public int HeightIndex
@@ -33,7 +27,7 @@ public class BackgroundController : MonoBehaviour
         {
             if (_heightIndex != value)
             {
-                pastY = y;
+                _pastY = _y;
 
                 StartCoroutine(ChangeBackground(_heightIndex));
                 _heightIndex = value;
@@ -47,16 +41,7 @@ public class BackgroundController : MonoBehaviour
             Instance = this;
 
         _mapMaking = FindObjectOfType<MapMaking>();
-        if (MainPlayerManager.Instance == null)
-        {
-            _playerController = FindObjectOfType<PlayerController>();
-        }
-        else
-        {
-            _playerController = FindObjectOfType<PlayerController>();
-            //_playerController = MainPlayerManager.Instance.Player.GetComponent<PlayerController>();
-        }
-
+        _cameraTransform = Camera.main.transform.parent.transform;
     }
 
     private void Start()
@@ -76,7 +61,7 @@ public class BackgroundController : MonoBehaviour
 
     public void Initialize()
     {
-        if (_mapMaking != null && _playerController != null)
+        if (_mapMaking != null && _cameraTransform != null)
         {
             _heightIndex = 0;
             for (int i = 0; i < transform.childCount; i++)
@@ -92,11 +77,11 @@ public class BackgroundController : MonoBehaviour
     {
         while (true)
         {
-            if (_mapMaking != null && _playerController != null)
+            if (_mapMaking != null && _cameraTransform != null)
             {
                 for (int i = _heightIndex; i < 3; i++)
                 {
-                    if (_playerController.transform.position.y >= _heights[i].x && _playerController.transform.position.y < _heights[i].y)
+                    if (_cameraTransform.position.y >= _heights[i].x && _cameraTransform.position.y < _heights[i].y)
                     {
                         HeightIndex = i;
                     }
@@ -110,11 +95,11 @@ public class BackgroundController : MonoBehaviour
     {
         while (true)
         {
-            if (_mapMaking != null && _playerController != null)
+            if (_mapMaking != null && _cameraTransform != null)
             {
-                x = Mathf.Clamp(_playerController.transform.position.x / 80f, -0.8f, 0.8f);
-                y = Mathf.Clamp(5f + (_heights[_heightIndex].y - _playerController.transform.position.y) / 120f, -50f, 50f);
-                _backgroundSpriteRenderers[_heightIndex].gameObject.transform.localPosition = new Vector3(x, y, 0f);
+                _x = Mathf.Clamp(_cameraTransform.position.x / 80f, -0.8f, 0.8f);
+                _y = Mathf.Clamp(5f + (_heights[_heightIndex].y - _cameraTransform.position.y) / 120f, -50f, 50f);
+                _backgroundSpriteRenderers[_heightIndex].gameObject.transform.localPosition = new Vector3(_x, _y, 0f);
             }
             yield return null;
         }
