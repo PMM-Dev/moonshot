@@ -8,7 +8,7 @@ namespace Enemy
     {
         [SerializeField]
         [Range(0, 1)]
-        protected new float _correctionValue = 0.5f;
+        protected float _correctionHatValue = 0.5f;
         [SerializeField]
         protected AnimationCurve _hatCurve;
         Vector3 _upPosition;
@@ -28,12 +28,12 @@ namespace Enemy
 
         private void SettingPosition()
         {
-            _parentPosition = this.transform.parent.transform.position;
+            _startPosition = this.transform.parent.transform.position;
             _downPosition = this.transform.position;
             _upPosition = this.transform.position;
-            _upPosition = _parentPosition;
-            _downPosition = _parentPosition;
-            _downPosition.y -= (_parentPosition.y * _triggerDistance);
+            _upPosition = _startPosition;
+            _downPosition = _startPosition;
+            _downPosition.y -= (_startPosition.y * _triggerDistance);
         }
 
         private void Update()
@@ -55,7 +55,7 @@ namespace Enemy
 
             while (true)
             {
-                _time += Time.deltaTime * _correctionValue;
+                _time += Time.deltaTime * _correctionHatValue;
                 if (_time > 1f)
                     break;
 
@@ -73,7 +73,7 @@ namespace Enemy
             float _time = 0;
             while (true)
             {
-                _time += Time.deltaTime * _correctionValue;
+                _time += Time.deltaTime * _correctionHatValue;
                 if (_time > 1f)
                     break;
 
