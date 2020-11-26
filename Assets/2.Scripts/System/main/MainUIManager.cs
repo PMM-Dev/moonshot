@@ -13,6 +13,9 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private GameObject _gameoverPanel;
     [SerializeField]
+    private GameObject _endingPanel;
+
+    [SerializeField]
     private Slider _stageProgressSlider;
     [SerializeField]
     private Text _killCountText;
@@ -58,5 +61,10 @@ public class MainUIManager : MonoBehaviour
         _optionPanel.SetActive(false);
 
         OnClickRestart();
+    }
+
+    public void ShowEndingPanel()
+    {
+        _endingPanel.SetActive(true);
     }
 }
