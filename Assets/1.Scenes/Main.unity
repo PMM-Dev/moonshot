@@ -949,7 +949,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &760354262
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1617,12 +1617,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startPanel: {fileID: 352440444}
+  _mainPanel: {fileID: 760354261}
   _optionPanel: {fileID: 1126010771}
   _gameoverPanel: {fileID: 1808018916}
   _endingPanel: {fileID: 1712471230}
-  _stageProgressSlider: {fileID: 0}
-  _killCountText: {fileID: 0}
-  _survivedTimeText: {fileID: 0}
   _mainGameManager: {fileID: 1604407123}
 --- !u!114 &1604407121
 MonoBehaviour:
@@ -1835,7 +1833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1712471231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2369,6 +2367,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 263564211, guid: 2368295233600479a9822d516976763e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.7
+      objectReference: {fileID: 0}
     - target: {fileID: 4622895873811711072, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: m_Name
