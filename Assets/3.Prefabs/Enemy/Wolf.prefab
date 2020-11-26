@@ -152,11 +152,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 184440592331758619}
-  - component: {fileID: 1095360004}
   - component: {fileID: 7689408825326970935}
   - component: {fileID: 3249619357052234157}
   - component: {fileID: 4809625765655945424}
   - component: {fileID: 4849833047570399602}
+  - component: {fileID: 1777427818}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Enemy
@@ -181,18 +181,6 @@ Transform:
   m_Father: {fileID: 184440591029602210}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1095360004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184440592331758616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ee77caaf461a354282b75ae86f93613, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7689408825326970935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +245,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2
+--- !u!114 &1777427818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184440592331758616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c9d3794e5e286a499cf3c85a2359fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wayPoints: []
+  _startSpeed: 2
+  _lookingPlayerRange: 10
+  _wayPointCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1182482764
 PrefabInstance:
   m_ObjectHideFlags: 0
