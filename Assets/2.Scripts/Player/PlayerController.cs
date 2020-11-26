@@ -244,6 +244,7 @@ namespace Player
             _isMoveInputLocked = false;
         }
 
+        #region Slash
         private void Slash()
         {
             if (_playerInput.GetMouseButtonDown())
@@ -339,105 +340,6 @@ namespace Player
             EndSlashAction?.Invoke();
         }
 
-        private void Gravity()
-        {
-            if (_velocity.y > _data.GravityLimit)
-                _velocity.y += -_data.GravityScale * Time.deltaTime;
-        }
-
-        private void CollideWithGround()
-        {
-            _isGround = false;
-
-            Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, _boxCollider2D.size, 0);
-            foreach (Collider2D hit in hits)
-            {
-                if (hit.Equals(_boxCollider2D) || hit.gameObject.layer != LayerMask.NameToLayer("Ground"))
-                    continue;
-
-                ColliderDistance2D colliderDistance = hit.Distance(_boxCollider2D);
-
-                if (colliderDistance.isOverlapped)
-                {
-                    transform.Translate(colliderDistance.pointA - colliderDistance.pointB);
-
-                    if (Vector2.Angle(colliderDistance.normal, Vector2.up) == 0 && _velocity.y < 0)
-                    {
-                        if (!_isSlashing)
-                        {
-                            _isGround = true;
-                            _isJumpLocked = false;
-                        }
-
-                    }
-                    else if (Vector2.Angle(colliderDistance.normal, Vector2.up) == 180 && _velocity.y > 0)
-                    {
-                        _velocity.y = 0f;
-                    }
-                }
-            }
-            _animator.SetBool("isGround", _isGround);
-        }
-
-        private void SuccessSlashEvent()
-        {
-            _isSlashLocked = false;
-            _isJumpLocked = false;
-            _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
-        }
-
-        private IEnumerator BulletTime(float currentTime, float decreaseSpeed, float increaseSpeed, float minSpeed)
-        {
-            float time = 0f;
-            float progress = 0f;
-            float currentTimeScale = currentTime;
-
-            while (progress < 1f)
-            {
-                time += Time.deltaTime / Time.timeScale;
-                progress += Time.deltaTime * decreaseSpeed;
-                Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
-
-                if (time > _data.BulletTimeLimit)
-                {
-                    break;
-                }
-                yield return null;
-            }
-
-            progress = 0f;
-            currentTimeScale = Time.timeScale;
-            while (progress < 1f)
-            {
-                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
-                progress += Time.deltaTime * increaseSpeed;
-                yield return null;
-            }
-
-            Time.timeScale = 1f;
-        }
-
-        public bool GetDamage()
-        {
-            if (_isSlashing || _isGodMode)
-            {
-                return false;
-            }
-            else
-            {
-                _isGodMode = true;
-                _playerInput.PauseGameEvent();
-                _animator.SetTrigger("trgDie");
-                _animator.SetBool("isDie", true);
-                // gameObject.SetActive(false);
-                if (!_isTestMode)
-                {
-                    MainEventManager.Instance.GameoverEvent();
-                }
-                return true;
-            }
-        }
-
         private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
         {
             _playerInput.GetOriginDirection();
@@ -488,5 +390,118 @@ namespace Player
             Time.timeScale = 1f;
             _isBulletTime = false;
         }
+
+        private void SuccessSlashEvent()
+        {
+            _isSlashLocked = false;
+            _isJumpLocked = false;
+            _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+        }
+        #endregion
+
+        private void Gravity()
+        {
+            if (_velocity.y > _data.GravityLimit)
+                _velocity.y += -_data.GravityScale * Time.deltaTime;
+        }
+
+        private void CollideWithGround()
+        {
+            _isGround = false;
+
+            Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, _boxCollider2D.size, 0);
+            foreach (Collider2D hit in hits)
+            {
+                if (hit.Equals(_boxCollider2D) || hit.gameObject.layer != LayerMask.NameToLayer("Ground"))
+                    continue;
+
+                ColliderDistance2D colliderDistance = hit.Distance(_boxCollider2D);
+
+                if (colliderDistance.isOverlapped)
+                {
+                    transform.Translate(colliderDistance.pointA - colliderDistance.pointB);
+
+                    if (Vector2.Angle(colliderDistance.normal, Vector2.up) == 0 && _velocity.y < 0)
+                    {
+                        if (!_isSlashing)
+                        {
+                            _isGround = true;
+                            _isJumpLocked = false;
+                        }
+
+                    }
+                    else if (Vector2.Angle(colliderDistance.normal, Vector2.up) == 180 && _velocity.y > 0)
+                    {
+                        _velocity.y = 0f;
+                    }
+                }
+            }
+            _animator.SetBool("isGround", _isGround);
+        }
+
+
+        private IEnumerator BulletTime(float currentTime, float decreaseSpeed, float increaseSpeed, float minSpeed)
+        {
+            float time = 0f;
+            float progress = 0f;
+            float currentTimeScale = currentTime;
+
+            while (progress < 1f)
+            {
+                time += Time.deltaTime / Time.timeScale;
+                progress += Time.deltaTime * decreaseSpeed;
+                Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+
+                if (time > _data.BulletTimeLimit)
+                {
+                    break;
+                }
+                yield return null;
+            }
+
+            progress = 0f;
+            currentTimeScale = Time.timeScale;
+            while (progress < 1f)
+            {
+                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
+                progress += Time.deltaTime * increaseSpeed;
+                yield return null;
+            }
+
+            Time.timeScale = 1f;
+        }
+
+        public bool GetDamage()
+        {
+            if (_isSlashing || _isGodMode)
+            {
+                return false;
+            }
+            else
+            {
+                _isGodMode = true;
+                _playerInput.PauseGameEvent();
+                _animator.SetTrigger("trgDie");
+                _animator.SetBool("isDie", true);
+                // gameObject.SetActive(false);
+                if (!_isTestMode)
+                {
+                    StartCoroutine(DieEvent());
+                }
+                return true;
+            }
+        }
+
+        private IEnumerator DieEvent()
+        {
+            float time = 0f;
+            while (time < 2.5f)
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
+            MainEventManager.Instance.GameoverEvent();
+        }
+
     }
 }
