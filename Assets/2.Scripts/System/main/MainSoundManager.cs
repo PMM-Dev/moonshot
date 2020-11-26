@@ -61,8 +61,12 @@ public class MainSoundManager : MonoBehaviour
 
     public void PlayFXSound(ref AudioSource audio, string fileName)
     {
+        audio.PlayOneShot(_audioClips[fileName]);
+    }
 
-        audio.loop = false;
+    public void PlayLoopSound(ref AudioSource audio, string fileName)
+    {
+        audio.loop = true;
         audio.clip = _audioClips[fileName];
         audio.Play();
     }
