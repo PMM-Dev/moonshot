@@ -190,7 +190,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 6bef06cf014754130b320e0667837d47, type: 3}
   m_Color: {r: 0.25943398, g: 0.87976635, b: 1, a: 1}
   m_FlipX: 1
@@ -288,6 +288,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6007967371302058387, guid: ea02068033298c3419c745a120d904c2,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6521190158925449886, guid: ea02068033298c3419c745a120d904c2,
         type: 3}
       propertyPath: m_IsActive
@@ -949,7 +954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &760354262
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1418,7 +1423,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 6bef06cf014754130b320e0667837d47, type: 3}
   m_Color: {r: 0.25943398, g: 0.87976635, b: 1, a: 1}
   m_FlipX: 0
@@ -1617,12 +1622,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startPanel: {fileID: 352440444}
+  _mainPanel: {fileID: 760354261}
   _optionPanel: {fileID: 1126010771}
   _gameoverPanel: {fileID: 1808018916}
   _endingPanel: {fileID: 1712471230}
-  _stageProgressSlider: {fileID: 0}
-  _killCountText: {fileID: 0}
-  _survivedTimeText: {fileID: 0}
   _mainGameManager: {fileID: 1604407123}
 --- !u!114 &1604407121
 MonoBehaviour:
@@ -1835,7 +1838,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1712471231
 MonoBehaviour:
   m_ObjectHideFlags: 0
