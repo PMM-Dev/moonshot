@@ -79,6 +79,10 @@ namespace Player
         public Action EndSlashAction;
         public Action SuccessSlashAction;
         public Action FailedSlashAction;
+        public Action NormalJumpAction;
+        public Action WallJumpAction;
+        public Action<LookDirection> StickAction;
+        public Action StopStickAction;
         #endregion
 
         private Coroutine _bulletTimeCoroutine;
@@ -136,6 +140,10 @@ namespace Player
             EndSlashAction = delegate { };
             SuccessSlashAction = delegate { };
             FailedSlashAction = delegate { };
+            NormalJumpAction = delegate { };
+            WallJumpAction = delegate { };
+            StopStickAction = delegate { };
+            StickAction = delegate { };
 
             SuccessSlashAction += SuccessSlashEvent;
 
@@ -200,9 +208,11 @@ namespace Player
                 _velocity.y = _data.WallJumpPower;
                 _isMoveInputLocked = true;
                 StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _data.Speed * Time.deltaTime, 0.35f));
+                WallJumpAction?.Invoke();
             }
             else
             {
+                NormalJumpAction?.Invoke();
                 _velocity.y = _data.NormalJumpPower;
             }
         }
@@ -213,6 +223,11 @@ namespace Player
             {
                 _isJumpLocked = false;
                 _velocity.y = -_data.StickGravity;
+                StickAction?.Invoke(_lookDirection);
+            }
+            else
+            {
+                StopStickAction?.Invoke();
             }
         }
 
