@@ -9,11 +9,11 @@ namespace Map
         private MapMaking _mapMaking;
         private MapSetActive _mapSetActive;
 
-        //private void Start()
-        //{
-        //    MainEventManager.Instance.StartMainGameEvent += _mapMaking.CreateStage;
-        //    MainEventManager.Instance.StartMainGameEvent += _mapSetActive.makeList;
-        //}
+        private void Start()
+        {
+            MainEventManager.Instance.StartMainGameEvent += _mapMaking.CreateStage;
+            MainEventManager.Instance.StartMainGameEvent += _mapSetActive.MakeList;
+        }
 
         private void Update()//delete later
         {
