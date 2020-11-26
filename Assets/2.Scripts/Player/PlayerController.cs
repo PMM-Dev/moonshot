@@ -90,7 +90,7 @@ namespace Player
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
-            _bodyTransform = GetComponentInChildren<Animator>().transform;
+            _bodyTransform = GetComponentInChildren<Animator>().transform.parent.transform;
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _playerFX = GetComponent<PlayerFX>();
@@ -425,7 +425,11 @@ namespace Player
             }
             else
             {
-                gameObject.SetActive(false);
+                _isGodMode = true;
+                _playerInput.PauseGameEvent();
+                _animator.SetTrigger("trgDie");
+                _animator.SetBool("isDie", true);
+                // gameObject.SetActive(false);
                 if (!_isTestMode)
                 {
                     MainEventManager.Instance.GameoverEvent();
