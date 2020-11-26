@@ -16,7 +16,7 @@ namespace Enemy
 
         protected float _correctionValue = 180f;
         protected float _projectileSpeed = 4f;
-        protected Vector3 _parentPosition;
+        protected Vector3 _startPosition;
         protected GameObject _player;
 
         public float ProjectileSpeed
@@ -33,11 +33,15 @@ namespace Enemy
         {
             if (_player == null)
                 _player = MainPlayerManager.Instance.Player;
-            _parentPosition = this.transform.parent.transform.position;
+            _startPosition = this.transform.transform.position;
             if (_player != null)
                 TargetPlayerPosition();
         }
 
+        protected void ChiledRotate()
+        {
+            this.transform.GetChild(0).gameObject.transform.Rotate(Vector3.forward * Time.deltaTime * _rotationSpeed * _correctionValue);
+        }
 
         protected void Rotate() {
             this.transform.Rotate(Vector3.forward * Time.deltaTime * _rotationSpeed * _correctionValue);
@@ -51,14 +55,14 @@ namespace Enemy
             }
 
             if (reset == true)
-                _parentPosition.y = this.transform.position.y;
-            else
-                _parentPosition.y = this.transform.parent.position.y + 1f;
-            _parentPosition.x = _player.transform.position.x;
-            this.transform.position = _parentPosition;
+                _startPosition.y = this.transform.position.y;
+            else if (this.transform.parent != null)
+                _startPosition.y = this.transform.parent.position.y + 1f;
+            _startPosition.x = _player.transform.position.x;
+            this.transform.position = _startPosition;
         }
 
-        protected void Run()
+        protected virtual void Run()
         {
             this.transform.Translate(Vector3.down * _projectileSpeed * Time.smoothDeltaTime, Space.World);
 
