@@ -4,12 +4,27 @@ using UnityEngine;
 
 namespace Enemy
 {
+    
     public class MeleeAttackPattern : Pattern
     {
+
+        [SerializeField]
+        protected ParticleSystem _patternParticle;
+        private void Awake()
+        {
+
+            if (_patternParticle != null)
+                _patternParticle.Stop();
+        }
         override protected void ActuallyPattern()
         {
+            Debug.Log("ATtack");
             if (_playerDistance < _patternRage)
             {
+                if (_patternParticle != null)
+                {
+                    _patternParticle.Play();
+                }
                 _player.GetComponent<IDamage>().GetDamage();
             }
         }

@@ -6,10 +6,15 @@ namespace Enemy
 {
     public class Bullet : MonoBehaviour
     {
-        [SerializeField] private float _bulletSpeed;
-        [SerializeField] private float _distroyTime = 3f;
-        [SerializeField] private float _distroyYlocation = 3f;
-        [SerializeField] private bool _isVertical;
+        [SerializeField]
+        private float _bulletSpeed;
+        [SerializeField]
+        private float _distroyTime = 3f;
+        [SerializeField]
+        private float _distroyYlocation = 3f;
+        [SerializeField]
+        private bool _isVertical;
+        private float _playerCorrectionValue = 100 / 8;
         private Vector3 _playerDirction;
         private GameObject _player;
         public bool IsVertical
@@ -21,7 +26,7 @@ namespace Enemy
         }
         private void Start()
         {
-            _player = GameObject.FindWithTag("Player");
+            _player = MainPlayerManager.Instance.Player;
             PlayerDirctionCalculation();
             LookBullet();
         }
@@ -46,7 +51,10 @@ namespace Enemy
 
         void PlayerDirctionCalculation()
         {
-            _playerDirction = (_player.transform.position - this.gameObject.transform.position).normalized;
+            Vector3 _tmpPlayerPosition;
+            _tmpPlayerPosition = _player.transform.position;
+            _tmpPlayerPosition.y += _player.transform.localScale.y * _playerCorrectionValue;
+            _playerDirction = (_tmpPlayerPosition - this.gameObject.transform.position).normalized;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

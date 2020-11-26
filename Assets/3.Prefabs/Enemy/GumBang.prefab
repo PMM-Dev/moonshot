@@ -155,10 +155,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1433824476506698871}
-  - component: {fileID: 1433824476506698870}
   - component: {fileID: 8925273440935985243}
   - component: {fileID: 3313161566358436119}
   - component: {fileID: 4082604755650773476}
+  - component: {fileID: 1887482521}
   m_Layer: 0
   m_Name: GumBang
   m_TagString: Enemy
@@ -181,30 +181,6 @@ Transform:
   m_Father: {fileID: 1433824475728736206}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1433824476506698870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1433824476506698868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdb002d01728c3e429db48e9c13ec665, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _wayPoints:
-  - {fileID: 6666650364108494992}
-  - {fileID: 9159283809867421757}
-  - {fileID: 5134037989943065394}
-  - {fileID: 1209440719621409315}
-  _speed: 5
-  _isRound: 1
-  _DetectingPlayerRange: 30
-  _isYAxisLook: 1
-  _isMove: 1
-  _isLookPlayer: 0
-  _isTrakingPlayer: 0
 --- !u!114 &8925273440935985243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +196,7 @@ MonoBehaviour:
   _patternDelay: 1
   _patternRage: 1
   _patternCollTime: 0.1
+  _patternParticle: {fileID: 0}
 --- !u!114 &3313161566358436119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +225,49 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 15, y: 8}
   m_Direction: 1
+--- !u!114 &1887482521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433824476506698868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a694bac8e96774cbdbbd1ff7247307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wayPoints:
+  - {fileID: 6666650364108494992}
+  - {fileID: 9159283809867421757}
+  - {fileID: 5134037989943065394}
+  - {fileID: 1209440719621409315}
+  _startSpeed: 2
+  _lookingPlayerRange: 10
+  _wayPointCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5134037989943065394
 GameObject:
   m_ObjectHideFlags: 0

@@ -339,8 +339,180 @@ ScriptedImporter:
     layerID: 4
     mosaicPosition: {x: 287, y: 244}
   characterData:
-    bones: []
-    parts: []
+    bones:
+    - name: RightSnake
+      position: {x: 106.732796, y: -1.6316733, z: 0}
+      rotation: {x: 0, y: 0, z: -0.11646539, w: 0.99319476}
+      length: 55.080772
+      parentId: 16
+    - name: RightSnake_2
+      position: {x: 55.080776, y: -0.0000018357541, z: 0}
+      rotation: {x: 0, y: 0, z: -0.22897823, w: 0.9734316}
+      length: 47.947018
+      parentId: 0
+    - name: RightSnake_3
+      position: {x: 47.947006, y: -0.000011105225, z: 0}
+      rotation: {x: 0, y: 0, z: 0.08447672, w: 0.99642545}
+      length: 30.72559
+      parentId: 1
+    - name: RightSnake_4
+      position: {x: 30.725605, y: -0.000007223005, z: 0}
+      rotation: {x: 0, y: -0, z: 0.7093944, w: 0.70481175}
+      length: 18.547195
+      parentId: 2
+    - name: RightSnake_mouse
+      position: {x: 18.547195, y: -0.000008223458, z: 0}
+      rotation: {x: 0, y: 0, z: 0.33926883, w: 0.9406895}
+      length: 26.420908
+      parentId: 3
+    - name: RightSnake_mouse
+      position: {x: 19.17358, y: -9.361879, z: 0}
+      rotation: {x: 0, y: 0, z: -0.015205477, w: 0.9998844}
+      length: 21.181904
+      parentId: 3
+    - name: RightArm
+      position: {x: 61.014565, y: 2.1085165, z: 0}
+      rotation: {x: 0, y: 0, z: -0.6300379, w: -0.7765645}
+      length: 31.981337
+      parentId: 17
+    - name: RightArm_2
+      position: {x: 31.981329, y: 0.0000050986982, z: 0}
+      rotation: {x: 0, y: 0, z: -0.2412029, w: 0.9704747}
+      length: 48.5639
+      parentId: 6
+    - name: RightEar
+      position: {x: 145.72134, y: -31.89619, z: 0}
+      rotation: {x: 0, y: 0, z: -0.5219494, w: 0.8529765}
+      length: 64.16846
+      parentId: 17
+    - name: RightEar_2
+      position: {x: 64.168465, y: -0.0000073562187, z: 0}
+      rotation: {x: 0, y: 0, z: -0.15973903, w: 0.9871593}
+      length: 68.63545
+      parentId: 8
+    - name: LeftEar
+      position: {x: 176.16039, y: 1.7441223, z: 0}
+      rotation: {x: 0, y: 0, z: -0.36730063, w: 0.93010235}
+      length: 73.62601
+      parentId: 17
+    - name: LeftEar_2
+      position: {x: 73.626, y: -0.000005961877, z: 0}
+      rotation: {x: 0, y: 0, z: -0.13703051, w: 0.99056685}
+      length: 61.42309
+      parentId: 10
+    - name: LeftSnake
+      position: {x: 108.53694, y: 48.016766, z: 0}
+      rotation: {x: 0, y: 0, z: -0.36619982, w: -0.93053627}
+      length: 57.883427
+      parentId: 17
+    - name: LeftSnake_2
+      position: {x: 57.88342, y: -0.000006269527, z: 0}
+      rotation: {x: 0, y: 0, z: -0.4201107, w: 0.90747285}
+      length: 43.847652
+      parentId: 12
+    - name: LeftSnake_3
+      position: {x: 43.847656, y: 0.00000071058093, z: 0}
+      rotation: {x: 0, y: 0, z: -0.13628058, w: 0.9906703}
+      length: 39.917126
+      parentId: 13
+    - name: LeftSnake_4
+      position: {x: 39.917118, y: 0.000010548363, z: 0}
+      rotation: {x: 0, y: 0, z: 0.5716955, w: 0.82046586}
+      length: 40.93648
+      parentId: 14
+    - name: bone_5
+      position: {x: 375.3392, y: 121.01927, z: 0}
+      rotation: {x: 0, y: 0, z: 0.8571545, w: 0.5150594}
+      length: 103.663666
+      parentId: -1
+    - name: bone_6
+      position: {x: 103.66367, y: 0.000012925473, z: 0}
+      rotation: {x: 0, y: 0, z: 0.1802349, w: 0.9836236}
+      length: 62.399666
+      parentId: 16
+    - name: bone_7
+      position: {x: 62.39966, y: -0.000006385556, z: 0}
+      rotation: {x: 0, y: 0, z: 0.38498455, w: 0.922923}
+      length: 65.62663
+      parentId: 17
+    - name: bone_8
+      position: {x: 65.62663, y: 0.000014921713, z: 0}
+      rotation: {x: 0, y: 0, z: -0.8204662, w: 0.571695}
+      length: 85.0669
+      parentId: 18
+    parts:
+    - spritePosition:
+        x: 109
+        y: 75
+        width: 345
+        height: 232
+      spriteId: d9f51fca7b38be546b8e30b5d73a6c45
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 268
+        y: 206
+        width: 72
+        height: 172
+      spriteId: 0afc082db614f9248be25a2b5c258d57
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 47
+        y: 63
+        width: 241
+        height: 199
+      spriteId: 451c1014715bda5478923c7735537822
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 164
+        y: 188
+        width: 172
+        height: 295
+      spriteId: 6a833b432b4b2894dbb541693dfc41ac
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 52
+        y: 228
+        width: 168
+        height: 111
+      spriteId: 31c27d77b5f6f3f4eb31a346e3475efe
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 154
+        y: 187
+        width: 48
+        height: 67
+      spriteId: 2c7ff6dadd2a2874f822a83014a3a813
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 165
+        y: 61
+        width: 275
+        height: 236
+      spriteId: 3db3eb4e7fd89dc43888ed5b94becdc7
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 154
+        y: 205
+        width: 198
+        height: 105
+      spriteId: 019b7f7bf13a4094e9c0560e0e170f66
+      bones: 
+      parentGroup: 0
+      order: 0
     dimension: {x: 0, y: 0}
     characterGroups: []
   generateGOHierarchy: 0
