@@ -65,7 +65,6 @@ namespace Map
 
         void SetMapDisActive()
         {
-
             if(_recentIndex >= 3)
             {
                 if(_recentIndex%2==0)
