@@ -88,7 +88,7 @@ namespace Enemy
             _tempStartIndex = _targetIndex - 1;
 
             //반복 시키기 위해 함.
-            yield return StartCoroutine(Translate());
+            StartCoroutine(Translate());
         }
 
         virtual protected IEnumerator TrackingPlayer()
