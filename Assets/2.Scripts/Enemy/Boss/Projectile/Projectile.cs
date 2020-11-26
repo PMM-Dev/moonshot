@@ -11,12 +11,12 @@ namespace Enemy
         protected float _rotationSpeed = 1f;
 
         [SerializeField]
-        [Range(7, 10)]
+        [Range(2, 10)]
         protected float _triggerDistance = 7f;
 
         protected float _correctionValue = 180f;
         protected float _projectileSpeed = 4f;
-        protected Vector3 _positionVector3;
+        protected Vector3 _parentPosition;
         protected GameObject _player;
 
         public float ProjectileSpeed
@@ -31,10 +31,13 @@ namespace Enemy
 
         protected void Start()
         {
-            _positionVector3 = this.transform.parent.transform.position;
+            if (_player == null)
+                _player = MainPlayerManager.Instance.Player;
+            _parentPosition = this.transform.parent.transform.position;
             if (_player != null)
                 TargetPlayerPosition();
         }
+
 
         protected void Rotate() {
             this.transform.Rotate(Vector3.forward * Time.deltaTime * _rotationSpeed * _correctionValue);
@@ -48,11 +51,11 @@ namespace Enemy
             }
 
             if (reset == true)
-                _positionVector3.y = this.transform.position.y;
+                _parentPosition.y = this.transform.position.y;
             else
-                _positionVector3.y = this.transform.parent.position.y;
-            _positionVector3.x = _player.transform.position.x;
-            this.transform.position = _positionVector3;
+                _parentPosition.y = this.transform.parent.position.y + 1f;
+            _parentPosition.x = _player.transform.position.x;
+            this.transform.position = _parentPosition;
         }
 
         protected void Run()
