@@ -19,7 +19,6 @@ namespace Enemy
         public override IEnumerator Run()
         {
             Debug.Log("죽기 가능");
-            //지친 애니 출력
             _bossLife.IsCanAttack = true;
             while (_time < _grogyTime) {
                 _time += Time.deltaTime;
@@ -27,12 +26,22 @@ namespace Enemy
                 yield return null;
 
                 if (_bossLife.IsCanAttack == false)
+                {
+
+                    _patternAni.Play("BakcDefult");
                     break;
-            }
+                }
+                
+                }
             Debug.Log("죽기 불가");
+            _patternAni.Play("BakcDefult");
             _bossLife.IsCanAttack = false;
             
         }
 
+        public override void Play()
+        {
+            _patternAni.Play("Exhaust");
+        }
     }
 }

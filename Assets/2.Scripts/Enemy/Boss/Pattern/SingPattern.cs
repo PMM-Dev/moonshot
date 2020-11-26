@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class SingPattern : Patterns, IPattern
+    public class SingPattern : Patterns
     {
         [Header("몹 할당(Life를 가진 본체만 할당해줘야함.)")]
         [SerializeField]
@@ -75,7 +75,13 @@ namespace Enemy
                 yield return new WaitForSeconds(1);
                 _spwancount++;
             }
+            _patternAni.Play("EndSing");
 
+        }
+
+        public override void Play()
+        {
+            _patternAni.Play("Sing");
         }
     }
 }
