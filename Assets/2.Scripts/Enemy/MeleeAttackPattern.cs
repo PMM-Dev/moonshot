@@ -18,7 +18,6 @@ namespace Enemy
         }
         override protected void ActuallyPattern()
         {
-            Debug.Log("ATtack");
             if (_playerDistance < _patternRage)
             {
                 if (_patternParticle != null)

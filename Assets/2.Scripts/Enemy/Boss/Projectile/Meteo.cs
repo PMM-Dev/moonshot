@@ -8,7 +8,7 @@ namespace Enemy
     {
         private void Update()
         {
-            Rotate();
+            ChiledRotate();
             Run();
         }
 

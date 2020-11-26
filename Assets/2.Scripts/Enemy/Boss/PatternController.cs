@@ -30,12 +30,21 @@ namespace Enemy
         [SerializeField]
         [Range(1, 5)]
         protected int _exhaustPatternsCount = 5;
+        [SerializeField]
+        protected bool _isStartCoroutine = false;
 
         protected List<Patterns> _patternContainerCopy = new List<Patterns>();
         protected Patterns _currentPattern;
 
         private int _count = 0;
         private int _random = 0;
+
+        public static PatternController Instance;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -46,12 +55,20 @@ namespace Enemy
                 _patternContainerCopy.Add(_patternContainer[i]);
             }
             _exhaustPatterns.PatternAni = _pattrenAni;
-
             if (_player == null)
                 _player = MainPlayerManager.Instance.Player;
 
+            if (_isStartCoroutine)
+                Appear();
+        }
+
+        public void Appear()
+        {
+            _pattrenAni.Play("Back");
             StartCoroutine(FiniteStateMachine());
         }
+
+
         void RandomCurrentPattern()
         {
             if (_patternContainerCopy.Count <= 0)
@@ -85,5 +102,7 @@ namespace Enemy
                 yield return new WaitForSeconds(_patternAfterDelay);
             }
         }
+
+
     }
 }
