@@ -90,7 +90,7 @@ namespace Player
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
-            _bodyTransform = GetComponentInChildren<Animator>().transform;
+            _bodyTransform = GetComponentInChildren<Animator>().transform.parent.transform;
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _playerFX = GetComponent<PlayerFX>();
@@ -244,6 +244,7 @@ namespace Player
             _isMoveInputLocked = false;
         }
 
+        #region Slash
         private void Slash()
         {
             if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown(0) && !_isBulletTime)
@@ -328,6 +329,65 @@ namespace Player
             EndSlashAction?.Invoke();
         }
 
+        private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
+        {
+            _playerInput.GetOriginDirection();
+
+            float time = 0f;
+            float progress = 0f;
+            float currentTimeScale = Time.timeScale;
+
+            _slashArrow.SetActive(true);
+
+            while (true)
+            {
+                time += Time.deltaTime / Time.timeScale;
+                float angle = _playerInput.GetSlashAngle();
+                _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
+                _playerInput.GetTargetDirection();
+                _slashDirection = _playerInput.GetSlashDirection();
+                if (_playerInput.GetMouseButtonUp() || time > _data.ReadyToSlashTimeLimit)
+                {
+                    break;
+                }
+                if (progress < 1f)
+                {
+                    progress += Time.deltaTime * decreaseSpeed;
+                    Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+                }
+
+                yield return null;
+            }
+
+            _slashArrow.SetActive(false);
+
+            Time.timeScale = minSpeed;
+            _playerInput.GetTargetDirection();
+            _slashDirection = _playerInput.GetSlashDirection();
+            StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
+
+            progress = 0f;
+            currentTimeScale = Time.timeScale;
+            while (progress < 1f)
+            {
+                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
+                progress += Time.deltaTime * increaseSpeed;
+                yield return null;
+            }
+            _playerInput.GetOriginDirection();
+            _playerInput.GetTargetDirection();
+            Time.timeScale = 1f;
+            _isBulletTime = false;
+        }
+
+        private void SuccessSlashEvent()
+        {
+            _isSlashLocked = false;
+            _isJumpLocked = false;
+            _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+        }
+        #endregion
+
         private void Gravity()
         {
             if (_velocity.y > _data.GravityLimit)
@@ -368,12 +428,6 @@ namespace Player
             _animator.SetBool("isGround", _isGround);
         }
 
-        private void SuccessSlashEvent()
-        {
-            _isSlashLocked = false;
-            _isJumpLocked = false;
-            _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
-        }
 
         private IEnumerator BulletTime(float currentTime, float decreaseSpeed, float increaseSpeed, float minSpeed)
         {
@@ -414,61 +468,29 @@ namespace Player
             }
             else
             {
-                gameObject.SetActive(false);
+                _isGodMode = true;
+                _playerInput.PauseGameEvent();
+                _animator.SetTrigger("trgDie");
+                _animator.SetBool("isDie", true);
+                // gameObject.SetActive(false);
                 if (!_isTestMode)
                 {
-                    MainEventManager.Instance.GameoverEvent();
+                    StartCoroutine(DieEvent());
                 }
                 return true;
             }
         }
 
-        private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
+        private IEnumerator DieEvent()
         {
-            _playerInput.GetOriginDirection(transform.position + new Vector3(0f, 0.5f, 0f));
-
             float time = 0f;
-            float progress = 0f;
-            float currentTimeScale = Time.timeScale;
-
-            _slashArrow.SetActive(true);
-
-            while (true)
+            while (time < 2.5f)
             {
-                time += Time.deltaTime / Time.timeScale;
-                float angle = _playerInput.GetSlashAngle();
-                _playerInput.GetTargetDirection();
-                _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
-                if (_playerInput.GetMouseButtonUp(0) || time > _data.ReadyToSlashTimeLimit)
-                {
-                    break;
-                }
-                if (progress < 1f)
-                {
-                    progress += Time.deltaTime * decreaseSpeed;
-                    Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
-                }
+                time += Time.deltaTime;
                 yield return null;
             }
-
-            _slashArrow.SetActive(false);
-
-            _slashDirection = _playerInput.GetSlashDirection();
-            StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
-
-            progress = 0f;
-            Time.timeScale = minSpeed;
-            currentTimeScale = Time.timeScale;
-            while (progress < 1f)
-            {
-                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
-                progress += Time.deltaTime * increaseSpeed;
-                yield return null;
-            }
-
-            _playerInput.GetTargetDirection();
-            Time.timeScale = 1f;
-            _isBulletTime = false;
+            MainEventManager.Instance.GameoverEvent();
         }
+
     }
 }
