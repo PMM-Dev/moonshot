@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e3765d934467e46b90b641c005f3e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _patternAni: {fileID: 0}
+  _patternAni: {fileID: 1746025729}
   _patternDelay: 1
   _patternRage: 3
   _patternCollTime: 3
