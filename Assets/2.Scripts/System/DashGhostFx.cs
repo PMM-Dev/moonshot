@@ -22,11 +22,16 @@ public class DashGhostFx : MonoBehaviour
     private void OnEnable()
     {
         _sr = GetComponent<SpriteRenderer>();
-        _player = MainPlayerManager.Instance.Player.transform;
+
+        if (MainPlayerManager.Instance != null && MainPlayerManager.Instance.Player != null)
+        {
+            _player = MainPlayerManager.Instance.Player.transform;
+            transform.position = _player.position;
+            transform.rotation = _player.rotation;
+        }
 
         _alpha = _alphaSet;
-        transform.position = _player.position;
-        transform.rotation = _player.rotation;
+
         _timeActivated = Time.time;
     }
 
