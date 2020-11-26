@@ -86,6 +86,7 @@ namespace Player
         #endregion
 
         private Coroutine _bulletTimeCoroutine;
+        private SoundHelper _soundHelper;
 
         private void Awake()
         {
@@ -94,6 +95,8 @@ namespace Player
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _playerFX = GetComponent<PlayerFX>();
+
+            _soundHelper = gameObject.AddComponent<SoundHelper>();
         }
 
         private void Start()
@@ -261,7 +264,6 @@ namespace Player
         {
             _isJumpLocked = true;
             _isSlashing = true;
-            _animator.SetBool("isSlash", _isSlashing);
             _slashRange.SetActive(true);
 
             float angle = _playerInput.GetSlashAngle();
@@ -283,6 +285,8 @@ namespace Player
                 _lookDirection = LookDirection.Right;
             }
 
+            _animator.SetBool("isSlash", _isSlashing);
+            _soundHelper.PlaySound(false, "Slash");
             SlashAction?.Invoke(_lookDirection, rotateValue);
 
             Vector2 target = transform.position;
