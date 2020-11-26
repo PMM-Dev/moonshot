@@ -26,14 +26,21 @@ namespace Player
             _playerController.EndSlashAction += OffTrail;
 
             trails = _slashTrail.GetComponentsInChildren<ParticleSystem>();
-            OffTrail();
+
+            _slashGhost = GetComponentInChildren<DashGhostFxPool>();
+            for (int i = 0; i < trails.Length; i++)
+            {
+                trails[i].Stop();
+            }
         }
 
         private void OnTrail(LookDirection lookDirection, Vector3 slashDirection)
         {
             _slashTrail.SetActive(true);
             _slashTrail.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, slashDirection.z + 90f));
-            // _ghostCoroutine = StartCoroutine(_slashGhost.PlayGhostFx(lookDirection == LookDirection.Left));
+            if (_ghostCoroutine != null)
+                StopCoroutine(_ghostCoroutine);
+            _ghostCoroutine = StartCoroutine(_slashGhost.PlayGhostFx(lookDirection == LookDirection.Left));
             for (int i = 0; i < trails.Length; i++)
             {
                 trails[i].Play();
@@ -46,16 +53,7 @@ namespace Player
             {
                 trails[i].Stop();
             }
-
-            //StartCoroutine(SetTrail(false));
-            // StopCoroutine(_ghostCoroutine);
-        }
-
-        private IEnumerator SetTrail(bool isOn)
-        {
-            yield return new WaitForSeconds(0.2f);
-            _slashTrail.SetActive(false);
-            yield return null;
+            StopCoroutine(_ghostCoroutine);
         }
     }
 }

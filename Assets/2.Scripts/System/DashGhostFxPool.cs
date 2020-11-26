@@ -19,12 +19,13 @@ public class DashGhostFxPool : MonoBehaviour
     private GameObject _ghostPrefab;
     private Queue<GameObject> availableObjects = new Queue<GameObject>();
 
-    private Vector3 _playerLocalscal;
+    private Vector3 _playerLocalScale;
 
 
     private void Start()
     {
-        _playerLocalscal = MainPlayerManager.Instance.Player.transform.localScale;
+        // _playerLocalScale = MainPlayerManager.Instance.Player.transform.localScale;
+        _playerLocalScale = new Vector3(1f, 1f, 1f);
     }
 
     public IEnumerator PlayGhostFx(bool isLeft)
@@ -50,6 +51,7 @@ public class DashGhostFxPool : MonoBehaviour
     public void AddToPool(GameObject instance)
     {
         instance.SetActive(false);
+        instance.transform.parent = this.transform;
         availableObjects.Enqueue(instance);
     }
 
@@ -60,10 +62,11 @@ public class DashGhostFxPool : MonoBehaviour
             GrowPool();
         }
         var instance = availableObjects.Dequeue();
-        if (isLeft) instance.transform.localScale = _playerLocalscal;
-        else instance.transform.localScale = new Vector3(-1 * _playerLocalscal.x, _playerLocalscal.y, _playerLocalscal.z);
+        if (isLeft) instance.transform.localScale = _playerLocalScale;
+        else instance.transform.localScale = new Vector3(-1 * _playerLocalScale.x, _playerLocalScale.y, _playerLocalScale.z);
 
         instance.SetActive(true);
+        instance.transform.parent = null;
         return instance;
     }
 }
