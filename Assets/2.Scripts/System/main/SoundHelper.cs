@@ -58,14 +58,14 @@ public class SoundHelper : MonoBehaviour
 
     public void PlaySound(bool isLoop, string clipName)
     {
-        _audioSource.volume = _audioVolume * _soundManager.GetCurrentVolume();
+        _audioSource.volume = _audioVolume * _soundManager.GetCurrentFXVolume();
 
         PlaySoundByType(isLoop, clipName);
     }
 
     public void PlaySound(bool isLoop, string clipName, float customVolume)
     {
-        _audioSource.volume = customVolume * _soundManager.GetCurrentVolume();
+        _audioSource.volume = customVolume * _soundManager.GetCurrentFXVolume();
 
         PlaySoundByType(isLoop, clipName);
 
@@ -74,7 +74,7 @@ public class SoundHelper : MonoBehaviour
 
     public void PlaySound(bool isLoop, string clipName, float customVolume, float tempMinDistance, float tempMaxDistance)
     {
-        _audioSource.volume = customVolume * _soundManager.GetCurrentVolume();
+        _audioSource.volume = customVolume * _soundManager.GetCurrentFXVolume();
         _audioSource.minDistance = tempMinDistance;
         _audioSource.maxDistance = tempMaxDistance;
 
