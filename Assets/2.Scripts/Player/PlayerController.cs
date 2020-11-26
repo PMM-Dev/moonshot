@@ -414,13 +414,28 @@ namespace Player
             }
             else
             {
-                gameObject.SetActive(false);
+                _isGodMode = true;
+                _playerInput.PauseGameEvent();
+                _animator.SetTrigger("trgDie");
+                _animator.SetBool("isDie", true);
+
                 if (!_isTestMode)
                 {
-                    MainEventManager.Instance.GameoverEvent();
+                    StartCoroutine(DieEvent());
                 }
                 return true;
             }
+        }
+
+        private IEnumerator DieEvent()
+        {
+            float time = 0f;
+            while (time < 2.5f)
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
+            MainEventManager.Instance.GameoverEvent();
         }
 
         private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
