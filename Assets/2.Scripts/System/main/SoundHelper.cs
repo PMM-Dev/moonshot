@@ -14,6 +14,9 @@ public class SoundHelper : MonoBehaviour
     [Range(0f, 1000f)]
     [SerializeField]
     private float _maxDistance = 100f;
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float _audioVolume = 1f;
 
     private void Awake()
     {
@@ -44,6 +47,29 @@ public class SoundHelper : MonoBehaviour
 
     public void PlaySound(string clipName)
     {
+        _audioSource.volume = _audioVolume * _soundManager.GetCurrentVolume();
         _soundManager.PlayFXSound(ref _audioSource, clipName);
+    }
+
+    public void PlaySound(string clipName, float customVolume)
+    {
+        _audioSource.volume = customVolume * _soundManager.GetCurrentVolume();
+
+        _soundManager.PlayFXSound(ref _audioSource, clipName);
+
+        _audioSource.volume = _audioVolume;
+    }
+
+    public void PlaySound(string clipName, float customVolume, float tempMinDistance, float tempMaxDistance)
+    {
+        _audioSource.volume = customVolume * _soundManager.GetCurrentVolume();
+        _audioSource.minDistance = tempMinDistance;
+        _audioSource.maxDistance = tempMaxDistance;
+
+        _soundManager.PlayFXSound(ref _audioSource, clipName);
+
+        _audioSource.minDistance = _minDistance;
+        _audioSource.maxDistance = _maxDistance;
+        _audioSource.volume = _audioVolume;
     }
 }

@@ -61,13 +61,13 @@ public class MainSoundManager : MonoBehaviour
 
     public void PlayFXSound(ref AudioSource audio, string fileName)
     {
-        audio.volume = GetCurrentVolume();
+
         audio.loop = false;
         audio.clip = _audioClips[fileName];
         audio.Play();
     }
 
-    private float GetCurrentVolume()
+    public float GetCurrentVolume()
     {
         return _isMute ? 0 : _fxVolume * _bgVolume * _masterVolume;
     }
