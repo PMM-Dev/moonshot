@@ -2022,6 +2022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3199bdc3eae534c59a4970fdc1b836e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainUIManager: {fileID: 0}
 --- !u!114 &1604407123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2050,6 +2051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c757815ec7c25438399be3935635ea1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 6462421197099681960, guid: e9afd70734db0c2459f5c91d2112ab0e,
+    type: 3}
   _spawnPos: {fileID: 1377740177}
 --- !u!1 &1605831973
 GameObject:
