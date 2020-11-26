@@ -28,7 +28,7 @@ namespace Enemy
         private int _count = 0;
         private int _random = 0;
 
-        private void Awake()
+        private void Start()
         {
             for (int i = 0; i < _patternContainer.Count; i++)
             {
@@ -36,8 +36,8 @@ namespace Enemy
                 _patternContainerCopy.Add(_patternContainer[i]);
             }
 
-            if(_player == null)
-                _player = GameObject.FindWithTag("Player");
+            if (_player == null)
+                _player = MainPlayerManager.Instance.Player;
 
             StartCoroutine(FiniteStateMachine());
         }
