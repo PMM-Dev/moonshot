@@ -48,7 +48,7 @@ namespace Enemy
             if (_wayPoints.Length > 0)
                 this.transform.position = _wayPoints[_tempStartIndex].gameObject.transform.position;
             SetFlipSize();
-            StartCoroutine(Translate());
+            // StartCoroutine(Translate());
         }
 
 

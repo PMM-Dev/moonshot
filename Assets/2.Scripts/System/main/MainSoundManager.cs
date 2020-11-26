@@ -6,17 +6,6 @@ using UnityEngine.SocialPlatforms;
 public class MainSoundManager : MonoBehaviour
 {
     public static MainSoundManager Instance { get; private set; }
-
-    public enum SoundFXType
-    {
-        Explode,
-        ElevatorRising,
-        ElevatorDoorOpen,
-        Slash,
-        ShootLazer,
-        WolfAttack
-    }
-
     //
     // SINGLETON
 
@@ -33,6 +22,16 @@ public class MainSoundManager : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField]
     private float _bgVolume = 1f;
+
+    public float BGVolume
+    {
+        get { return _bgVolume; }
+        set
+        {
+            _bgVolume = value;
+            _audioSource.volume = GetCurrentBGVolume() * 0.6f;
+        }
+    }
     [Range(0f, 1f)]
     [SerializeField]
     private float _masterVolume = 1f;
@@ -46,6 +45,12 @@ public class MainSoundManager : MonoBehaviour
 
         GetSoundsFromResources();
 
+    }
+
+    private void Start()
+    {
+        if (MainEventManager.Instance != null)
+            MainEventManager.Instance.StartMainGameEvent += PlayBGM;
     }
 
     private void GetSoundsFromResources()
@@ -71,8 +76,21 @@ public class MainSoundManager : MonoBehaviour
         audio.Play();
     }
 
-    public float GetCurrentVolume()
+    public float GetCurrentFXVolume()
     {
-        return _isMute ? 0 : _fxVolume * _bgVolume * _masterVolume;
+        return _isMute ? 0 : _fxVolume * _masterVolume;
+    }
+
+    public float GetCurrentBGVolume()
+    {
+        return _isMute ? 0 : _bgVolume * _masterVolume;
+    }
+
+    public void PlayBGM()
+    {
+        _audioSource.loop = true;
+        _audioSource.clip = _audioClips["MainTheme"];
+        _audioSource.volume = GetCurrentBGVolume() * 0.6f;
+        _audioSource.Play();
     }
 }
