@@ -39,9 +39,7 @@ public class MainPlayerManager : MonoBehaviour
 
     public void SpawnPlayerfromElevator()
     {
-        GameObject oldPlayer = Player;
-        Player = Instantiate(_playerPrefab, _spawnPos.position, _spawnPos.rotation);
-        if (oldPlayer != null) Destroy(oldPlayer);
+        Player.transform.position = _spawnPos.position;
     }
 
     public void SetPlayerAsCameraFocus()
