@@ -8,7 +8,7 @@ namespace Map
     {
         [SerializeField]
         private GameObject _player;
-
+        [SerializeField]
         private bool _canMakePlayerDie;
 
         private void Start()
