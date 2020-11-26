@@ -133,6 +133,7 @@ namespace Player
             Stick();
             Move();
             Slash();
+            GroundSound();
             CollideWithGround();
         }
 
@@ -196,6 +197,22 @@ namespace Player
             _bodyTransform.localScale = new Vector3((int)_lookDirection * -1, 1);
         }
 
+        private void GroundSound()
+        {
+            if (_isGround && _currentSpeed != 0f)
+            {
+                if (!_soundHelper.IsPlaying())
+                    _soundHelper.PlaySound(true, "Run");
+            }
+            else
+            {
+                if (_soundHelper.IsPlaying())
+                {
+                    _soundHelper.StopLoopSound();
+                }
+            }
+        }
+
         private void Jump()
         {
             if (_jumpState == JumpState.None)
@@ -204,6 +221,7 @@ namespace Player
             }
 
             _isJumpLocked = true;
+            _soundHelper.PlaySound(false, "Jump");
 
             if (_jumpState == JumpState.Wall)
             {

@@ -55,13 +55,15 @@ namespace Player
         {
             _slashTrail.SetActive(true);
             _slashTrail.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, slashDirection.z + 90f));
-            if (_ghostCoroutine != null)
-                StopCoroutine(_ghostCoroutine);
-            _ghostCoroutine = StartCoroutine(_slashGhost.PlayGhostFx(lookDirection == LookDirection.Left));
+
             for (int i = 0; i < _trails.Length; i++)
             {
                 _trails[i].Play();
             }
+
+            if (_ghostCoroutine != null)
+                StopCoroutine(_ghostCoroutine);
+            _ghostCoroutine = StartCoroutine(_slashGhost.PlayGhostFx(lookDirection == LookDirection.Left));
         }
 
         private void OffTrail()
