@@ -247,25 +247,14 @@ namespace Player
         #region Slash
         private void Slash()
         {
-            if (_playerInput.GetMouseButtonDown())
+            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown(0) && !_isBulletTime)
             {
-                _playerInput.GetOriginDirection();
-            }
-
-            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButton() && !_isBulletTime)
-            {
-                _playerInput.GetTargetDirection();
-
-                if (_playerInput.GetMouseInputDistance() > _data.SlashRangeSensitive)
+                _isBulletTime = true;
+                if (_bulletTimeCoroutine != null)
                 {
-                    _isBulletTime = true;
-                    if (_bulletTimeCoroutine != null)
-                    {
-                        StopCoroutine(_bulletTimeCoroutine);
-                    }
-
-                    _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+                    StopCoroutine(_bulletTimeCoroutine);
                 }
+                _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
             }
         }
 

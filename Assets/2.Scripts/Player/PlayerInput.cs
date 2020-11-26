@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 
 namespace Player
 {
     public class PlayerInput
     {
+        private Camera _camera;
+
         private Dictionary<InputType, KeyCode> _inputKeys;
         private Dictionary<PressKeyType, Func<InputType, bool>> _getKeys;
 
@@ -24,6 +27,8 @@ namespace Player
                 MainEventManager.Instance.PauseGamePlayEvent += PauseGameEvent;
                 MainEventManager.Instance.ResumeGamePlayEvent += ResumeGameEvent;
             }
+
+            _camera = Camera.main;
         }
 
         public void PauseGameEvent()
@@ -74,9 +79,9 @@ namespace Player
             return Input.GetKey(_inputKeys[inputType]);
         }
 
-        public void GetOriginDirection()
+        public void GetOriginDirection(Vector3 position)
         {
-            _originMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _originMousePosition = position;
         }
 
         public void GetTargetDirection()
@@ -84,16 +89,27 @@ namespace Player
             _targetMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
-        public bool GetMouseButtonDown()
+        public bool GetMouseButtonDown(int index)
         {
             if (_isPause) return false;
-            return Input.GetMouseButtonDown(0);
+            if (Input.GetMouseButtonDown(index))
+            {
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
         }
 
-        public bool GetMouseButtonUp()
+        public bool GetMouseButtonUp(int index)
         {
             if (_isPause) return false;
-            return Input.GetMouseButtonUp(0);
+            return Input.GetMouseButtonUp(index);
         }
 
         public bool GetMouseButton()
