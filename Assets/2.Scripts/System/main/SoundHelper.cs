@@ -63,6 +63,16 @@ public class SoundHelper : MonoBehaviour
         PlaySoundByType(isLoop, clipName);
     }
 
+    public void StopLoopSound()
+    {
+        _loopAudioSource.Stop();
+    }
+
+    public bool IsPlaying()
+    {
+        return _loopAudioSource.isPlaying;
+    }
+
     public void PlaySound(bool isLoop, string clipName, float customVolume)
     {
         _audioSource.volume = customVolume * _soundManager.GetCurrentFXVolume();
@@ -88,8 +98,13 @@ public class SoundHelper : MonoBehaviour
     private void PlaySoundByType(bool isLoop, string clipName)
     {
         if (!isLoop)
+        {
             _soundManager.PlayFXSound(ref _audioSource, clipName);
+        }
         else
+        {
             _soundManager.PlayLoopSound(ref _loopAudioSource, clipName);
+        }
+
     }
 }

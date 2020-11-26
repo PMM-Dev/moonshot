@@ -29,7 +29,7 @@ public class MainSoundManager : MonoBehaviour
         set
         {
             _bgVolume = value;
-            _audioSource.volume = GetCurrentBGVolume() * 0.6f;
+            _audioSource.volume = GetCurrentBGVolume() * 0.4f;
         }
     }
     [Range(0f, 1f)]
@@ -90,7 +90,7 @@ public class MainSoundManager : MonoBehaviour
     {
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["MainTheme"];
-        _audioSource.volume = GetCurrentBGVolume() * 0.6f;
+        _audioSource.volume = GetCurrentBGVolume() * 0.4f;
         _audioSource.Play();
     }
 }
