@@ -9,6 +9,8 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private GameObject _startPanel;
     [SerializeField]
+    private GameObject _mainPanel;
+    [SerializeField]
     private GameObject _optionPanel;
     [SerializeField]
     private GameObject _gameoverPanel;
@@ -23,11 +25,7 @@ public class MainUIManager : MonoBehaviour
         _mainGameManager.GameStart();
 
         _startPanel.SetActive(false);
-    }
-
-    public void ShowGameoverUI()
-    {
-        _gameoverPanel.SetActive(true);
+        _mainPanel.SetActive(true);
     }
 
     public void OnClickRestart()
@@ -54,6 +52,12 @@ public class MainUIManager : MonoBehaviour
         _optionPanel.SetActive(false);
 
         OnClickRestart();
+    }
+
+    public void ShowGameoverUI()
+    {
+        _mainPanel.SetActive(false);
+        _gameoverPanel.SetActive(true);
     }
 
     public void ShowEndingPanel()
