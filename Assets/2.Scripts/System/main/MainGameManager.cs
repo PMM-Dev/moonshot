@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class MainGameManager : MonoBehaviour
 {
+    public static MainGameManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    //
+    // SINGLETON
+
     [SerializeField]
     private ElevatorMovement _elevatorMovement;
     [SerializeField]
