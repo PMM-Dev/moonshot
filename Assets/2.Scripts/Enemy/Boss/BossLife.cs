@@ -18,6 +18,7 @@ namespace Enemy
         public void Die() {
             if (_bossLife > 0)
                 return;
+            Debug.Log("쥬금");
             //죽는 애니메이션 출력
             //죽은 뒤에 하는 뭐 클리어창.
         }

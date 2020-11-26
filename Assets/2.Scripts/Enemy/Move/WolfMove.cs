@@ -8,9 +8,10 @@ namespace Enemy
     {
         override protected IEnumerator Translate()
         {
-                CalculationDistance(_player.transform.position);
-                FlipSize();
-            yield return StartCoroutine(Translate());
+            CalculationDistance(_player.transform.position);
+            FlipSize();
+            yield return null;
+            StartCoroutine(Translate());
         }
     }
 }
