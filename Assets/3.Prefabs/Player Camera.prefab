@@ -304,8 +304,8 @@ MonoBehaviour:
   _target: {fileID: 0}
   _smoothSpeed: 0.125
   _offeset: {x: 0, y: 0, z: -10}
-  _maxCameraMovementOfX: 9.6
-  _minCameraMovementOfX: -9.7
+  _maxCameraMovementOfX: 6.2
+  _minCameraMovementOfX: -5.76
 --- !u!1 &8063973525345304224
 GameObject:
   m_ObjectHideFlags: 0
