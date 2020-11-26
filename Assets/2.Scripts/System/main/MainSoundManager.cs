@@ -1,14 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class MainSoundManager : MonoBehaviour
 {
     public static MainSoundManager Instance { get; private set; }
 
-    private void Awake()
+    public enum SoundFXType
     {
-        Instance = this;
+        Explode,
+        ElevatorRising,
+        ElevatorDoorOpen,
+        Slash,
+        ShootLazer,
+        WolfAttack
     }
 
     //
@@ -30,33 +36,45 @@ public class MainSoundManager : MonoBehaviour
     [SerializeField]
     private AudioClip _wolfAttack;
 
-    public void PlayExplodeSound()
+    private Dictionary<SoundFXType, AudioClip> _clips;
+
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float _fxVolume = 1f;
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float _bgVolume = 1f;
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float _masterVolume = 1f;
+
+    private bool _isMute;
+
+
+    private void Awake()
     {
-        _audioSource.PlayOneShot(_explode);
+        Instance = this;
+        _clips = new Dictionary<SoundFXType, AudioClip>()
+        {
+            { SoundFXType.Explode, _explode },
+            { SoundFXType.ElevatorRising, _elevatorRising },
+            { SoundFXType.ElevatorDoorOpen, _elevatorDoorOpen },
+            { SoundFXType.Slash, _slash },
+            { SoundFXType.ShootLazer, _shootLazer },
+            { SoundFXType.WolfAttack, _wolfAttack }
+        };
     }
 
-    public void PlayElevatorRisingSound()
+    public void PlayFXSound(ref AudioSource audio, SoundFXType type)
     {
-        _audioSource.PlayOneShot(_elevatorRising);
+        audio.volume = GetCurrentVolume();
+        audio.loop = false;
+        audio.clip = _clips[type];
+        audio.Play();
     }
 
-    public void PlayElevatorDoorOpenSound()
+    private float GetCurrentVolume()
     {
-        _audioSource.PlayOneShot(_elevatorDoorOpen);
-    }
-
-    public void PlaySlashSound()
-    {
-        _audioSource.PlayOneShot(_slash);
-    }
-
-    public void PlayShootLazerSound()
-    {
-        _audioSource.PlayOneShot(_shootLazer);
-    }
-
-    public void PlayWolfAttackSound()
-    {
-        _audioSource.PlayOneShot(_wolfAttack);
+        return _isMute ? 0 : _fxVolume * _bgVolume * _masterVolume;
     }
 }
