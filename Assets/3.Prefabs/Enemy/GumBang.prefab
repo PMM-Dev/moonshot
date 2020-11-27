@@ -116,6 +116,8 @@ MonoBehaviour:
   _patternDelay: 1
   _patternRage: 1
   _patternCollTime: 0.1
+  _player: {fileID: 0}
+  _isHaveSound: 0
   _patternParticle: {fileID: 0}
 --- !u!70 &4082604755650773476
 CapsuleCollider2D:
@@ -188,7 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879f6d4e983b25948aa9bbca7397713b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slashedParticle: {fileID: 0}
+  _slashedParticle: {fileID: 3714661877788730016, guid: 0fdff11380fb84c76a75062ed3cecc53,
+    type: 3}
 --- !u!1 &5134037989943065394
 GameObject:
   m_ObjectHideFlags: 0
