@@ -15,6 +15,7 @@ namespace Enemy{
         [Tooltip("패턴 딜레이를 포함한 쿨타임")][SerializeField]
         protected float _patternCollTime;
         private bool _isCanPattern = true;
+        [SerializeField]
         protected GameObject _player;
         protected float _playerDistance = 9999f;
         protected SoundHelper _soundhelper;
@@ -22,7 +23,9 @@ namespace Enemy{
         private void Start()
         {
             _player = MainPlayerManager.Instance.Player;
-            _soundhelper = this.gameObject.AddComponent<SoundHelper>();
+            if (_soundhelper != null)
+                _soundhelper = this.gameObject.AddComponent<SoundHelper>();
+            _isCanPattern = true;
         }
 
         private void Update()
@@ -31,6 +34,19 @@ namespace Enemy{
                 PlayerDistanceCalculation();
             if (_playerDistance < _patternRage)
                 AttackPattern();
+        }
+
+        private void OnEnable()
+        {
+            if (_player != null)
+            {
+                PlayerDistanceCalculation();
+                _player = MainPlayerManager.Instance.Player;
+            }
+            if (_soundhelper != null)
+                _soundhelper = this.gameObject.AddComponent<SoundHelper>();
+            _isCanPattern = true;
+
         }
 
         void PlayerDistanceCalculation()
@@ -55,7 +71,8 @@ namespace Enemy{
 
         IEnumerator Pattern1() {
             //애니메이팅 스타트 단 애니메이션은 _patternDelay랑 길이가 같아야함
-            _patternAni.Play("Pattern");
+            
+            Animation();
             yield return new WaitForSeconds(_patternDelay);
             ActuallyPattern();
         }
@@ -67,6 +84,8 @@ namespace Enemy{
             _isCanPattern = true;
 
         }
+
+        virtual protected void Animation() { _patternAni.Play("Pattern"); }
 
         //overriding Actually pattern
         virtual protected void ActuallyPattern() {

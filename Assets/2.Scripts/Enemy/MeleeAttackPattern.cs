@@ -16,6 +16,7 @@ namespace Enemy
             if (_patternParticle != null)
                 _patternParticle.Stop();
         }
+
         override protected void ActuallyPattern()
         {
             if (_playerDistance < _patternRage)
@@ -26,6 +27,12 @@ namespace Enemy
                 }
                 _player.GetComponent<IDamage>().GetDamage();
             }
+        }
+
+
+        override protected void Animation()
+        {
+            _patternAni.Play("WolfMeelAttack");
         }
     }
 }
