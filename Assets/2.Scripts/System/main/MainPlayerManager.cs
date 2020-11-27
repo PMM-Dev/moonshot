@@ -11,7 +11,8 @@ public class MainPlayerManager : MonoBehaviour
     {
         Instance = this;
 
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = Instantiate(Resources.Load<GameObject>("Player/Player"));
+        Player.SetActive(false);
     }
 
     //
@@ -31,14 +32,11 @@ public class MainPlayerManager : MonoBehaviour
     }
 
     [SerializeField]
-    private GameObject _playerPrefab;
-    [SerializeField]
     private Transform _spawnPos;
-
-
 
     public void SpawnPlayerfromElevator()
     {
+        Player.SetActive(true);
         Player.transform.position = _spawnPos.position;
     }
 
