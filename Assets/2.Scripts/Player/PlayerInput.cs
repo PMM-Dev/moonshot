@@ -92,9 +92,10 @@ namespace Player
         public bool GetMouseButtonDown(int index)
         {
             if (_isPause) return false;
+
             if (Input.GetMouseButtonDown(index))
             {
-                if (EventSystem.current == null || EventSystem.current.IsPointerOverGameObject())
+                if (EventSystem.current == null || !EventSystem.current.IsPointerOverGameObject())
                 {
                     return true;
                 }
