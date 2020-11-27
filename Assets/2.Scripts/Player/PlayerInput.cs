@@ -94,7 +94,7 @@ namespace Player
             if (_isPause) return false;
             if (Input.GetMouseButtonDown(index))
             {
-                if (!EventSystem.current.IsPointerOverGameObject())
+                if (EventSystem.current == null || EventSystem.current.IsPointerOverGameObject())
                 {
                     return true;
                 }
