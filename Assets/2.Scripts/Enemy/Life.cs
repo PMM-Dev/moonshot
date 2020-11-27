@@ -11,12 +11,12 @@ namespace Enemy
 
         private void Start()
         {
-           // _slashedParticle.Stop();
+            
         }
 
         public bool GetDamage()
         {
-            //_slashedParticle.Play();
+            Instantiate(_slashedParticle, this.transform.position, this.transform.rotation).gameObject.SetActive(true);
             this.gameObject.SetActive(false);
             return true;
         }

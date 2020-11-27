@@ -7,32 +7,32 @@ namespace Enemy
     
     public class MeleeAttackPattern : Pattern
     {
-
         [SerializeField]
         protected ParticleSystem _patternParticle;
+
         private void Awake()
         {
-
             if (_patternParticle != null)
                 _patternParticle.Stop();
         }
 
         override protected void ActuallyPattern()
         {
+            Debug.Log("공격");
+            if (_patternParticle != null)
+                _patternParticle.Play();
             if (_playerDistance < _patternRage)
-            {
-                if (_patternParticle != null)
-                {
-                    _patternParticle.Play();
-                }
                 _player.GetComponent<IDamage>().GetDamage();
-            }
         }
 
 
         override protected void Animation()
         {
-            _patternAni.Play("WolfMeelAttack");
+            Debug.Log("애니 시작");
+            if (_patternAni != null)
+                _patternAni.Play("WolfMeelAttack");
+            if (_soundhelper != null)
+                _soundhelper.PlaySound(false, "WolfAttack");
         }
     }
 }

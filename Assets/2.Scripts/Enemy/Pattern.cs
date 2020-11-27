@@ -23,7 +23,7 @@ namespace Enemy{
         private void Start()
         {
             _player = MainPlayerManager.Instance.Player;
-            if (_soundhelper != null)
+            if (_soundhelper == null)
                 _soundhelper = this.gameObject.AddComponent<SoundHelper>();
             _isCanPattern = true;
         }
