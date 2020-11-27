@@ -171,7 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879f6d4e983b25948aa9bbca7397713b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slashedParticle: {fileID: 0}
+  _slashedParticle: {fileID: 3714661877788730016, guid: 0fdff11380fb84c76a75062ed3cecc53,
+    type: 3}
 --- !u!58 &3884113856587164206
 CircleCollider2D:
   m_ObjectHideFlags: 0
