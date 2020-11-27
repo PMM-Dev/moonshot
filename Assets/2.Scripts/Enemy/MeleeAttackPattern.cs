@@ -18,7 +18,6 @@ namespace Enemy
 
         override protected void ActuallyPattern()
         {
-            Debug.Log("공격");
             if (_patternParticle != null)
                 _patternParticle.Play();
             if (_playerDistance < _patternRage)
@@ -28,7 +27,6 @@ namespace Enemy
 
         override protected void Animation()
         {
-            Debug.Log("애니 시작");
             if (_patternAni != null)
                 _patternAni.Play("WolfMeelAttack");
             if (_soundhelper != null)

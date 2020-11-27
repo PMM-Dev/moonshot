@@ -18,12 +18,16 @@ namespace Enemy{
         [SerializeField]
         protected GameObject _player;
         protected float _playerDistance = 9999f;
+        [Tooltip("굼뱅이는 체크 해제 해줘야함")]
+        [SerializeField]
+        protected bool _isHaveSound = true;
         protected SoundHelper _soundhelper;
         //float _time = 0; 2번 패턴 사용시 필요
+
         private void Start()
         {
             _player = MainPlayerManager.Instance.Player;
-            if (_soundhelper == null)
+            if (_soundhelper == null && _isHaveSound == true)
                 _soundhelper = this.gameObject.AddComponent<SoundHelper>();
             _isCanPattern = true;
         }
