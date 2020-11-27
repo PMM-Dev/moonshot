@@ -7,6 +7,13 @@ namespace Enemy
 
     public abstract class Patterns : MonoBehaviour, IPattern ,IAnimation
     {
+
+        [SerializeField]
+        [Range(0, 4)]
+        protected float _patternTime = 0.5f;
+        [SerializeField]
+        [Range(1, 5)]
+        protected float _rotationSpeed;
         [Tooltip("발사체 프리펩 넣기")]
         [SerializeField]
         protected GameObject _projectile;

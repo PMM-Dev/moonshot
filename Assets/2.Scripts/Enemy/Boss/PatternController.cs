@@ -85,17 +85,17 @@ namespace Enemy
             while (true)
             {
                 yield return new WaitForSeconds(_patternAfterDelay);
-                //애니메이션
                 RandomCurrentPattern();
                 _currentPattern.Play();
                 yield return StartCoroutine(_currentPattern.Run());
                 _count++;
                 if (_count >= _exhaustPatternsCount)
                 {
-                    yield return new WaitForSeconds(_patternAfterDelay);
+                   // _pattrenAni.Play("Defult");
+                    yield return new WaitForSeconds(_patternAfterDelay/2);
                     _exhaustPatterns.Play();
+                    yield return new WaitForSeconds(_patternAfterDelay / 2);
                     yield return StartCoroutine(_exhaustPatterns.Run());
-                    _pattrenAni.Play("Defult");
 
                     _count = 0;
                 }

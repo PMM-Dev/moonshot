@@ -30,7 +30,6 @@ namespace Enemy
         {
             _startPosition = this.transform.parent.transform.position;
             _downPosition = this.transform.position;
-            _upPosition = this.transform.position;
             _upPosition = _startPosition;
             _downPosition = _startPosition;
             _downPosition.y -= (_startPosition.y * _triggerDistance);
@@ -65,7 +64,6 @@ namespace Enemy
             }
             SetDownPosition();
             yield return StartCoroutine(Up());
-            this.gameObject.SetActive(false);
         }
 
         IEnumerator Up()
@@ -82,6 +80,7 @@ namespace Enemy
                 yield return null;
             }
             yield return null;
+            this.gameObject.SetActive(false);
         }
 
 

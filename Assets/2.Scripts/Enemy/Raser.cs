@@ -20,10 +20,12 @@ namespace Enemy
         private float _time = 0;
         private GameObject _player;
         private float _playerDistance;
+        protected SoundHelper _soundhelper;
 
 
         private void Start()
         {
+            _soundhelper = this.gameObject.AddComponent<SoundHelper>();
             _player = MainPlayerManager.Instance.Player;
 
             for (int i = 0; i < _shotParticle.Length; i++)
@@ -40,6 +42,7 @@ namespace Enemy
             if (_time > _builletInterver)
             {
                 CreateBullet();
+                _soundhelper.PlaySound(false, "ShootLazer");
             }
         }
 
