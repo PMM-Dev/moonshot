@@ -22,7 +22,7 @@ namespace Map
         }
         private void Start()
         {
-            _Player = FindObjectOfType<Player.PlayerController>().gameObject;
+            _Player = MainPlayerManager.Instance.Player;
         }
         void Update()
         {
