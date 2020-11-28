@@ -102,25 +102,37 @@ public class MainSoundManager : MonoBehaviour
         float t = 0f;
         while (t < 1f)
         {
-            t += Time.deltaTime;
+            t += Time.deltaTime * 0.5f;
             _audioSource.volume = Mathf.Lerp(originVolume, 0f, t);
 
             yield return null;
         }
+
+        _audioSource.Stop();
     }
 
-    public IEnumerator FadeIn()
+    public IEnumerator PlayEndingFade()
     {
+        StopBGM();
+        yield return new WaitForSeconds(2f);
+
+        _audioSource.loop = true;
+        _audioSource.clip = _audioClips["Ending"];
+
         float targetVolume = GetCurrentBGVolume() * 0.4f;
+
+        _audioSource.Play();
 
         float t = 0f;
         while (t < 1f)
         {
-            t += Time.deltaTime;
+            t += Time.deltaTime * 0.5f;
             _audioSource.volume = Mathf.Lerp(0f, targetVolume, t);
 
             yield return null;
         }
+
+   
     }
 
     public void PlayBGM()
@@ -141,9 +153,6 @@ public class MainSoundManager : MonoBehaviour
 
     public void PlayEndingBGM()
     {
-        _audioSource.loop = true;
-        _audioSource.clip = _audioClips["Ending"];
-        StartCoroutine(FadeIn());
-        _audioSource.Play();
+        StartCoroutine(PlayEndingFade());
     }
 }
