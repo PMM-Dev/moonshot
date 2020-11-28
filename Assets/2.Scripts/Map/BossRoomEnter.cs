@@ -53,6 +53,7 @@ namespace Map
 
         private IEnumerator BossCutScene()
         {
+            yield return new WaitForSeconds(2f);
             StartCoroutine(MoveSlow(_bossBlockStartPoint, _bossBlockEndPoint, 0.5f, this.gameObject));
             yield return new WaitForSeconds(0.7f);
             foreach (GameObject block in _bossBlock)
@@ -66,6 +67,8 @@ namespace Map
                 StartCoroutine(MoveSlow(startpoint, endpoint, 1f, block));
                 StartCoroutine(ChangeColor(block));
             }
+            yield return new WaitForSeconds(3f);
+            Enemy.PatternController.Instance.Appear();
             yield return null;
         }
 
