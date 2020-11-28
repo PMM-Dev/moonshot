@@ -15,15 +15,6 @@ namespace Map
             MainEventManager.Instance.StartMainGameEvent += _mapSetActive.MakeList;
         }
 
-        private void Update()//delete later
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                _mapMaking.CreateStage();
-                _mapSetActive.MakeList();
-            }
-        }
-
         private void Awake()
         {
             _mapMaking = GetComponent<MapMaking>();
