@@ -86,10 +86,37 @@ public class MainSoundManager : MonoBehaviour
         return _isMute ? 0 : _bgVolume * _masterVolume;
     }
 
+    public void StopBGM()
+    {
+        StartCoroutine(FadeOut());
+    }
+
+    public IEnumerator FadeOut()
+    {
+        float originVolume = _audioSource.volume;
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime;
+            _audioSource.volume = Mathf.Lerp(originVolume, 0f, t);
+
+            yield return null;
+        }
+    }
+
     public void PlayBGM()
     {
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["MainTheme"];
+        _audioSource.volume = GetCurrentBGVolume() * 0.4f;
+        _audioSource.Play();
+    }
+
+    public void PlayBossBGM()
+    {
+        _audioSource.loop = true;
+        _audioSource.clip = _audioClips["backOfMoon"];
         _audioSource.volume = GetCurrentBGVolume() * 0.4f;
         _audioSource.Play();
     }
