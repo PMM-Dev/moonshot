@@ -91,10 +91,10 @@ namespace Enemy
                 _count++;
                 if (_count >= _exhaustPatternsCount)
                 {
-                   // _pattrenAni.Play("Defult");
-                    yield return new WaitForSeconds(_patternAfterDelay/2);
+                    yield return new WaitForSeconds(_patternAfterDelay);
+                    _pattrenAni.Play("Defult");
+                    yield return new WaitForSeconds(_patternAfterDelay);
                     _exhaustPatterns.Play();
-                    yield return new WaitForSeconds(_patternAfterDelay / 2);
                     yield return StartCoroutine(_exhaustPatterns.Run());
 
                     _count = 0;

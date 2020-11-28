@@ -46,6 +46,7 @@ namespace Enemy
             }
         }
 
+
         private void PlayerDistanceCalculation()
         {
             _playerDistance = Vector3.Magnitude(_player.transform.position - this.gameObject.transform.position);
