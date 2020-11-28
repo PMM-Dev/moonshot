@@ -288,6 +288,8 @@ MonoBehaviour:
   - {fileID: 1738080125}
   - {fileID: 1024328848}
   - {fileID: 1604407118}
+  - {fileID: 352440444}
+  - {fileID: 760354261}
 --- !u!1001 &106215612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -543,7 +545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &352440445
 RectTransform:
   m_ObjectHideFlags: 0
@@ -973,7 +975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &760354262
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1507,7 +1509,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1358891832
 RectTransform:
   m_ObjectHideFlags: 0
