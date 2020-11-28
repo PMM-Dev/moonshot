@@ -93,4 +93,12 @@ public class MainSoundManager : MonoBehaviour
         _audioSource.volume = GetCurrentBGVolume() * 0.4f;
         _audioSource.Play();
     }
+
+    public void PlayBossBGM()
+    {
+        _audioSource.loop = true;
+        _audioSource.clip = _audioClips["backOfMoon"];
+        _audioSource.volume = GetCurrentBGVolume() * 0.4f;
+        _audioSource.Play();
+    }
 }
