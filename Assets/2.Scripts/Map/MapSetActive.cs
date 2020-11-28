@@ -28,7 +28,7 @@ namespace Map
         {
             if(_Player != null)
             {
-                if (_mapMaking.IsMapCreate == true && !_onestageDieCheck && _Player.transform.position.y >= 10)
+                if (_mapMaking.IsMapCreate == true && !_onestageDieCheck && _Player.transform.position.y >= 1.2f)
                 {
                     _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
                     _onestageDieCheck = true;
