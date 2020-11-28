@@ -49,11 +49,13 @@ namespace Map
                 _mapManager.GetComponent<MapMaking>().WholeMapOrder[21].transform.GetChild(1).gameObject.SetActive(false);
                 yield return null;
             }
+            StartCoroutine(ChangeOffset(new Vector3(0f,3.5f,-10f)));
         }
 
         private IEnumerator BossCutScene()
-        {
-            yield return new WaitForSeconds(2f);
+        {          
+            MainSoundManager.Instance.StopBGM();
+            yield return new WaitForSeconds(2f);         
             StartCoroutine(MoveSlow(_bossBlockStartPoint, _bossBlockEndPoint, 0.5f, this.gameObject));
             yield return new WaitForSeconds(0.7f);
             foreach (GameObject block in _bossBlock)
@@ -69,6 +71,7 @@ namespace Map
             }
             yield return new WaitForSeconds(3f);
             Enemy.PatternController.Instance.Appear();
+            MainSoundManager.Instance.PlayBossBGM();
             yield return null;
         }
 
@@ -80,6 +83,19 @@ namespace Map
             {
                 progress += Time.deltaTime * 1f;
                 color.color = Color.Lerp(new Color(1f, 1f, 1f, 0f), new Color(1f, 1f, 1f, 1f), _curve.Evaluate(progress));
+                yield return null;
+            }
+        }
+
+        private IEnumerator ChangeOffset(Vector3 target)
+        {
+            float progress = 0f;
+            SmoothTargetFollowing smo = Camera.main.transform.parent.GetComponent<SmoothTargetFollowing>();
+            Vector3 origin = smo.Offset;
+            while (progress < 1f)
+            {
+                progress += Time.deltaTime * 1f;
+                smo.Offset = Vector3.Lerp(origin, target, _curve.Evaluate(progress));
                 yield return null;
             }
         }
