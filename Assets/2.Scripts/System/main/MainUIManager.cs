@@ -20,6 +20,25 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private MainGameManager _mainGameManager;
 
+    private bool _isOpenOption = false;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (_isOpenOption)
+            {
+                OnClickOptionResume();
+                _isOpenOption = false;
+            }
+            else
+            {
+                OnClickOption();
+                _isOpenOption = true;
+            }
+        }
+    }
+
     public void OnClickStart()
     {
         _mainGameManager.GameStart();
@@ -36,6 +55,7 @@ public class MainUIManager : MonoBehaviour
     public void OnClickOption()
     {
         _optionPanel.SetActive(true);
+        _isOpenOption = true;
 
         MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
     }
@@ -43,6 +63,7 @@ public class MainUIManager : MonoBehaviour
     public void OnClickOptionResume()
     {
         _optionPanel.SetActive(false);
+        _isOpenOption = false;
 
         MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
     }
