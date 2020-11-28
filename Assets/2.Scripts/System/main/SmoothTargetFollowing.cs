@@ -30,4 +30,9 @@ public class SmoothTargetFollowing : MonoBehaviour
     {
         _target = player.transform;
     }
+
+    public void SetOffset(Vector3 newOffset)
+    {
+        _offeset = newOffset;
+    }
 }
