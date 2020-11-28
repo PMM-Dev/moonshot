@@ -29,6 +29,7 @@ namespace Player
         private Transform _bodyTransform;
         private BoxCollider2D _boxCollider2D;
         private PlayerFX _playerFX;
+        private CameraFx _cameraFX;
         #endregion
 
         #region State
@@ -95,6 +96,7 @@ namespace Player
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _playerFX = GetComponent<PlayerFX>();
+            _cameraFX = Camera.main.transform.GetComponent<CameraFx>();
 
             _soundHelper = gameObject.AddComponent<SoundHelper>();
         }
@@ -395,6 +397,7 @@ namespace Player
             _isSlashLocked = false;
             _isJumpLocked = false;
             _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+            _cameraFX.SetZoom(_data.SlashZoomSize, 8f, 0.05f);
         }
 
         private IEnumerator BulletTime(float currentTime, float decreaseSpeed, float increaseSpeed, float minSpeed)

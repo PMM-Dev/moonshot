@@ -71,12 +71,13 @@ namespace Player
         [SerializeField]
         private float _slashRangeDetection= 3f;
         public float SlashRangeDetection => _slashRangeDetection;
-        [Range(0.1f, 5f)]
+        [Range(1f, 10f)]
         [SerializeField]
-        private float _slashRangeSensitive = 3f;
-        public float SlashRangeSensitive => _slashRangeSensitive;
+        private float _slashZoomSize = 5f;
+        public float SlashZoomSize => _slashZoomSize;
         [SerializeField]
         private Sprite _slashRangeSprite;
         public Sprite SlashRangeSprite => _slashRangeSprite;
+
     }
 }

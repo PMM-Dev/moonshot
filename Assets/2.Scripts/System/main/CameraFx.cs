@@ -11,6 +11,13 @@ public class CameraFx : MonoBehaviour
     [SerializeField]
     private float yMagnitudeOfElevatorMovement;
 
+    private Camera _camera;
+
+    private void Awake()
+    {
+        _camera = Camera.main;
+    }
+
 
     public void ShakeOfElevatorMovement()
     {
@@ -45,5 +52,37 @@ public class CameraFx : MonoBehaviour
         }
 
         transform.localPosition = originalPos;
+    }
+
+    public void SetZoom(float size, float zoomSpeed, float time)
+    {
+        StartCoroutine(Zoom(size, zoomSpeed, time));
+    }
+
+    public IEnumerator Zoom(float size, float zoomSpeed, float time)
+    {
+        float progress = 0f;
+        float origin = _camera.orthographicSize;
+
+        while (progress < 1f)
+        {
+            progress += Time.deltaTime * zoomSpeed;
+
+            _camera.orthographicSize = Mathf.Lerp(origin, size, progress);
+
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(time);
+
+        progress = 0f;
+        while (progress < 1f)
+        {
+            progress += Time.deltaTime * zoomSpeed;
+
+            _camera.orthographicSize = Mathf.Lerp(size, origin, progress);
+
+            yield return null;
+        }
     }
 }
