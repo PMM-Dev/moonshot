@@ -1285,8 +1285,8 @@ MonoBehaviour:
   _stickDirection: 0
   _jumpState: 0
   _besideDirection: 0
-  _isTestMode: 1
-  _isGodMode: 1
+  _isTestMode: 0
+  _isGodMode: 0
   _isGround: 0
   _isSlashing: 0
   _isSlashLocked: 0
