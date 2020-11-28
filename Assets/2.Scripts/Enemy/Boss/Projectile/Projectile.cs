@@ -11,7 +11,7 @@ namespace Enemy
         protected float _rotationSpeed = 1f;
 
         [SerializeField]
-        [Range(2, 10)]
+        [Range(0, 7)]
         protected float _triggerDistance = 7f;
 
         protected float _correctionValue = 180f;

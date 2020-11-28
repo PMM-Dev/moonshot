@@ -18,6 +18,7 @@ namespace Enemy
         {
             Debug.Log("죽기 가능");
             _bossLife.IsCanAttack = true;
+
             while (_time < _patternTime) {
                 _time += Time.deltaTime;
                 
@@ -25,12 +26,13 @@ namespace Enemy
 
                 if (_bossLife.IsCanAttack == false)
                 {
+                    yield return new WaitForSeconds(1f);
+                    _patternAni.Play("Defult");
                     break;
                 }
                 
                 }
             Debug.Log("죽기 불가");
-            _patternAni.Play("BakcDefult");
             _bossLife.IsCanAttack = false;
             
         }
