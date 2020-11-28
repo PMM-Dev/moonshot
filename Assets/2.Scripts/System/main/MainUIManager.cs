@@ -30,7 +30,7 @@ public class MainUIManager : MonoBehaviour
 
     public void OnClickRestart()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("RestartedMain");
     }
 
     public void OnClickOption()

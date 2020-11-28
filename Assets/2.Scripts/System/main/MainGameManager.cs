@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainGameManager : MonoBehaviour
 {
@@ -25,8 +26,15 @@ public class MainGameManager : MonoBehaviour
 
     private void Start()
     {
-        // Pause all game flow before pressing start button
-        MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
+        if (SceneManager.GetActiveScene().name == "Main")
+        {
+            // Pause all game flow before pressing start button
+            MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
+        }
+        else
+        {
+            GameStart();
+        }
     }
 
     public void GameStart()
