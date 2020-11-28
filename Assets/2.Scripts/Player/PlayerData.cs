@@ -31,6 +31,10 @@ namespace Player
         [SerializeField]
         private float _wallJumpPower = 30f;
         public float WallJumpPower => _wallJumpPower;
+        [Range(0.01f, 1f)]
+        [SerializeField]
+        private float _wallJumpKnockback = 0.25f;
+        public float WallJumpKnockback => _wallJumpKnockback;
         [Range(0f, 10f)]
         [SerializeField]
         private float _stickGravity = 0.8f;
