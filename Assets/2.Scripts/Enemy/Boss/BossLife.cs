@@ -28,6 +28,7 @@ namespace Enemy
 
         public bool GetDamage()
         {
+            Debug.Log("GetDamage");
             if (_isCanAttack != true)
                 return false;
             _bossLife--;
