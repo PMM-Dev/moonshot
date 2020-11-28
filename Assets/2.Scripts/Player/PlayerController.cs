@@ -62,6 +62,8 @@ namespace Player
         private bool _isJumpLocked;
         [SerializeField]
         private bool _isBulletTime;
+        [SerializeField]
+        private bool _isClear;
         [Header("Vector state")]
         [SerializeField]
         private Vector2 _velocity;
@@ -134,6 +136,13 @@ namespace Player
             Slash();
             GroundSound();
             CollideWithGround();
+
+            if (_isClear)
+            {
+                _isGodMode = true;
+                _isGround = false;
+                _velocity.y = 5f;
+            }
         }
 
 
@@ -161,6 +170,14 @@ namespace Player
             _playerInput.InitializeEvent();
 
             _playerFX.InitializeEvent(this);
+
+            MainEventManager.Instance.ClearMainGameEvent += ClearEvent;
+        }
+
+        private void ClearEvent()
+        {
+            _playerInput.PauseGameEvent();
+            _isClear = true;            
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)

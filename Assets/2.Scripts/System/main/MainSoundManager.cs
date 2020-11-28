@@ -50,7 +50,11 @@ public class MainSoundManager : MonoBehaviour
     private void Start()
     {
         if (MainEventManager.Instance != null)
+        {
             MainEventManager.Instance.StartMainGameEvent += PlayBGM;
+            MainEventManager.Instance.ClearMainGameEvent += PlayEndingBGM;
+        }
+
     }
 
     private void GetSoundsFromResources()
@@ -105,6 +109,20 @@ public class MainSoundManager : MonoBehaviour
         }
     }
 
+    public IEnumerator FadeIn()
+    {
+        float targetVolume = GetCurrentBGVolume() * 0.4f;
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime;
+            _audioSource.volume = Mathf.Lerp(0f, targetVolume, t);
+
+            yield return null;
+        }
+    }
+
     public void PlayBGM()
     {
         _audioSource.loop = true;
@@ -118,6 +136,14 @@ public class MainSoundManager : MonoBehaviour
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["backOfMoon"];
         _audioSource.volume = GetCurrentBGVolume() * 0.4f;
+        _audioSource.Play();
+    }
+
+    public void PlayEndingBGM()
+    {
+        _audioSource.loop = true;
+        _audioSource.clip = _audioClips["Ending"];
+        StartCoroutine(FadeIn());
         _audioSource.Play();
     }
 }
