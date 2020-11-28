@@ -9,6 +9,17 @@ public class SmoothTargetFollowing : MonoBehaviour
     private float _smoothSpeed = 0.125f;
     [SerializeField]
     private Vector3 _offeset;
+    public Vector3 Offset
+    {
+        get
+        {
+            return _offeset;
+        }
+        set
+        {
+            _offeset = value;
+        }
+    }
 
     [SerializeField]
     private float _maxCameraMovementOfX;
@@ -31,8 +42,4 @@ public class SmoothTargetFollowing : MonoBehaviour
         _target = player.transform;
     }
 
-    public void SetOffset(Vector3 newOffset)
-    {
-        _offeset = newOffset;
-    }
 }
