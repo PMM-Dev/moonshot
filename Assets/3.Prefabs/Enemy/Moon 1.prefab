@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68de447c880b0fc4f8ee5a9dfae594e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _patternTime: 1
+  _patternTime: 2
   _rotationSpeed: 0
   _projectile: {fileID: 0}
   _projectileSpeed: 0
@@ -901,7 +901,7 @@ PrefabInstance:
     - target: {fileID: 381604887952359352, guid: 4d3fa46fb47d1d9418a35cbe22dd46ac,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 381604887952359352, guid: 4d3fa46fb47d1d9418a35cbe22dd46ac,
         type: 3}
