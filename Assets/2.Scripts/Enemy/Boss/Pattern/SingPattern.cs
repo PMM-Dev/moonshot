@@ -10,8 +10,6 @@ namespace Enemy
         [SerializeField]
         Life[] _rabbits;
         [SerializeField]
-        Life[] _wolfs;
-        [SerializeField]
         Life[] _masPeoples;
         [Header("전체 몹값보다 충분히 낮게 잡지 않으면 겜 멈춤")]
         [SerializeField]
@@ -27,11 +25,6 @@ namespace Enemy
             {
                 _rabbits[i].gameObject.transform.parent.gameObject.SetActive(true);
                 _rabbits[i].gameObject.SetActive(false);
-            }
-            for (int i = 0; i < _wolfs.Length; i++)
-            {
-                _wolfs[i].gameObject.transform.parent.gameObject.SetActive(true);
-                _wolfs[i].gameObject.SetActive(false);
             }
             for (int i = 0; i < _masPeoples.Length; i++)
             {
@@ -51,7 +44,7 @@ namespace Enemy
                     break;
                 }
                 _avoidInfiniteLoops++;
-                switch (Random.Range(0, 3))
+                switch (Random.Range(0, 2))
                 {
                     case 0:
                         _random = Random.Range(0, _rabbits.Length);
@@ -60,12 +53,6 @@ namespace Enemy
                         _rabbits[_random].gameObject.SetActive(true);
                         break;
                     case 1:
-                        _random = Random.Range(0, _wolfs.Length);
-                        if (_wolfs[_random].gameObject.activeSelf == true)
-                            continue;
-                        _wolfs[_random].gameObject.SetActive(true);
-                        break;
-                    case 2:
                         _random = Random.Range(0, _masPeoples.Length);
                         if (_masPeoples[_random].gameObject.activeSelf == true)
                             continue;
