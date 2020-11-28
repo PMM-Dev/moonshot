@@ -8,13 +8,12 @@ namespace Map
     {
         [SerializeField]
         private GameObject _Player;
-        
+
         private int _mapIndex = 2;
         private int _recentIndex = 0;
         private List<GameObject> _wholeMapOrder = new List<GameObject>();
         private int _wholeMapOrderCount;
         private MapMaking _mapMaking;
-        private bool _onestageDieCheck;
 
         private void Awake()
         {
@@ -28,12 +27,6 @@ namespace Map
         {
             if(_Player != null)
             {
-                if (_mapMaking.IsMapCreate == true && !_onestageDieCheck && _Player.transform.position.y >= 1.2f)
-                {
-                    _wholeMapOrder[0].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
-                    _onestageDieCheck = true;
-                }
-
                 if (_mapMaking.IsMapCreate == true &&
                     _mapIndex < _wholeMapOrderCount &&
                     _recentIndex < _wholeMapOrderCount &&
@@ -83,7 +76,22 @@ namespace Map
                     }
                 }
                 else
-                    _wholeMapOrder[_recentIndex - 3].SetActive(false);
+                {
+                    if(_recentIndex == 3)
+                    {
+                        _wholeMapOrder[_recentIndex - 3].gameObject.transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
+                        Transform[] allChildren = _wholeMapOrder[_recentIndex - 3].gameObject.GetComponentsInChildren<Transform>();
+                        foreach (Transform child in allChildren)
+                        {
+                            if (child.name == _wholeMapOrder[_recentIndex - 3].gameObject.name || child.name == "Collider")
+                                continue;
+                            child.gameObject.SetActive(false);
+                        }
+                    }
+                    else
+                        _wholeMapOrder[_recentIndex - 3].SetActive(false);
+                }
+                    
 
                 if(_recentIndex >=5)
                 {
