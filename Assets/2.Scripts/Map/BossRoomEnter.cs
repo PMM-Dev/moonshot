@@ -45,15 +45,14 @@ namespace Map
             {
                 progress += Time.deltaTime * speed;
                 game.transform.position = Vector3.Lerp(start, end, _curve.Evaluate(progress));
-                _mapManager.GetComponent<MapMaking>().WholeMapOrder[21].transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
-                _mapManager.GetComponent<MapMaking>().WholeMapOrder[21].transform.GetChild(1).gameObject.SetActive(false);
                 yield return null;
             }
             StartCoroutine(ChangeOffset(new Vector3(0f,3.5f,-10f)));
         }
 
         private IEnumerator BossCutScene()
-        {          
+        {
+            MapMaking mapMaking = _mapManager.GetComponent<MapMaking>();
             MainSoundManager.Instance.StopBGM();
             yield return new WaitForSeconds(2f);         
             StartCoroutine(MoveSlow(_bossBlockStartPoint, _bossBlockEndPoint, 0.5f, this.gameObject));
@@ -72,6 +71,16 @@ namespace Map
             yield return new WaitForSeconds(3f);
             Enemy.PatternController.Instance.Appear();
             MainSoundManager.Instance.PlayBossBGM();
+            mapMaking.WholeMapOrder[21].transform.GetChild(0).GetComponent<MakePlayerDie>().CanMakePlayerDie = true;
+            foreach (Transform trans in mapMaking.WholeMapOrder[21].transform)
+            {
+                if (trans.gameObject.name == "Collider")
+                    continue;
+                trans.gameObject.SetActive(false);
+            }
+            mapMaking.WholeMapOrder[20].gameObject.SetActive(false);
+            mapMaking.WholeMapOrder[19].gameObject.SetActive(false);
+            mapMaking.WholeMapOrder[18].gameObject.SetActive(false);
             yield return null;
         }
 
