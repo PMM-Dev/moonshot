@@ -38,7 +38,6 @@ public class MainUIManager : MonoBehaviour
     private void Start()
     {
         MainEventManager.Instance.ClearMainGameEvent += StartEnding;
-        MainEventManager.Instance.ClearMainGameEvent.Invoke();
     }
 
     private void Update()
