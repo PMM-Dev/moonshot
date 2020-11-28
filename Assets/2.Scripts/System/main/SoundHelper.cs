@@ -21,6 +21,9 @@ public class SoundHelper : MonoBehaviour
     private void Awake()
     {
         Initialize();
+
+        _soundManager = MainSoundManager.Instance;
+        _loopAudioSource.loop = true;
     }
 
     private void Initialize()
@@ -48,12 +51,6 @@ public class SoundHelper : MonoBehaviour
         audioSource.SetCustomCurve(AudioSourceCurveType.SpatialBlend, ac);
 
         audioSource.loop = false;
-    }
-
-    private void Start()
-    {
-        _soundManager = MainSoundManager.Instance;
-        _loopAudioSource.loop = true;
     }
 
     public void PlaySound(bool isLoop, string clipName)

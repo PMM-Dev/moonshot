@@ -29,14 +29,17 @@ public class ElevatorMovement : MonoBehaviour
 
     private SoundHelper _soundHelper;
 
+    private void Awake()
+    {
+        _soundHelper = gameObject.AddComponent<SoundHelper>();
+    }
+
     private void Start()
     {
         _leftDoorTransform = _leftDoor.GetComponent<Transform>();
         _leftDoorRenderer = _leftDoor.GetComponent<SpriteRenderer>();
         _rightDoorTransform = _rightDoor.GetComponent<Transform>();
         _rightDoorRenderer = _rightDoor.GetComponent<SpriteRenderer>();
-
-        _soundHelper = gameObject.AddComponent<SoundHelper>();
     }
 
 
