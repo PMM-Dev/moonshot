@@ -1,13 +1,7 @@
-﻿using JetBrains.Annotations;
-using Map;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -30,6 +24,8 @@ namespace Player
         private BoxCollider2D _boxCollider2D;
         private PlayerFX _playerFX;
         private CameraFx _cameraFX;
+        [SerializeField]
+        private AnimationCurve _curve;
         #endregion
 
         #region State
@@ -88,6 +84,7 @@ namespace Player
 
         private Coroutine _bulletTimeCoroutine;
         private SoundHelper _soundHelper;
+        private Coroutine _changeColorCoroutine;
 
         private void Awake()
         {
@@ -406,6 +403,16 @@ namespace Player
             float progress = 0f;
             float currentTimeScale = currentTime;
 
+
+            if (_changeColorCoroutine != null)
+            {
+                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
+                StopCoroutine(_changeColorCoroutine);
+                _changeColorCoroutine = null;
+            }
+
+            _changeColorCoroutine = StartCoroutine(ChangeColor(true));
+
             while (progress < 1f)
             {
                 time += Time.deltaTime / Time.timeScale;
@@ -418,6 +425,14 @@ namespace Player
                 }
                 yield return null;
             }
+
+            if (_changeColorCoroutine != null)
+            {
+                StopCoroutine(_changeColorCoroutine);
+                _changeColorCoroutine = null;
+            }
+
+            _changeColorCoroutine = StartCoroutine(ChangeColor(false));
 
             progress = 0f;
             currentTimeScale = Time.timeScale;
@@ -473,6 +488,15 @@ namespace Player
 
             _slashArrow.SetActive(true);
 
+            if (_changeColorCoroutine != null)
+            {
+                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
+                StopCoroutine(_changeColorCoroutine);
+                _changeColorCoroutine = null;
+            }
+
+            _changeColorCoroutine = StartCoroutine(ChangeColor(true));
+
             while (true)
             {
                 time += Time.deltaTime / Time.timeScale;
@@ -496,6 +520,14 @@ namespace Player
             _slashDirection = _playerInput.GetSlashDirection();
             StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
 
+            if (_changeColorCoroutine != null)
+            {
+                StopCoroutine(_changeColorCoroutine);
+                _changeColorCoroutine = null;
+            }
+
+            _changeColorCoroutine = StartCoroutine(ChangeColor(false));
+
             progress = 0f;
             Time.timeScale = minSpeed;
             currentTimeScale = Time.timeScale;
@@ -509,6 +541,34 @@ namespace Player
             _playerInput.GetTargetDirection();
             Time.timeScale = 1f;
             _isBulletTime = false;
+        }
+
+        private IEnumerator ChangeColor(bool isOn)
+        {
+            if (BulletTimePanel.Instance.Panel == null)
+                yield break;
+
+            if (isOn)
+            {
+                BulletTimePanel.Instance.gameObject.SetActive(true);
+                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
+            }
+
+
+            float progress = 0f;
+
+            Color origin = BulletTimePanel.Instance.Panel.color;
+            Color target = isOn ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 0f);
+            while (progress < 1f)
+            {
+                progress += Time.deltaTime * 4f;
+                BulletTimePanel.Instance.Panel.color = Color.Lerp(origin, target, _curve.Evaluate(progress));
+                yield return null;
+            }
+            BulletTimePanel.Instance.Panel.color = target;
+
+            if (!isOn)
+                BulletTimePanel.Instance.gameObject.SetActive(false);
         }
     }
 }
