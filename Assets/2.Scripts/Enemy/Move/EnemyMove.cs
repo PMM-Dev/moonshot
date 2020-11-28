@@ -72,6 +72,7 @@ namespace Enemy
             CalculationRequiredTime();
             FlipSize();
 
+            yield return new WaitForSeconds(Random.Range(0f, 1f));
             while (true)
             {
                 _time += Time.deltaTime;
@@ -92,7 +93,6 @@ namespace Enemy
 
                 if (_playerDistance < _lookingPlayerRange)
                     yield return StartCoroutine(TrackingPlayer());
-
                 this.transform.position = Vector3.Lerp(_startPosition , _wayPoints[_targetIndex].transform.position, _wayPointCurve.Evaluate(_time/ _requiredTime));
                 
                 yield return null;
