@@ -53,6 +53,7 @@ namespace Map
 
         private IEnumerator BossCutScene()
         {
+            yield return new WaitForSeconds(2f);
             StartCoroutine(MoveSlow(_bossBlockStartPoint, _bossBlockEndPoint, 0.5f, this.gameObject));
             yield return new WaitForSeconds(0.7f);
             foreach (GameObject block in _bossBlock)
