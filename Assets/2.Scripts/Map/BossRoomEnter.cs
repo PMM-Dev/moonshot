@@ -67,6 +67,8 @@ namespace Map
                 StartCoroutine(MoveSlow(startpoint, endpoint, 1f, block));
                 StartCoroutine(ChangeColor(block));
             }
+            yield return new WaitForSeconds(3f);
+            Enemy.PatternController.Instance.Appear();
             yield return null;
         }
 

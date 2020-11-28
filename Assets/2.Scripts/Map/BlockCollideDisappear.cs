@@ -52,6 +52,7 @@ namespace Map
             StartCoroutine(CoFadeOut(gameObject.GetComponent<SpriteRenderer>(), 0.5f));
             yield return new WaitForSeconds(0.5f);
             _particle.Stop();
+            gameObject.SetActive(false);
         }
         IEnumerator CoFadeOut(SpriteRenderer sr, float fadeOutTime)
         {
