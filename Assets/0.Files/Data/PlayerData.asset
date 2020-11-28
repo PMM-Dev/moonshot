@@ -18,6 +18,7 @@ MonoBehaviour:
   _gravityScale: 70
   _normalJumpPower: 25
   _wallJumpPower: 30
+  _wallJumpKnockback: 0.25
   _stickGravity: 0.8
   _gravityLimit: -30
   _slashDistance: 0.1

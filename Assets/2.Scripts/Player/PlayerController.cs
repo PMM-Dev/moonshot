@@ -228,7 +228,7 @@ namespace Player
                 _lookDirection = (LookDirection)((int)_stickDirection * (-1));
                 _velocity.y = _data.WallJumpPower;
                 _isMoveInputLocked = true;
-                StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _data.Speed * Time.deltaTime, 0.35f));
+                StartCoroutine(ForceWallJumpTimer((int)(_lookDirection) * _data.Speed * Time.deltaTime, _data.WallJumpKnockback));
                 WallJumpAction?.Invoke();
             }
             else
