@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.UI;
 
 public class MainSoundManager : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class MainSoundManager : MonoBehaviour
     [SerializeField]
     private float _bgVolume = 1f;
 
+    [SerializeField]
+    private Image _muteIcon;
+
     public float BGVolume
     {
         get { return _bgVolume; }
@@ -36,7 +40,7 @@ public class MainSoundManager : MonoBehaviour
     [SerializeField]
     private float _masterVolume = 1f;
 
-    private bool _isMute;
+    private int _isMute;
 
 
     private void Awake()
@@ -45,10 +49,18 @@ public class MainSoundManager : MonoBehaviour
 
         GetSoundsFromResources();
 
+        if (PlayerPrefs.HasKey("isMute"))
+            _isMute = PlayerPrefs.GetInt("isMute");
+        else
+        {
+            _isMute = 0;
+            PlayerPrefs.SetInt("isMute", _isMute);
+        }
     }
 
     private void Start()
     {
+        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 1f);
         if (MainEventManager.Instance != null)
         {
             MainEventManager.Instance.StartMainGameEvent += PlayBGM;
@@ -70,24 +82,26 @@ public class MainSoundManager : MonoBehaviour
 
     public void PlayFXSound(ref AudioSource audio, string fileName)
     {
+        audio.volume = GetCurrentFXVolume();
         audio.PlayOneShot(_audioClips[fileName]);
     }
 
     public void PlayLoopSound(ref AudioSource audio, string fileName)
     {
         audio.loop = true;
+        audio.volume = GetCurrentFXVolume();
         audio.clip = _audioClips[fileName];
         audio.Play();
     }
 
     public float GetCurrentFXVolume()
     {
-        return _isMute ? 0 : _fxVolume * _masterVolume;
+        return _isMute == 1 ? 0 : _fxVolume * _masterVolume;
     }
 
     public float GetCurrentBGVolume()
     {
-        return _isMute ? 0 : _bgVolume * _masterVolume;
+        return _isMute == 1 ? 0 : _bgVolume * _masterVolume;
     }
 
     public void StopBGM()
@@ -154,5 +168,13 @@ public class MainSoundManager : MonoBehaviour
     public void PlayEndingBGM()
     {
         StartCoroutine(PlayEndingFade());
+    }
+
+    public void SwitchMute()
+    {
+        _isMute = _isMute == 1 ? 0 : 1;
+        PlayerPrefs.SetInt("isMute", _isMute);
+        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 1f);
+        _audioSource.volume = GetCurrentBGVolume() * 0.4f;
     }
 }

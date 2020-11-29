@@ -30,6 +30,10 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private bool isEnding = false;
 
+
+    [SerializeField]
+    GameObject DarkPanel;
+
     [SerializeField]
     private MainGameManager _mainGameManager;
 
@@ -77,6 +81,8 @@ public class MainUIManager : MonoBehaviour
 
         _startPanel.SetActive(false);
         _mainPanel.SetActive(true);
+
+        StartCoroutine(FalsePanel());
     }
 
     public void OnClickQuickRestart()
@@ -144,5 +150,23 @@ public class MainUIManager : MonoBehaviour
             _creditTransform.anchoredPosition = new Vector2(0, movedY);
             yield return null;
         }
+    }
+
+    private IEnumerator FalsePanel()
+    {
+        float progress = 0f;
+
+        Color origin = new Color(0f, 0f, 0f, 1f);
+        Color target = new Color(0f, 0f, 0f, 0f);
+
+        SpriteRenderer sprRend = DarkPanel.GetComponent<SpriteRenderer>();
+        while (progress < 1f)
+        {
+            progress += Time.deltaTime * 1f;
+            sprRend.color = Color.Lerp(origin, target, progress);
+            yield return null;
+        }
+        DarkPanel.SetActive(false);
+        yield return null;
     }
 }

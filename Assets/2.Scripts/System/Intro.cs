@@ -11,6 +11,7 @@ public class Intro : MonoBehaviour
     [SerializeField]
     GameObject[] MainGames;
 
+
     private void Awake()
     {
         _video.loopPointReached += ShowMainGame;
