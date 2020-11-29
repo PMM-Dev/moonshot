@@ -20,6 +20,8 @@ namespace Enemy
 
         public override IEnumerator Run()
         {
+            _soundHelper.PlaySound(false, "Boss_HatPattern");
+
             _projectile.GetComponent<Hat>().Player = _player;
             _hat.TargetPlayerPosition();
             _hat.ProjectileSpeed = _projectileSpeed;
