@@ -18,7 +18,6 @@ namespace Enemy
         {
             _time = 0;
             _soundHelper.PlaySound(false, "Boss_Exhausted");
-            Debug.Log("죽기 가능");
             _bossLife.IsCanAttack = true;
 
             while (_time < _patternTime)
@@ -29,7 +28,6 @@ namespace Enemy
                 if (_bossLife.IsCanAttack == false)
                 {
                     yield return new WaitForSeconds(1f);
-
                     if (_bossLife.BossLifes > 0)
                         _patternAni.Play("Defult");
                     break;
@@ -37,7 +35,7 @@ namespace Enemy
 
                 yield return null;
             }
-            Debug.Log("죽기 불가");
+
             _bossLife.IsCanAttack = false;
         }
 
