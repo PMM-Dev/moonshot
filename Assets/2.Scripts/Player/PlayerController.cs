@@ -50,6 +50,10 @@ namespace Player
         private bool _isTestMode;
         [SerializeField]
         private bool _isGodMode;
+        public bool IsGodMode
+        {
+            get { return _isGodMode; }
+        }
         [SerializeField]
         private bool _isGround;
         [SerializeField]
@@ -82,6 +86,7 @@ namespace Player
         public Action WallJumpAction;
         public Action<LookDirection> StickAction;
         public Action StopStickAction;
+        public Action TestModeAction;
         #endregion
 
         private Coroutine _bulletTimeCoroutine;
@@ -134,6 +139,13 @@ namespace Player
             Stick();
             Move();
             Slash();
+
+            if (_playerLogic.IsInputTest())
+            {
+                TestModeAction?.Invoke();
+
+            }
+
             GroundSound();
             CollideWithGround();
 
@@ -156,8 +168,11 @@ namespace Player
             WallJumpAction = delegate { };
             StopStickAction = delegate { };
             StickAction = delegate { };
+            TestModeAction = delegate { };
 
             SuccessSlashAction += SuccessSlashEvent;
+            TestModeAction += () => _isGodMode = _isGodMode == true ? false : true;
+            TestModeAction += BulletTimePanel.Instance.ChangeImage;
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
