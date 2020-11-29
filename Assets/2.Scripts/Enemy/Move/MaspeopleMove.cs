@@ -21,11 +21,8 @@ namespace Enemy
                 FilpPlayer();
                 yield return null;
                 PlayerDistanceCalculation();
-                if (_playerDistance > _lookingPlayerRange)
-                {
-                    _speed = _startSpeed;
+                if (this.gameObject.activeSelf == false)
                     break;
-                }
             }
         }
 
