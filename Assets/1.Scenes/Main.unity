@@ -282,7 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _video: {fileID: 96629470}
   MainGames:
-  - {fileID: 1512535948}
+  - {fileID: 106215613}
   - {fileID: 937356507}
   - {fileID: 1738080125}
   - {fileID: 1024328848}
@@ -381,6 +381,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea02068033298c3419c745a120d904c2, type: 3}
+--- !u!1 &106215613 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4389030068438913649, guid: ea02068033298c3419c745a120d904c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 106215612}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &148762290
 GameObject:
   m_ObjectHideFlags: 0
@@ -2629,12 +2635,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432209135}
   m_CullTransparentMesh: 0
---- !u!1 &1512535948 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1878471221489213787, guid: ea02068033298c3419c745a120d904c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 106215612}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1604407118
 GameObject:
   m_ObjectHideFlags: 0
