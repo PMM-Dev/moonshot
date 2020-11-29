@@ -27,6 +27,9 @@ public class ElevatorMovement : MonoBehaviour
     [SerializeField]
     private float _elevatorMovementDuration;
 
+    [SerializeField]
+    private Transform _body;
+
     private SoundHelper _soundHelper;
 
     private void Awake()
@@ -42,8 +45,6 @@ public class ElevatorMovement : MonoBehaviour
         _rightDoorRenderer = _rightDoor.GetComponent<SpriteRenderer>();
     }
 
-
-
     public IEnumerator MoveElevator(bool isRise)
     {
         Vector3 srcPos;
@@ -51,29 +52,30 @@ public class ElevatorMovement : MonoBehaviour
 
         if (isRise)
         {
-            srcPos = _elevatorBottomPosition;
-            targetPos = _elevatorUpPosition;
+            srcPos = new Vector3(0f, -1.35f, 0f);
+            targetPos = new Vector3(0f, 3.4f, 0f);
         }
         else
         {
-            srcPos = _elevatorUpPosition;
-            targetPos = _elevatorBottomPosition;
+            srcPos = new Vector3(0f, 3.4f, 0f);
+            targetPos = new Vector3(0f, -1.35f, 0f);
         }
 
         _soundHelper.PlaySound(false, "ElevatorRising");
+
 
         float elapsed = 0.0f;
         while (elapsed < _elevatorMovementDuration)
         {
             elapsed += Time.deltaTime / _elevatorMovementDuration;
 
-            transform.position = Vector3.Lerp(srcPos, targetPos, elapsed);
+            _body.transform.localPosition = Vector3.Lerp(srcPos, targetPos, elapsed);
+
 
             yield return null;
         }
-        transform.position = targetPos;
+        _body.transform.localPosition = targetPos;
     }
-
 
     public IEnumerator MoveDoor(bool isOpen)
     {
@@ -85,22 +87,22 @@ public class ElevatorMovement : MonoBehaviour
         if (isOpen)
         {
             // Calculate Source and Target Position
-            leftSrcPos = rightSrcPos = Vector3.zero;
-            leftTargetPos = new Vector3(-0.7f, 0f, 0f);
-            rightTargetPos = new Vector3(0.7f, 0f, 0f);
+            leftSrcPos = rightSrcPos = new Vector3(-0.5272727f, 0.96f, 0f);
+            leftTargetPos = new Vector3(-1.5f - 0.5272727f, 0.96f, 0f);
+            rightTargetPos = new Vector3(1.5f - 0.5272727f, 0.96f, 0f);
 
             // Change render order 
-            _leftDoorRenderer.sortingOrder = 10;
-            _rightDoorRenderer.sortingOrder = 10;
+            _leftDoorRenderer.sortingOrder = 15;
+            _rightDoorRenderer.sortingOrder = 15;
         }
         else
         {
-            leftTargetPos = rightTargetPos = Vector3.zero;
-            leftSrcPos = new Vector3(-0.7f, 0f, 0f);
-            rightSrcPos = new Vector3(0.7f, 0f, 0f);
+            leftTargetPos = rightTargetPos = new Vector3(-0.5272727f, 0.96f, 0f);
+            leftSrcPos = new Vector3(-1.5f - 0.5272727f, 0.96f, 0f);
+            rightSrcPos = new Vector3(1.5f - 0.5272727f, 0.96f, 0f);
 
-            _leftDoorRenderer.sortingOrder = 2;
-            _rightDoorRenderer.sortingOrder = 2;
+            _leftDoorRenderer.sortingOrder = 5;
+            _rightDoorRenderer.sortingOrder = 5;
         }
 
         _soundHelper.PlaySound(false, "ElevatorDoorOpen");
