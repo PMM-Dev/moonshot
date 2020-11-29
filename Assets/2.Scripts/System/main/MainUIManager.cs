@@ -15,12 +15,30 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private GameObject _gameoverPanel;
     [SerializeField]
+    private GameObject _creditPanel;
+    [SerializeField]
+    private RectTransform _creditTransform;
+    [SerializeField]
+    private GameObject _thanksPanel;
+    [SerializeField]
     private GameObject _endingPanel;
+
+    [SerializeField]
+    private float _creditTime;
+    [SerializeField]
+    private float _creditEndY;
+    [SerializeField]
+    private bool isEnding = false;
 
     [SerializeField]
     private MainGameManager _mainGameManager;
 
     private bool _isOpenOption = false;
+
+    private void Start()
+    {
+        MainEventManager.Instance.ClearMainGameEvent += StartEnding;
+    }
 
     private void Update()
     {
@@ -37,6 +55,20 @@ public class MainUIManager : MonoBehaviour
                 _isOpenOption = true;
             }
         }
+
+        if (isEnding)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                _creditTime /= 2;
+            }
+
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                _creditTime *= 2;
+            }
+
+        }
     }
 
     public void OnClickStart()
@@ -47,7 +79,7 @@ public class MainUIManager : MonoBehaviour
         _mainPanel.SetActive(true);
     }
 
-    public void OnClickRestart()
+    public void OnClickQuickRestart()
     {
         SceneManager.LoadScene("RestartedMain");
     }
@@ -68,11 +100,14 @@ public class MainUIManager : MonoBehaviour
         MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
     }
 
-    public void OnClickOptionRestart()
+    public void OnClickInitRestart()
     {
-        _optionPanel.SetActive(false);
+        SceneManager.LoadScene("Main");
+    }
 
-        OnClickRestart();
+    public void OnClickQuite()
+    {
+        Application.Quit();
     }
 
     public void ShowGameoverUI()
@@ -81,8 +116,33 @@ public class MainUIManager : MonoBehaviour
         _gameoverPanel.SetActive(true);
     }
 
-    public void ShowEndingPanel()
+    public void StartEnding()
+    {
+        isEnding = true;
+        StartCoroutine(Ending());
+    }
+
+    public IEnumerator Ending()
     {
         _endingPanel.SetActive(true);
+
+        _creditPanel.SetActive(true);
+        yield return StartCoroutine(PlayCredit());
+        _creditPanel.SetActive(false);
+
+        _thanksPanel.SetActive(true);
+    }
+
+    public IEnumerator PlayCredit()
+    {
+        float originY = _creditTransform.anchoredPosition.y;
+        float t = 0f;
+        while (t <= 1f)
+        {
+            t += Time.deltaTime * (1 / _creditTime);
+            float movedY = Mathf.Lerp(originY, _creditEndY, t);
+            _creditTransform.anchoredPosition = new Vector2(0, movedY);
+            yield return null;
+        }
     }
 }

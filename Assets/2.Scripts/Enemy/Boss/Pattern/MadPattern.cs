@@ -28,8 +28,8 @@ namespace Enemy
                 _meteos[i].gameObject.SetActive(true);
                 yield return new WaitForSeconds(_spwanInterval);
             }
-            if(_meteos[_meteos.Count -1 ].gameObject.activeSelf == true)
-                yield return null;
+            yield return new WaitForSeconds(_spwanInterval);
+            _patternAni.Play("Defult");
 
         }
 

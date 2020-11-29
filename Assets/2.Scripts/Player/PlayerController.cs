@@ -50,6 +50,10 @@ namespace Player
         private bool _isTestMode;
         [SerializeField]
         private bool _isGodMode;
+        public bool IsGodMode
+        {
+            get { return _isGodMode; }
+        }
         [SerializeField]
         private bool _isGround;
         [SerializeField]
@@ -62,6 +66,8 @@ namespace Player
         private bool _isJumpLocked;
         [SerializeField]
         private bool _isBulletTime;
+        [SerializeField]
+        private bool _isClear;
         [Header("Vector state")]
         [SerializeField]
         private Vector2 _velocity;
@@ -80,6 +86,7 @@ namespace Player
         public Action WallJumpAction;
         public Action<LookDirection> StickAction;
         public Action StopStickAction;
+        public Action TestModeAction;
         #endregion
 
         private Coroutine _bulletTimeCoroutine;
@@ -132,8 +139,22 @@ namespace Player
             Stick();
             Move();
             Slash();
+
+            if (_playerLogic.IsInputTest())
+            {
+                TestModeAction?.Invoke();
+
+            }
+
             GroundSound();
             CollideWithGround();
+
+            if (_isClear)
+            {
+                _isGodMode = true;
+                _isGround = false;
+                _velocity.y = 5f;
+            }
         }
 
 
@@ -147,8 +168,11 @@ namespace Player
             WallJumpAction = delegate { };
             StopStickAction = delegate { };
             StickAction = delegate { };
+            TestModeAction = delegate { };
 
             SuccessSlashAction += SuccessSlashEvent;
+            TestModeAction += () => _isGodMode = _isGodMode == true ? false : true;
+            TestModeAction += BulletTimePanel.Instance.ChangeImage;
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
@@ -161,6 +185,14 @@ namespace Player
             _playerInput.InitializeEvent();
 
             _playerFX.InitializeEvent(this);
+
+            MainEventManager.Instance.ClearMainGameEvent += ClearEvent;
+        }
+
+        private void ClearEvent()
+        {
+            _playerInput.PauseGameEvent();
+            _isClear = true;            
         }
 
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
