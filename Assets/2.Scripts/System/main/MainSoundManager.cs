@@ -62,7 +62,7 @@ public class MainSoundManager : MonoBehaviour
 
     private void Start()
     {
-        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 1f);
+        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.5f);
         if (MainEventManager.Instance != null)
         {
             MainEventManager.Instance.StartMainGameEvent += PlayBGM;
@@ -176,7 +176,7 @@ public class MainSoundManager : MonoBehaviour
     {
         _isMute = _isMute == 1 ? 0 : 1;
         PlayerPrefs.SetInt("isMute", _isMute);
-        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 1f);
+        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.5f);
         _audioSource.volume = GetCurrentBGVolume() ;
     }
 }
