@@ -59,11 +59,11 @@ public class MainGameManager : MonoBehaviour
 
         MainPlayerManager.Instance.SetPlayerAsCameraFocus();
 
-        // Open elevator door
-        yield return StartCoroutine(_elevatorMovement.MoveDoor(true));
-
         // Start game after door opened
         MainEventManager.Instance.StartMainGameEvent?.Invoke();
+
+        // Open elevator door
+        yield return StartCoroutine(_elevatorMovement.MoveDoor(true));
 
         // Close elevator door
         yield return new WaitForSeconds(0.8f);
