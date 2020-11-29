@@ -8,6 +8,7 @@ namespace Enemy
     {
         IEnumerator Run();
     }
+    
     public interface IAnimation
     {
         void Play();

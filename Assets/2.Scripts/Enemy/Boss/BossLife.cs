@@ -34,12 +34,12 @@ namespace Enemy
                 return;
             if (_isDie == true)
                 return;
+            _patternAni.Play("Die");
             _isDie = true;
             _soundHelper.PlaySound(false, "Boss_Cry");
             StartCoroutine(DieI());
             Invoke("DieSound", 1f);
             Destroy(this.gameObject, 3f);
-            Debug.Log("쥬금");
         }
         public void DieSound() {
             _soundHelper.PlaySound(false, "Boss_Die");
@@ -52,13 +52,11 @@ namespace Enemy
 
         public bool GetDamage()
         {
-            Debug.Log("GetDamage");
             if (_isCanAttack != true)
                 return false;
             _bossLifes--;
             _soundHelper.PlaySound(false, "Boss_Ouch");
             _patternAni.Play("Hit");
-            Debug.Log("Life 는" + _bossLifes);
             _isCanAttack = false;
             Die();
             return true;
