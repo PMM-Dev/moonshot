@@ -31,6 +31,7 @@ namespace Enemy
             _startPosition = this.transform.parent.transform.position;
             _downPosition = this.transform.position;
             _upPosition = _startPosition;
+            _upPosition.x = _player.transform.position.x;
             _upPosition.y = _player.transform.position.y + (_triggerDistance * 2);
             _downPosition = _startPosition;
             _downPosition.y = _player.transform.position.y - _triggerDistance;
