@@ -114,7 +114,7 @@ public class MainSoundManager : MonoBehaviour
     public IEnumerator PlayEndingFade()
     {
         StopBGM();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["Ending"];
