@@ -17,6 +17,7 @@ namespace Enemy
         public override IEnumerator Run()
         {
             _time = 0;
+            _soundHelper.PlaySound(false, "Boss_Exhausted");
             Debug.Log("죽기 가능");
             _bossLife.IsCanAttack = true;
 
