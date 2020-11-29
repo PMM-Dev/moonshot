@@ -201,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _video: {fileID: 96629470}
   MainGames:
-  - {fileID: 1729334932}
+  - {fileID: 3839685044261350143}
   - {fileID: 937356507}
   - {fileID: 1738080125}
   - {fileID: 1024328848}
@@ -3302,12 +3302,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1729334932 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3839685044365382211, guid: ea02068033298c3419c745a120d904c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 106215612}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1731585160
 GameObject:
   m_ObjectHideFlags: 0
@@ -4470,7 +4464,7 @@ MonoBehaviour:
     ManaBingsu
 
 
-    JeongSeok Lee
+    Leejeongseok0407
 
 
     sjmjys954646'
@@ -4489,6 +4483,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2473765824154600257, guid: 2368295233600479a9822d516976763e,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473765824154600257, guid: 2368295233600479a9822d516976763e,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473765824154600257, guid: 2368295233600479a9822d516976763e,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4622895873811711072, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: m_Name
@@ -4551,6 +4560,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2368295233600479a9822d516976763e, type: 3}
+--- !u!1 &3839685044261350143 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3839685044365382211, guid: ea02068033298c3419c745a120d904c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 106215612}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6675946029453174493 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4713297600017194041, guid: 2368295233600479a9822d516976763e,

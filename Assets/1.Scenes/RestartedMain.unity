@@ -4292,7 +4292,7 @@ MonoBehaviour:
     ManaBingsu
 
 
-    JeongSeok Lee
+    Leejeongseok0407
 
 
     sjmjys954646'
@@ -4311,6 +4311,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2473765824154600257, guid: 2368295233600479a9822d516976763e,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473765824154600257, guid: 2368295233600479a9822d516976763e,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473765824154600257, guid: 2368295233600479a9822d516976763e,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4622895873811711072, guid: 2368295233600479a9822d516976763e,
         type: 3}
       propertyPath: m_Name
