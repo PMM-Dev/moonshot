@@ -10,7 +10,9 @@ namespace Player
         LeftMove = -1,
         RightMove = 1,
         Jump,
-        Attack
+        Attack,
+        TestTrigger,
+        TestOnOff
     }
 
     public enum ActionType
