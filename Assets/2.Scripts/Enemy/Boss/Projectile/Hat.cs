@@ -11,8 +11,14 @@ namespace Enemy
         protected float _correctionHatValue = 0.5f;
         [SerializeField]
         protected AnimationCurve _hatCurve;
-        Vector3 _upPosition;
-        Vector3 _downPosition;
+        private Vector3 _upPosition;
+        private Vector3 _downPosition;
+        private SoundHelper _soundHelper;
+
+        private void Awake()
+        {
+            _soundHelper = this.gameObject.AddComponent<SoundHelper>();
+        }
 
         private void Start()
         {
@@ -34,6 +40,7 @@ namespace Enemy
             _upPosition.x = _player.transform.position.x;
             _upPosition.y = _player.transform.position.y + (_triggerDistance * 2);
             _downPosition = _startPosition;
+            _downPosition.x = _player.transform.position.x;
             _downPosition.y = _player.transform.position.y - _triggerDistance;
         }
 
@@ -52,8 +59,8 @@ namespace Enemy
         public IEnumerator Down()
         {
             float _time = 0;
-
-
+            _soundHelper.PlaySound(true,"Boss_Hat");
+            SettingPosition();
             while (true)
             {
                 _time += Time.deltaTime * _correctionHatValue;
