@@ -13,6 +13,8 @@ public class CameraFx : MonoBehaviour
 
     private Camera _camera;
 
+    private Coroutine _zoomCoroutine;
+
     private void Awake()
     {
         _camera = Camera.main;
@@ -56,6 +58,11 @@ public class CameraFx : MonoBehaviour
 
     public void SetZoom(float size, float zoomSpeed, float time)
     {
+        if (_zoomCoroutine != null)
+        {
+            StopCoroutine(_zoomCoroutine);
+            _zoomCoroutine = null;
+        }
         StartCoroutine(Zoom(size, zoomSpeed, time));
     }
 

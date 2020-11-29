@@ -2781,6 +2781,7 @@ MonoBehaviour:
   _creditTime: 40
   _creditEndY: 2351
   isEnding: 1
+  DarkPanel: {fileID: 0}
   _mainGameManager: {fileID: 1604407123}
 --- !u!114 &1604407121
 MonoBehaviour:
@@ -4211,7 +4212,7 @@ MonoBehaviour:
     JeongSeok Lee
 
 
-    YunSe Lee'
+    sjmjys954646'
 --- !u!222 &2139075034
 CanvasRenderer:
   m_ObjectHideFlags: 0
