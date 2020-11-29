@@ -2690,7 +2690,7 @@ MonoBehaviour:
   _creditTransform: {fileID: 1945854670}
   _thanksPanel: {fileID: 589477296}
   _endingPanel: {fileID: 1712471230}
-  _creditTime: 20
+  _creditTime: 40
   _creditEndY: 2351
   isEnding: 1
   _mainGameManager: {fileID: 1604407123}
