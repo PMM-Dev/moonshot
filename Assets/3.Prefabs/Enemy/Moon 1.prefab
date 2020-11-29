@@ -111,8 +111,8 @@ MonoBehaviour:
   _exhaustPatterns: {fileID: 2643248686712191484}
   _pattrenAni: {fileID: 736100333}
   _player: {fileID: 0}
-  _patternAfterDelay: 2
-  _exhaustPatternsCount: 2
+  _patternAfterDelay: 1.5
+  _exhaustPatternsCount: 3
   _isStartCoroutine: 0
 --- !u!114 &5570943354043685125
 MonoBehaviour:
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _patternAni: {fileID: 736100333}
-  _bossLife: 5
+  _bossLifes: 4
 --- !u!58 &736100328
 CircleCollider2D:
   m_ObjectHideFlags: 0
