@@ -35,6 +35,8 @@ namespace Enemy
 
         public override IEnumerator Run()
         {
+            _soundHelper.PlaySound(false, "Boss_Sing");
+
             _spwancount = 0;
             _avoidInfiniteLoops = 0;
             while (_maxSpownCount > _spwancount)

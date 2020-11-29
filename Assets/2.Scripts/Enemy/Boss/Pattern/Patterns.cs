@@ -22,6 +22,7 @@ namespace Enemy
         protected float _projectileSpeed;
         protected GameObject _player;
         protected Animator _patternAni;
+        protected SoundHelper _soundHelper;
         public GameObject Player
         {
             set
@@ -34,6 +35,12 @@ namespace Enemy
             set
             {
                 _patternAni = value;
+            }
+        }
+        public SoundHelper SoundHelper
+        {
+            set {
+                _soundHelper = value;
             }
         }
 

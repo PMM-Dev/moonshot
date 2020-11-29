@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpeed: 10
-  _distroyTime: 3
+  _distroyTime: 5
   _distroyYlocation: 3
   _isVertical: 0
 --- !u!70 &279375689401631134

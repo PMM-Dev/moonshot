@@ -23,7 +23,10 @@ namespace Enemy
 
         public override IEnumerator Run()
         {
-            for (int i = 0; i < _meteos.Count; i++) {
+            _soundHelper.PlaySound(false, "Boss_Mad");
+
+            for (int i = 0; i < _meteos.Count; i++)
+            {
                 _meteos[i].TargetPlayerPosition();
                 _meteos[i].gameObject.SetActive(true);
                 yield return new WaitForSeconds(_spwanInterval);
