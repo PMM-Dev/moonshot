@@ -119,6 +119,11 @@ namespace Player
         {
             return stickDirection != StickDirection.Idle && !isMoveInputLocked && !isSlashLocked && !isBulletTime;
         }
+
+        public bool IsInputTest()
+        {
+            return _playerInput.IsInput(PressKeyType.Stay, InputType.TestTrigger) && _playerInput.IsInput(PressKeyType.Down, InputType.TestOnOff);
+        }
     }
 }
 
