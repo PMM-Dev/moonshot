@@ -101,7 +101,7 @@ namespace Player
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
-            _bodyTransform = GetComponentInChildren<Animator>().transform;
+            _bodyTransform = GetComponentInChildren<Animator>().transform.parent.transform;
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _playerFX = GetComponent<PlayerFX>();
