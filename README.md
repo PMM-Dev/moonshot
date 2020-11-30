@@ -2,7 +2,9 @@
 ![MTfFvT](https://user-images.githubusercontent.com/43133819/100558581-58e7e900-32f2-11eb-971c-d8396a83f8c4.png)  
 Game project for the gamejam: [Game Off 2020](https://itch.io/jam/game-off-2020)
 
-Game page from [here](https://kwon770.itch.io/moon-slasher)
+Game page is [here](https://kwon770.itch.io/moon-slasher)
+
+Patch note is [here](https://github.com/PMM-Dev/moonshot/wiki/Patch-note)
 
 ## Story
 
