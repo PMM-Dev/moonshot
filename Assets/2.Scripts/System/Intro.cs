@@ -14,10 +14,23 @@ public class Intro : MonoBehaviour
 
     private void Awake()
     {
-        _video.loopPointReached += ShowMainGame;
+        _video.loopPointReached += IntroEndEvent;
     }
 
-    private void ShowMainGame(VideoPlayer video)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ShowMainGame();
+        }
+    }
+
+    private void IntroEndEvent(VideoPlayer video)
+    {
+        ShowMainGame();
+    }
+
+    private void ShowMainGame()
     {
         foreach (GameObject element in MainGames)
         {
