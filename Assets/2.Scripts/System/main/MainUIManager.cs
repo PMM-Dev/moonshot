@@ -236,11 +236,6 @@ public class MainUIManager : MonoBehaviour
                 Screen.SetResolution(480, 360, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 480);
                 return 8;
-            case 380:
-            case 9:
-                Screen.SetResolution(380, 270, _isFullscreen);
-                PlayerPrefs.SetInt("resolution", 280);
-                return 9;
             default:
                 Screen.SetResolution(1280, 720, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 1280);
