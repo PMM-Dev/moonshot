@@ -499,10 +499,11 @@ namespace Player
             float progress = 0f;
             float currentTimeScale = currentTime;
 
+            Color currentColor = BulletTimePanel.Instance.Panel.color;
 
             if (_changeColorCoroutine != null)
             {
-                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
+                BulletTimePanel.Instance.Panel.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
                 StopCoroutine(_changeColorCoroutine);
                 _changeColorCoroutine = null;
             }
