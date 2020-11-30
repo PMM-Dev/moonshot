@@ -71,7 +71,11 @@ public class MainUIManager : MonoBehaviour
             {
                 _creditTime *= 2;
             }
+        }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            OnClickQuickRestart();
         }
     }
 
