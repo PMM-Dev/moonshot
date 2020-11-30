@@ -6218,12 +6218,12 @@ PrefabInstance:
     - target: {fileID: 8244455996230637832, guid: 1553ea39af843ef4ca86d141043ee66a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8244455996230637832, guid: 1553ea39af843ef4ca86d141043ee66a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8244455996230637832, guid: 1553ea39af843ef4ca86d141043ee66a,
         type: 3}
@@ -6269,11 +6269,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BulletTimePanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 8244455996230637833, guid: 1553ea39af843ef4ca86d141043ee66a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1553ea39af843ef4ca86d141043ee66a, type: 3}
