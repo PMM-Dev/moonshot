@@ -5085,7 +5085,7 @@ MonoBehaviour:
   _fxVolume: 1
   _bgVolume: 1
   _masterVolume: 1
-  _muteIcon: {fileID: 0}
+  _muteIcon: {fileID: 405386155}
 --- !u!114 &1604407122
 MonoBehaviour:
   m_ObjectHideFlags: 0
