@@ -359,7 +359,8 @@ namespace Player
 
             if (_changeColorCoroutine != null)
             {
-                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
+                Color currentColor = BulletTimePanel.Instance.Panel.color;
+                BulletTimePanel.Instance.Panel.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
                 StopCoroutine(_changeColorCoroutine);
                 _changeColorCoroutine = null;
             }
@@ -447,7 +448,7 @@ namespace Player
             _isSlashLocked = true;
 
             float collideTime = GetSlashTime();
-           
+
             float time = 0f;
             while (time < forceTime)
             {
@@ -458,7 +459,7 @@ namespace Player
 
                 if (time > collideTime)
                 {
-                    break;   
+                    break;
                 }
 
                 _currentSpeed = _data.SlashSpeed;
@@ -548,7 +549,7 @@ namespace Player
             _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
             _cameraFX.SetZoom(_data.SlashZoomSize, 8f, 0.05f);
         }
-        
+
         private float GetSlashTime()
         {
             int layerMask = 1 << LayerMask.NameToLayer("Ground");
@@ -569,7 +570,7 @@ namespace Player
             }
             return 999;
         }
-        
+
         #endregion
 
         #region Die
