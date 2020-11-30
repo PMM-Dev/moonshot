@@ -23,6 +23,8 @@ public class MainSoundManager : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField]
     private float _bgVolume = 1f;
+    [Range(0f, 0.4f)]
+    private float _correctionBackGroundValue = 0.2f;
 
     [SerializeField]
     private Image _muteIcon;
@@ -33,7 +35,7 @@ public class MainSoundManager : MonoBehaviour
         set
         {
             _bgVolume = value;
-            _audioSource.volume = GetCurrentBGVolume() * 0.4f;
+            _audioSource.volume = GetCurrentBGVolume();
         }
     }
     [Range(0f, 1f)]
@@ -60,7 +62,7 @@ public class MainSoundManager : MonoBehaviour
 
     private void Start()
     {
-        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 1f);
+        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.5f);
         if (MainEventManager.Instance != null)
         {
             MainEventManager.Instance.StartMainGameEvent += PlayBGM;
@@ -101,7 +103,7 @@ public class MainSoundManager : MonoBehaviour
 
     public float GetCurrentBGVolume()
     {
-        return _isMute == 1 ? 0 : _bgVolume * _masterVolume;
+        return _isMute == 1 ? 0 : _bgVolume * _masterVolume * _correctionBackGroundValue;
     }
 
     public void StopBGM()
@@ -133,7 +135,7 @@ public class MainSoundManager : MonoBehaviour
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["Ending"];
 
-        float targetVolume = GetCurrentBGVolume() * 0.4f;
+        float targetVolume = GetCurrentBGVolume();
 
         _audioSource.Play();
 
@@ -153,7 +155,7 @@ public class MainSoundManager : MonoBehaviour
     {
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["MainTheme"];
-        _audioSource.volume = GetCurrentBGVolume() * 0.4f;
+        _audioSource.volume = GetCurrentBGVolume() ;
         _audioSource.Play();
     }
 
@@ -161,7 +163,7 @@ public class MainSoundManager : MonoBehaviour
     {
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["backOfMoon"];
-        _audioSource.volume = GetCurrentBGVolume() * 0.4f;
+        _audioSource.volume = GetCurrentBGVolume() ;
         _audioSource.Play();
     }
 
@@ -174,7 +176,7 @@ public class MainSoundManager : MonoBehaviour
     {
         _isMute = _isMute == 1 ? 0 : 1;
         PlayerPrefs.SetInt("isMute", _isMute);
-        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 1f);
-        _audioSource.volume = GetCurrentBGVolume() * 0.4f;
+        _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.5f);
+        _audioSource.volume = GetCurrentBGVolume() ;
     }
 }

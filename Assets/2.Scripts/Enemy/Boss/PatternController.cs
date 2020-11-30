@@ -8,6 +8,7 @@ namespace Enemy
     {
         IEnumerator Run();
     }
+    
     public interface IAnimation
     {
         void Play();
@@ -25,14 +26,15 @@ namespace Enemy
         [SerializeField]
         protected GameObject _player;
         [SerializeField]
-        [Range(1, 5)]
-        protected int _patternAfterDelay = 2;
+        [Range(1f, 3f)]
+        protected float _patternAfterDelay = 2;
         [SerializeField]
         [Range(1, 5)]
         protected int _exhaustPatternsCount = 5;
         [SerializeField]
         protected bool _isStartCoroutine = false;
 
+        protected SoundHelper _soundHelper;
         protected List<Patterns> _patternContainerCopy = new List<Patterns>();
         protected Patterns _currentPattern;
 
@@ -44,17 +46,20 @@ namespace Enemy
         private void Awake()
         {
             Instance = this;
+            _soundHelper = gameObject.transform.parent.gameObject.AddComponent<SoundHelper>();
         }
 
         private void Start()
         {
             for (int i = 0; i < _patternContainer.Count; i++)
             {
+                _patternContainer[i].SoundHelper = _soundHelper;
                 _patternContainer[i].Player = _player;
                 _patternContainer[i].PatternAni = _pattrenAni;
                 _patternContainerCopy.Add(_patternContainer[i]);
             }
             _exhaustPatterns.PatternAni = _pattrenAni;
+            _exhaustPatterns.SoundHelper = _soundHelper;
             if (_player == null)
                 _player = MainPlayerManager.Instance.Player;
 
@@ -79,9 +84,16 @@ namespace Enemy
             _currentPattern = _patternContainerCopy[_random];
             _patternContainerCopy.RemoveAt(_random);
         }
+        void LaughingSound() {
+            _pattrenAni.Play("Lauging");
+            _soundHelper.PlaySound(false, "Boss_Laughing");
+        }
 
         IEnumerator FiniteStateMachine()
         {
+            _soundHelper.PlaySound(false, "Boss_Intro");
+            Invoke("LaughingSound", 1f);
+            yield return new WaitForSeconds(4f);
             while (true)
             {
                 yield return new WaitForSeconds(_patternAfterDelay);

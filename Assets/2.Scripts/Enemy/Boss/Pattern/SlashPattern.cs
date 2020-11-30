@@ -32,6 +32,8 @@ namespace Enemy
         public override IEnumerator Run()
         {
             float _time = 0;
+            _soundHelper.PlaySound(false, "Boss_Slash");
+
             _projectile.SetActive(true);
             while (_time < _patternTime)
             {

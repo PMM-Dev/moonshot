@@ -29,6 +29,7 @@ namespace Enemy
             _player = MainPlayerManager.Instance.Player;
             PlayerDirctionCalculation();
             LookBullet();
+            Destroy(this.gameObject, _distroyTime);
         }
 
 
@@ -40,8 +41,6 @@ namespace Enemy
                 return;
             }
             transform.Translate(_playerDirction * _bulletSpeed * Time.smoothDeltaTime, Space.World);
-            if(this.transform.position.y > _player.transform.position.y + _distroyYlocation )
-            Destroy(this.gameObject, _distroyTime);
         }
 
         void LookBullet() {
