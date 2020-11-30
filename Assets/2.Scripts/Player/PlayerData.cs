@@ -34,6 +34,10 @@ namespace Player
         [SerializeField]
         private float _wallJumpKnockback = 0.25f;
         public float WallJumpKnockback => _wallJumpKnockback;
+        [Range(1f, 3f)]
+        [SerializeField]
+        private float _wallJumpBonusSpeed= 1.5f;
+        public float WallJumpBonusSpeed => _wallJumpBonusSpeed;
 
         [Header("Stick")]
         [Range(0f, 10f)]
@@ -46,7 +50,6 @@ namespace Player
         [SerializeField]
         private float _slashForceTime = 0.1f;
         public float SlashForceTime => _slashForceTime;
-        [Header("Slash")]
         [Range(1f, 200f)]
         [SerializeField]
         private float _slashSpeed = 80f;

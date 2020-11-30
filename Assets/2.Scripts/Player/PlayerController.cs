@@ -101,7 +101,7 @@ namespace Player
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
-            _bodyTransform = GetComponentInChildren<Animator>().transform;
+            _bodyTransform = GetComponentInChildren<Animator>().transform.parent.transform;
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _playerFX = GetComponent<PlayerFX>();
@@ -642,7 +642,7 @@ namespace Player
             while (time < forceTime && !_isGround)
             {
                 yield return null;
-                _currentSpeed = _data.Speed;
+                _currentSpeed = _data.Speed * _data.WallJumpBonusSpeed;
                 time += Time.deltaTime;
             }
 
