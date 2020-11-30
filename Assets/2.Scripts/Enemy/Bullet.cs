@@ -56,12 +56,19 @@ namespace Enemy
             _playerDirction = (_tmpPlayerPosition - this.gameObject.transform.position).normalized;
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.CompareTag("Player") == true) {
+            if (collision.gameObject.CompareTag("Player") == true)
+            {
                 collision.gameObject.GetComponent<IDamage>().GetDamage();
             }
+            if (collision.gameObject.CompareTag("Ground") == true)
+            {
+                Debug.Log("땅부딪");
+                Destroy(this.gameObject);
+            }
         }
+
     }
 
 }
