@@ -642,7 +642,7 @@ namespace Player
             while (time < forceTime && !_isGround)
             {
                 yield return null;
-                _currentSpeed = _data.Speed;
+                _currentSpeed = _data.Speed * _data.WallJumpBonusSpeed;
                 time += Time.deltaTime;
             }
 
