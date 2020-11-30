@@ -211,35 +211,40 @@ public class MainUIManager : MonoBehaviour
                 Screen.SetResolution(1920, 1080, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 1920);
                 return 3;
-            case 1280:
+            case 1600:
             case 4:
+                Screen.SetResolution(1600, 900, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 1600);
+                return 4;
+            case 1280:
+            case 5:
                 Screen.SetResolution(1280, 720, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 1280);
-                return 4;
+                return 5;
             case 1024:
-            case 5:
+            case 6:
                 Screen.SetResolution(1024, 768, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 1024);
-                return 5;
+                return 6;
             case 800:
-            case 6:
+            case 7:
                 Screen.SetResolution(800, 600, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 800);
-                return 6;
+                return 7;
             case 640:
-            case 7:
+            case 8:
                 Screen.SetResolution(640, 480, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 640);
-                return 7;
+                return 8;
             case 480:
-            case 8:
+            case 9:
                 Screen.SetResolution(480, 360, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 480);
-                return 8;
+                return 9;
             default:
                 Screen.SetResolution(1280, 720, _isFullscreen);
                 PlayerPrefs.SetInt("resolution", 1280);
-                return 4;
+                return 5;
         }
     }
 
