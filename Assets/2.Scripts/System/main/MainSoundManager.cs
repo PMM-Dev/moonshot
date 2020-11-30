@@ -53,6 +53,7 @@ public class MainSoundManager : MonoBehaviour
         set
         {
             _masterVolume = value;
+            _audioSource.volume = GetCurrentBGVolume();
             PlayerPrefs.SetFloat("MasterVolume", _masterVolume);
         }
     }
@@ -192,14 +193,14 @@ public class MainSoundManager : MonoBehaviour
             yield return null;
         }
 
-   
+
     }
 
     public void PlayBGM()
     {
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["MainTheme"];
-        _audioSource.volume = GetCurrentBGVolume() ;
+        _audioSource.volume = GetCurrentBGVolume();
         _audioSource.Play();
     }
 
@@ -207,7 +208,7 @@ public class MainSoundManager : MonoBehaviour
     {
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["backOfMoon"];
-        _audioSource.volume = GetCurrentBGVolume() ;
+        _audioSource.volume = GetCurrentBGVolume();
         _audioSource.Play();
     }
 
@@ -221,7 +222,7 @@ public class MainSoundManager : MonoBehaviour
         _isMute = _isMute == 1 ? 0 : 1;
         PlayerPrefs.SetInt("isMute", _isMute);
         _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.5f);
-        _audioSource.volume = GetCurrentBGVolume() ;
+        _audioSource.volume = GetCurrentBGVolume();
     }
 
     public void OnClickBackgroundVolume(float value)

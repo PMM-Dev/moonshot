@@ -8,10 +8,26 @@ public class MainUIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject _startPanel;
+
     [SerializeField]
     private GameObject _mainPanel;
     [SerializeField]
     private GameObject _optionPanel;
+    [SerializeField]
+    private Toggle _fullscrenToggle;
+    [SerializeField]
+    private Dropdown _resolutionDropdown;
+    private bool _isFullscreen;
+    [SerializeField]
+    private Slider _masterVolumeSlider;
+    [SerializeField]
+    private Slider _bgmVolumeSlider;
+    [SerializeField]
+    private Slider _fxVolumeSlider;
+    [SerializeField]
+    private Text _versionText;
+
+
     [SerializeField]
     private GameObject _gameoverPanel;
     [SerializeField]
@@ -42,6 +58,34 @@ public class MainUIManager : MonoBehaviour
     private void Start()
     {
         MainEventManager.Instance.ClearMainGameEvent += StartEnding;
+
+        _masterVolumeSlider.value = MainSoundManager.Instance.MasterVolume;
+        _bgmVolumeSlider.value = MainSoundManager.Instance.BGVolume;
+        _fxVolumeSlider.value = MainSoundManager.Instance.FXVolume;
+
+        _isFullscreen = PlayerPrefs.GetInt("fullscreen", 1) == 1 ? true : false;
+        if (_isFullscreen)
+        {
+            _fullscrenToggle.isOn = true;
+        }
+        else
+        {
+            _fullscrenToggle.isOn = false;
+        }
+
+        InitFullscreen(_isFullscreen);
+        _resolutionDropdown.value = SetResolution(PlayerPrefs.GetInt("resolution", 1280));
+
+
+
+        _fullscrenToggle.onValueChanged.AddListener(delegate { OnFullscreenTogleChanged(_fullscrenToggle); });
+        _resolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionDropdownChanged(_resolutionDropdown); });
+        _masterVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickMasterVolume(_masterVolumeSlider.value); });
+        _bgmVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickBackgroundVolume(_bgmVolumeSlider.value); });
+        _fxVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickFXVolume(_fxVolumeSlider.value); });
+
+
+        _versionText.text = Application.version;
     }
 
     private void Update()
@@ -108,6 +152,100 @@ public class MainUIManager : MonoBehaviour
         _isOpenOption = false;
 
         MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
+    }
+
+    private void InitFullscreen(bool isFullscreen)
+    {
+        if (isFullscreen)
+        {
+            Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+        }
+        else
+        {
+            Screen.fullScreenMode = FullScreenMode.Windowed;
+        }
+    }
+
+    private void OnFullscreenTogleChanged(Toggle change)
+    {
+        if (change.isOn)
+        {
+            Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+            PlayerPrefs.SetInt("fullscreen", 1);
+            _isFullscreen = true;
+        }
+        else
+        {
+            Screen.fullScreenMode = FullScreenMode.Windowed;
+            PlayerPrefs.SetInt("fullscreen", 0);
+            _isFullscreen = false;
+        }
+    }
+
+    private void OnResolutionDropdownChanged(Dropdown change)
+    {
+        SetResolution(change.value);
+    }
+
+    private int SetResolution(int index)
+    {
+        switch (index)
+        {
+            case 3840:
+            case 0:
+                Screen.SetResolution(3840, 2160, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 3840);
+                return 0;
+            case 2880:
+            case 1:
+                Screen.SetResolution(2880, 1800, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 2880);
+                return 1;
+            case 2560:
+            case 2:
+                Screen.SetResolution(2560, 1440, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 2560);
+                return 2;
+            case 1920:
+            case 3:
+                Screen.SetResolution(1920, 1080, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 1920);
+                return 3;
+            case 1280:
+            case 4:
+                Screen.SetResolution(1280, 720, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 1280);
+                return 4;
+            case 1024:
+            case 5:
+                Screen.SetResolution(1024, 768, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 1024);
+                return 5;
+            case 800:
+            case 6:
+                Screen.SetResolution(800, 600, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 800);
+                return 6;
+            case 640:
+            case 7:
+                Screen.SetResolution(640, 480, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 640);
+                return 7;
+            case 480:
+            case 8:
+                Screen.SetResolution(480, 360, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 480);
+                return 8;
+            case 380:
+            case 9:
+                Screen.SetResolution(380, 270, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 280);
+                return 9;
+            default:
+                Screen.SetResolution(1280, 720, _isFullscreen);
+                PlayerPrefs.SetInt("resolution", 1280);
+                return 4;
+        }
     }
 
     public void OnClickInitRestart()
