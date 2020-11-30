@@ -177,8 +177,7 @@ namespace Player
             TestModeAction = delegate { };
 
             SuccessSlashAction += SuccessSlashEvent;
-            TestModeAction += () => _isGodMode = _isGodMode == true ? false : true;
-            TestModeAction += BulletTimePanel.Instance.ChangeImage;
+            TestModeAction += ActTestMode;
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
@@ -365,7 +364,7 @@ namespace Player
                 _changeColorCoroutine = null;
             }
 
-            _changeColorCoroutine = StartCoroutine(ChangeColor(true));
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(true));
 
             while (true)
             {
@@ -396,7 +395,7 @@ namespace Player
                 _changeColorCoroutine = null;
             }
 
-            _changeColorCoroutine = StartCoroutine(ChangeColor(false));
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(false));
 
             progress = 0f;
             Time.timeScale = minSpeed;
@@ -507,7 +506,7 @@ namespace Player
                 _changeColorCoroutine = null;
             }
 
-            _changeColorCoroutine = StartCoroutine(ChangeColor(true));
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(true));
 
             while (progress < 1f)
             {
@@ -528,7 +527,7 @@ namespace Player
                 _changeColorCoroutine = null;
             }
 
-            _changeColorCoroutine = StartCoroutine(ChangeColor(false));
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(false));
 
             progress = 0f;
             currentTimeScale = Time.timeScale;
@@ -598,6 +597,20 @@ namespace Player
         private IEnumerator DieEvent()
         {
             float time = 0f;
+
+            BulletTimePanel.Instance.ChangePanelColor(BulletTimePanel.ColorType.Die);
+
+            Color currentColor = BulletTimePanel.Instance.Panel.color;
+
+            if (_changeColorCoroutine != null)
+            {
+                BulletTimePanel.Instance.Panel.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
+                StopCoroutine(_changeColorCoroutine);
+                _changeColorCoroutine = null;
+            }
+
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(true));
+
             while (time < 2.5f)
             {
                 time += Time.deltaTime;
@@ -608,25 +621,27 @@ namespace Player
         #endregion
 
         #region Helper method
-        private IEnumerator ChangeColor(bool isOn)
+        private IEnumerator ChangeBulletTimePanelAlpha(bool isOn)
         {
             if (BulletTimePanel.Instance.Panel == null)
                 yield break;
 
+            Color currentColor = BulletTimePanel.Instance.Panel.color;
+
             if (isOn)
             {
                 BulletTimePanel.Instance.gameObject.SetActive(true);
-                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
+                BulletTimePanel.Instance.Panel.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
             }
 
 
             float progress = 0f;
 
             Color origin = BulletTimePanel.Instance.Panel.color;
-            Color target = isOn ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 0f);
+            Color target = isOn ? new Color(currentColor.r, currentColor.g, currentColor.b, 0.5f) : new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
             while (progress < 1f)
             {
-                progress += Time.deltaTime * 4f;
+                progress += Time.deltaTime * 2.5f;
                 BulletTimePanel.Instance.Panel.color = Color.Lerp(origin, target, _curve.Evaluate(progress));
                 yield return null;
             }
@@ -650,5 +665,17 @@ namespace Player
         }
         #endregion
 
+        private void ActTestMode()
+        {
+            _isGodMode = _isGodMode == true ? false : true;
+            if (_isGodMode)
+            {
+                BulletTimePanel.Instance.ChangePanelColor(BulletTimePanel.ColorType.GodMode);
+            }
+            else
+            {
+                BulletTimePanel.Instance.ChangePanelColor(BulletTimePanel.ColorType.BulletTime);
+            }
+        }
     }
 }
