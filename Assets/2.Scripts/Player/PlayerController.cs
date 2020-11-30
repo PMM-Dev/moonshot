@@ -1,5 +1,7 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +14,11 @@ namespace Player
         [Header("Reference")]
         [SerializeField]
         private PlayerData _data;
-        private GameObject _slashRange;
         [SerializeField]
         private GameObject _slashArrow;
+        [SerializeField]
+        private AnimationCurve _curve;
+        private GameObject _slashRange;
         private PlayerLogic _playerLogic;
         private PlayerSimulation _playerSimulation;
         private PlayerInput _playerInput;
@@ -24,8 +28,7 @@ namespace Player
         private BoxCollider2D _boxCollider2D;
         private PlayerFX _playerFX;
         private CameraFx _cameraFX;
-        [SerializeField]
-        private AnimationCurve _curve;
+        private SoundHelper _soundHelper;
         #endregion
 
         #region State
@@ -89,14 +92,16 @@ namespace Player
         public Action TestModeAction;
         #endregion
 
+        #region Coroutine
         private Coroutine _bulletTimeCoroutine;
-        private SoundHelper _soundHelper;
         private Coroutine _changeColorCoroutine;
+        #endregion
 
+        #region Unity method
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
-            _bodyTransform = GetComponentInChildren<Animator>().transform;
+            _bodyTransform = GetComponentInChildren<Animator>().transform.parent.transform;
             _playerCollisionTrigger = GetComponentInChildren<PlayerCollisionTrigger>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _playerFX = GetComponent<PlayerFX>();
@@ -156,8 +161,9 @@ namespace Player
                 _velocity.y = 5f;
             }
         }
+        #endregion
 
-
+        #region Initializer
         private void InitializeEvent()
         {
             SlashAction = delegate { };
@@ -171,8 +177,7 @@ namespace Player
             TestModeAction = delegate { };
 
             SuccessSlashAction += SuccessSlashEvent;
-            TestModeAction += () => _isGodMode = _isGodMode == true ? false : true;
-            TestModeAction += BulletTimePanel.Instance.ChangeImage;
+            TestModeAction += ActTestMode;
 
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerEnter += CheckStick;
             _playerCollisionTrigger.CollisionTriggers[ColliderType.Left].OnTriggerStay += CheckStick;
@@ -192,9 +197,11 @@ namespace Player
         private void ClearEvent()
         {
             _playerInput.PauseGameEvent();
-            _isClear = true;            
+            _isClear = true;
         }
+        #endregion
 
+        #region Movement
         private void CheckStick(CollisionType collisionType, Collider2D collider2D, ColliderType colliderType)
         {
             if (collider2D.gameObject.CompareTag("Ground"))
@@ -282,105 +289,9 @@ namespace Player
                 StopStickAction?.Invoke();
             }
         }
+        #endregion
 
-        private IEnumerator ForceWallJumpTimer(float xDir, float forceTime)
-        {
-            float time = 0f;
-            while (time < forceTime && !_isGround)
-            {
-                yield return null;
-                _currentSpeed = _data.Speed;
-                time += Time.deltaTime;
-            }
-
-            _isMoveInputLocked = false;
-        }
-
-        private void Slash()
-        {
-            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown(0) && !_isBulletTime)
-            {
-                _isBulletTime = true;
-                if (_bulletTimeCoroutine != null)
-                {
-                    StopCoroutine(_bulletTimeCoroutine);
-                }
-                _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
-            }
-        }
-
-        private IEnumerator ForceSlash(Vector2 direction, float forceTime)
-        {
-            _isJumpLocked = true;
-            _isSlashing = true;
-            _slashRange.SetActive(true);
-
-            float angle = _playerInput.GetSlashAngle();
-            Vector3 rotateValue = new Vector3(0f, 0f, angle * -1);
-
-            _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
-            _slashRange.transform.position = transform.position;
-
-            _slashRange.transform.rotation = Quaternion.Euler(rotateValue);
-
-            Vector3 origin = transform.position;
-
-            if (angle < 0)
-            {
-                _lookDirection = LookDirection.Left;
-            }
-            else
-            {
-                _lookDirection = LookDirection.Right;
-            }
-
-            _animator.SetBool("isSlash", _isSlashing);
-            _soundHelper.PlaySound(false, "Slash");
-            SlashAction?.Invoke(_lookDirection, rotateValue);
-
-            Vector2 target = transform.position;
-            float distance = Vector2.Distance(origin, target);
-
-            _isSlashLocked = true;
-
-            float time = 0f;
-            while (time < forceTime)
-            {
-                if ((int)_besideDirection == (int)_lookDirection)
-                    break;
-
-                _currentSpeed = 80f;
-                _velocity = direction * _currentSpeed;
-                transform.Translate(_velocity * Time.deltaTime);
-
-                target = transform.position;
-                distance = Vector2.Distance(origin, target);
-                _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
-
-                time += Time.deltaTime;
-                yield return null;
-            }
-
-            _isSlashing = false;
-            _velocity = Vector2.zero;
-            _animator.SetBool("isSlash", _isSlashing);
-
-            target = transform.position;
-            distance = Vector2.Distance(origin, target);
-            _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
-
-            time = 0f;
-            while (time < 0.1f)
-            {
-                time += Time.deltaTime;
-                yield return null;
-            }
-
-            _slashRange.gameObject.SetActive(false);
-
-            EndSlashAction?.Invoke();
-        }
-
+        #region Physics
         private void Gravity()
         {
             if (_velocity.y > _data.GravityLimit)
@@ -420,13 +331,165 @@ namespace Player
             }
             _animator.SetBool("isGround", _isGround);
         }
+        #endregion
 
-        private void SuccessSlashEvent()
+        #region Slash
+        private void Slash()
         {
-            _isSlashLocked = false;
-            _isJumpLocked = false;
-            _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
-            _cameraFX.SetZoom(_data.SlashZoomSize, 8f, 0.05f);
+            if (_playerLogic.IsSlashAvailable(_isSlashLocked, _stickDirection) && _playerInput.GetMouseButtonDown(0) && !_isBulletTime)
+            {
+                _isBulletTime = true;
+                if (_bulletTimeCoroutine != null)
+                {
+                    StopCoroutine(_bulletTimeCoroutine);
+                }
+                _bulletTimeCoroutine = StartCoroutine(ReadyToSlash(_data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+            }
+        }
+
+        private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
+        {
+            _playerInput.GetOriginDirection(transform.position + new Vector3(0f, 0.5f, 0f));
+
+            float time = 0f;
+            float progress = 0f;
+            float currentTimeScale = Time.timeScale;
+
+            _slashArrow.SetActive(true);
+
+            if (_changeColorCoroutine != null)
+            {
+                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
+                StopCoroutine(_changeColorCoroutine);
+                _changeColorCoroutine = null;
+            }
+
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(true));
+
+            while (true)
+            {
+                time += Time.deltaTime / Time.timeScale;
+                float angle = _playerInput.GetSlashAngle();
+                _playerInput.GetTargetDirection();
+                _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
+                if (_playerInput.GetMouseButtonUp(0) || time > _data.ReadyToSlashTimeLimit)
+                {
+                    break;
+                }
+                if (progress < 1f)
+                {
+                    progress += Time.deltaTime * decreaseSpeed;
+                    Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
+                }
+                yield return null;
+            }
+
+            _slashArrow.SetActive(false);
+
+            _slashDirection = _playerInput.GetSlashDirection();
+            StartCoroutine(ForceSlash(_slashDirection, _data.SlashForceTime));
+
+            if (_changeColorCoroutine != null)
+            {
+                StopCoroutine(_changeColorCoroutine);
+                _changeColorCoroutine = null;
+            }
+
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(false));
+
+            progress = 0f;
+            Time.timeScale = minSpeed;
+            currentTimeScale = Time.timeScale;
+            while (progress < 1f)
+            {
+                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
+                progress += Time.deltaTime * increaseSpeed;
+                yield return null;
+            }
+
+            _playerInput.GetTargetDirection();
+            Time.timeScale = 1f;
+            _isBulletTime = false;
+        }
+
+        private IEnumerator ForceSlash(Vector2 direction, float forceTime)
+        {
+            _isJumpLocked = true;
+            _isSlashing = true;
+            _slashRange.SetActive(true);
+
+            float angle = _playerInput.GetSlashAngle();
+            Vector3 rotateValue = new Vector3(0f, 0f, angle * -1);
+
+            _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
+            _slashRange.transform.position = transform.position;
+
+            _slashRange.transform.rotation = Quaternion.Euler(rotateValue);
+
+            Vector3 origin = transform.position;
+
+            if (angle < 0)
+            {
+                _lookDirection = LookDirection.Left;
+            }
+            else
+            {
+                _lookDirection = LookDirection.Right;
+            }
+
+            _animator.SetBool("isSlash", _isSlashing);
+            _soundHelper.PlaySound(false, "Slash");
+            SlashAction?.Invoke(_lookDirection, rotateValue);
+
+            Vector2 target = transform.position;
+            float distance = Vector2.Distance(origin, target);
+
+            _isSlashLocked = true;
+
+            float collideTime = GetSlashTime();
+           
+            float time = 0f;
+            while (time < forceTime)
+            {
+                time += Time.deltaTime;
+
+                if ((int)_besideDirection == (int)_lookDirection)
+                    break;
+
+                if (time > collideTime)
+                {
+                    break;   
+                }
+
+                _currentSpeed = _data.SlashSpeed;
+                _velocity = direction * _currentSpeed;
+                transform.Translate(_velocity * Time.deltaTime);
+
+                target = transform.position;
+                distance = Vector2.Distance(origin, target);
+                _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
+
+                yield return null;
+            }
+
+            _isSlashing = false;
+            _velocity = Vector2.zero;
+            _animator.SetBool("isSlash", _isSlashing);
+
+            target = transform.position;
+            distance = Vector2.Distance(origin, target);
+            _slashRange.transform.localScale = new Vector3(1f, distance == 0f ? 1f : distance, 1f / _data.SlashRangeDetection) * _data.SlashRangeDetection;
+
+            time = 0f;
+            while (time < 0.1f)
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            _slashRange.gameObject.SetActive(false);
+
+            EndSlashAction?.Invoke();
         }
 
         private IEnumerator BulletTime(float currentTime, float decreaseSpeed, float increaseSpeed, float minSpeed)
@@ -443,7 +506,7 @@ namespace Player
                 _changeColorCoroutine = null;
             }
 
-            _changeColorCoroutine = StartCoroutine(ChangeColor(true));
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(true));
 
             while (progress < 1f)
             {
@@ -464,7 +527,7 @@ namespace Player
                 _changeColorCoroutine = null;
             }
 
-            _changeColorCoroutine = StartCoroutine(ChangeColor(false));
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(false));
 
             progress = 0f;
             currentTimeScale = Time.timeScale;
@@ -478,6 +541,38 @@ namespace Player
             Time.timeScale = 1f;
         }
 
+        private void SuccessSlashEvent()
+        {
+            _isSlashLocked = false;
+            _isJumpLocked = false;
+            _bulletTimeCoroutine = StartCoroutine(BulletTime(_data.BulletTimeSpeed + 0.15f, _data.BulletTimeDecreaseSpeed, _data.BulletTimeIncreaseSpeed, _data.BulletTimeSpeed));
+            _cameraFX.SetZoom(_data.SlashZoomSize, 8f, 0.05f);
+        }
+        
+        private float GetSlashTime()
+        {
+            int layerMask = 1 << LayerMask.NameToLayer("Ground");
+
+            Ray2D ray = new Ray2D(transform.position + new Vector3(0f, 0.5f, 0f), _playerInput.GetSlashDirection());
+
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _data.SlashSpeed * _data.SlashForceTime, layerMask);
+
+            Vector2 point;
+            if (hit.collider != null)
+            {
+                point = hit.point;
+
+                float goalDistance = _data.SlashSpeed * _data.SlashForceTime;
+                float collidedDistance = (Vector2.Distance(transform.position, point));
+
+                return ((_data.SlashForceTime) * (collidedDistance / goalDistance));
+            }
+            return 999;
+        }
+        
+        #endregion
+
+        #region Die
         public bool GetDamage()
         {
             if (_isSlashing || _isGodMode)
@@ -502,6 +597,20 @@ namespace Player
         private IEnumerator DieEvent()
         {
             float time = 0f;
+
+            BulletTimePanel.Instance.ChangePanelColor(BulletTimePanel.ColorType.Die);
+
+            Color currentColor = BulletTimePanel.Instance.Panel.color;
+
+            if (_changeColorCoroutine != null)
+            {
+                BulletTimePanel.Instance.Panel.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
+                StopCoroutine(_changeColorCoroutine);
+                _changeColorCoroutine = null;
+            }
+
+            _changeColorCoroutine = StartCoroutine(ChangeBulletTimePanelAlpha(true));
+
             while (time < 2.5f)
             {
                 time += Time.deltaTime;
@@ -509,91 +618,30 @@ namespace Player
             }
             MainEventManager.Instance.GameoverEvent();
         }
+        #endregion
 
-        private IEnumerator ReadyToSlash(float decreaseSpeed, float increaseSpeed, float minSpeed)
-        {
-            _playerInput.GetOriginDirection(transform.position + new Vector3(0f, 0.5f, 0f));
-
-            float time = 0f;
-            float progress = 0f;
-            float currentTimeScale = Time.timeScale;
-
-            _slashArrow.SetActive(true);
-
-            if (_changeColorCoroutine != null)
-            {
-                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
-                StopCoroutine(_changeColorCoroutine);
-                _changeColorCoroutine = null;
-            }
-
-            _changeColorCoroutine = StartCoroutine(ChangeColor(true));
-
-            while (true)
-            {
-                time += Time.deltaTime / Time.timeScale;
-                float angle = _playerInput.GetSlashAngle();
-                _playerInput.GetTargetDirection();
-                _slashArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, (angle - 90) * -1));
-                if (_playerInput.GetMouseButtonUp(0) || time > _data.ReadyToSlashTimeLimit)
-                {
-                    break;
-                }
-                if (progress < 1f)
-                {
-                    progress += Time.deltaTime * decreaseSpeed;
-                    Time.timeScale = Mathf.Lerp(currentTimeScale, minSpeed, progress);
-                }
-                yield return null;
-            }
-
-            _slashArrow.SetActive(false);
-
-            _slashDirection = _playerInput.GetSlashDirection();
-            StartCoroutine(ForceSlash(_slashDirection, _data.SlashDistance));
-
-            if (_changeColorCoroutine != null)
-            {
-                StopCoroutine(_changeColorCoroutine);
-                _changeColorCoroutine = null;
-            }
-
-            _changeColorCoroutine = StartCoroutine(ChangeColor(false));
-
-            progress = 0f;
-            Time.timeScale = minSpeed;
-            currentTimeScale = Time.timeScale;
-            while (progress < 1f)
-            {
-                Time.timeScale = Mathf.Lerp(currentTimeScale, 1f, progress);
-                progress += Time.deltaTime * increaseSpeed;
-                yield return null;
-            }
-
-            _playerInput.GetTargetDirection();
-            Time.timeScale = 1f;
-            _isBulletTime = false;
-        }
-
-        private IEnumerator ChangeColor(bool isOn)
+        #region Helper method
+        private IEnumerator ChangeBulletTimePanelAlpha(bool isOn)
         {
             if (BulletTimePanel.Instance.Panel == null)
                 yield break;
 
+            Color currentColor = BulletTimePanel.Instance.Panel.color;
+
             if (isOn)
             {
                 BulletTimePanel.Instance.gameObject.SetActive(true);
-                BulletTimePanel.Instance.Panel.color = new Color(1f, 1f, 1f, 0f);
+                BulletTimePanel.Instance.Panel.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
             }
 
 
             float progress = 0f;
 
             Color origin = BulletTimePanel.Instance.Panel.color;
-            Color target = isOn ? new Color(1f, 1f, 1f, 0.5f) : new Color(1f, 1f, 1f, 0f);
+            Color target = isOn ? new Color(currentColor.r, currentColor.g, currentColor.b, 0.5f) : new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
             while (progress < 1f)
             {
-                progress += Time.deltaTime * 4f;
+                progress += Time.deltaTime * 2.5f;
                 BulletTimePanel.Instance.Panel.color = Color.Lerp(origin, target, _curve.Evaluate(progress));
                 yield return null;
             }
@@ -601,6 +649,33 @@ namespace Player
 
             if (!isOn)
                 BulletTimePanel.Instance.gameObject.SetActive(false);
+        }
+
+        private IEnumerator ForceWallJumpTimer(float xDir, float forceTime)
+        {
+            float time = 0f;
+            while (time < forceTime && !_isGround)
+            {
+                yield return null;
+                _currentSpeed = _data.Speed * _data.WallJumpBonusSpeed;
+                time += Time.deltaTime;
+            }
+
+            _isMoveInputLocked = false;
+        }
+        #endregion
+
+        private void ActTestMode()
+        {
+            _isGodMode = _isGodMode == true ? false : true;
+            if (_isGodMode)
+            {
+                BulletTimePanel.Instance.ChangePanelColor(BulletTimePanel.ColorType.GodMode);
+            }
+            else
+            {
+                BulletTimePanel.Instance.ChangePanelColor(BulletTimePanel.ColorType.BulletTime);
+            }
         }
     }
 }

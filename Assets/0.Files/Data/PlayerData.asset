@@ -13,20 +13,22 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   _speed: 10
-  _acceleration: 1
-  _deceleration: 2
-  _gravityScale: 70
+  _acceleration: 5
+  _deceleration: 5
   _normalJumpPower: 25
   _wallJumpPower: 30
-  _wallJumpKnockback: 0.25
+  _wallJumpKnockback: 0.165
+  _wallJumpBonusSpeed: 1.5
   _stickGravity: 0.8
-  _gravityLimit: -30
-  _slashDistance: 0.1
+  _slashForceTime: 0.1
+  _slashSpeed: 80
   _readyToSlashTimeLimit: 0.45
+  _slashRangeDetection: 3.1
+  _slashRangeSprite: {fileID: 21300000, guid: b85483305170ee14bb3fcfe98b4e199c, type: 3}
+  _slashZoomSize: 8
   _bulletTimeLimit: 0.25
   _bulletTimeSpeed: 0.15
   _bulletTimeDecreaseSpeed: 5
   _bulletTimeIncreaseSpeed: 30
-  _slashRangeDetection: 3.1
-  _slashZoomSize: 8
-  _slashRangeSprite: {fileID: 21300000, guid: b85483305170ee14bb3fcfe98b4e199c, type: 3}
+  _gravityScale: 70
+  _gravityLimit: -30

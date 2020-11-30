@@ -5,11 +5,23 @@ using UnityEngine.UI;
 
 public class BulletTimePanel : MonoBehaviour
 {
+    public enum ColorType
+    { 
+        BulletTime,
+        GodMode,
+        Die
+    }
+
     public static BulletTimePanel Instance;
 
     private PlayerController _playerController;
 
-    public Image Panel;
+    private Image _panel;
+    public Image Panel => _panel;
+
+    public Color BulletTimeColor;
+    public Color GodModeColor;
+    public Color DieColor;
 
     private List<Sprite> _images;
 
@@ -17,7 +29,7 @@ public class BulletTimePanel : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
-        Panel = GetComponent<Image>();
+        _panel = GetComponent<Image>();
     }
 
     private void Start()
@@ -35,11 +47,19 @@ public class BulletTimePanel : MonoBehaviour
         _images.Add(Resources.Load<Sprite>("Player/BulletTime/focus_test"));
     }
 
-    public void ChangeImage()
+    public void ChangePanelColor(ColorType colorType)
     {
-        if (_playerController.IsGodMode)
-            Panel.sprite = _images[1];
-        else
-            Panel.sprite = _images[0];
+        switch(colorType)
+        {
+            case ColorType.BulletTime:
+                _panel.color = BulletTimeColor;
+                break;
+            case ColorType.GodMode:
+                _panel.color = GodModeColor;
+                break;
+            case ColorType.Die:
+                _panel.color = DieColor;
+                break;
+        }
     }
 }
