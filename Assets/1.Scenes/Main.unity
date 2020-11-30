@@ -1347,6 +1347,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 352440445}
+  - component: {fileID: 352440446}
   m_Layer: 5
   m_Name: Start Panel
   m_TagString: Untagged
@@ -1374,6 +1375,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &352440446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352440444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72cdbd3ef787f44a9b517fb6b528c7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainUIManager: {fileID: 1604407120}
 --- !u!1 &421544628
 GameObject:
   m_ObjectHideFlags: 0
@@ -2705,7 +2719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &760354262
 RectTransform:
   m_ObjectHideFlags: 0
