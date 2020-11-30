@@ -8,6 +8,8 @@ namespace Map
     {
         [SerializeField]
         private float _destroyTime = 1.0f;
+        [SerializeField]
+        private bool _startBlock = false;
 
         private ParticleSystem _particle;
         private bool _isCollided;
@@ -18,11 +20,17 @@ namespace Map
             _particle.Stop();
         }
 
+        public void DestroyStart()
+        {
+            _particle.Play();
+            StartCoroutine(BlockTime());
+        }
+
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                if(!_isCollided)
+                if(!_startBlock && !_isCollided)
                 {
                     _isCollided = true;
                     _particle.Play();
