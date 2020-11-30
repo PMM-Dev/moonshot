@@ -529,7 +529,7 @@ PrefabInstance:
     - target: {fileID: 1483858004914795045, guid: 430b734749359014eb81e129750b3105,
         type: 3}
       propertyPath: _bossLifes
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5570943354043685124, guid: 430b734749359014eb81e129750b3105,
         type: 3}
@@ -545,6 +545,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _patternTime
       value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210583808127174847, guid: 430b734749359014eb81e129750b3105,
+        type: 3}
+      propertyPath: _exPosionkRange
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 430b734749359014eb81e129750b3105, type: 3}
@@ -698,8 +703,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015589201}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.18, y: -3.24, z: -3.5424228}
-  m_LocalScale: {x: 3.7515802, y: 0.48056915, z: 1}
+  m_LocalPosition: {x: 3.11, y: -3.24, z: -3.5424228}
+  m_LocalScale: {x: 34.06191, y: 0.48056915, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -859,6 +864,7 @@ MonoBehaviour:
   _audioSource: {fileID: 1190512258}
   _fxVolume: 1
   _bgVolume: 1
+  _muteIcon: {fileID: 0}
   _masterVolume: 1
 --- !u!4 &1190512260
 Transform:
