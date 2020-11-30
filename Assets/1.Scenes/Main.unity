@@ -276,7 +276,7 @@ MonoBehaviour:
   _video: {fileID: 96629470}
   _skipGuideText: {fileID: 1641128216}
   MainGames:
-  - {fileID: 628270511}
+  - {fileID: 933579766}
   - {fileID: 937356507}
   - {fileID: 1738080125}
   - {fileID: 1024328848}
@@ -1218,6 +1218,7 @@ RectTransform:
   - {fileID: 797434751}
   - {fileID: 421544629}
   - {fileID: 1800917064}
+  - {fileID: 798395073}
   m_Father: {fileID: 1126010772}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2816,6 +2817,84 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &798395072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 798395073}
+  - component: {fileID: 798395075}
+  - component: {fileID: 798395074}
+  m_Layer: 5
+  m_Name: Version Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &798395073
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798395072}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 341145190}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 195.39, y: -332.8}
+  m_SizeDelta: {x: 233.28528, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &798395074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798395072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 327621568a6ce4ff094471bf44bf92de, type: 3}
+    m_FontSize: 17
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 8
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Ver
+--- !u!222 &798395075
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798395072}
+  m_CullTransparentMesh: 0
 --- !u!1 &824024373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,6 +2998,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824024373}
   m_CullTransparentMesh: 0
+--- !u!1 &933579766 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4115473602199968255, guid: ea02068033298c3419c745a120d904c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 106215612}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &937356507
 GameObject:
   m_ObjectHideFlags: 0
@@ -4553,6 +4638,10 @@ MonoBehaviour:
   _optionPanel: {fileID: 1126010771}
   _fullscrenToggle: {fileID: 1184107710}
   _resolutionDropdown: {fileID: 312937212}
+  _masterVolumeSlider: {fileID: 797434752}
+  _bgmVolumeSlider: {fileID: 421544630}
+  _fxVolumeSlider: {fileID: 1800917065}
+  _versionText: {fileID: 798395074}
   _gameoverPanel: {fileID: 1808018916}
   _creditPanel: {fileID: 1945854669}
   _creditTransform: {fileID: 1945854670}
@@ -4578,8 +4667,8 @@ MonoBehaviour:
   _audioSource: {fileID: 1255376144}
   _fxVolume: 1
   _bgVolume: 1
-  _muteIcon: {fileID: 1263985907}
   _masterVolume: 1
+  _muteIcon: {fileID: 1263985907}
 --- !u!114 &1604407122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5693,7 +5782,7 @@ GameObject:
   - component: {fileID: 1800917064}
   - component: {fileID: 1800917065}
   m_Layer: 5
-  m_Name: Effect Slider
+  m_Name: fx Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

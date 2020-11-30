@@ -18,6 +18,14 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private Dropdown _resolutionDropdown;
     private bool _isFullscreen;
+    [SerializeField]
+    private Slider _masterVolumeSlider;
+    [SerializeField]
+    private Slider _bgmVolumeSlider;
+    [SerializeField]
+    private Slider _fxVolumeSlider;
+    [SerializeField]
+    private Text _versionText;
 
 
     [SerializeField]
@@ -51,9 +59,9 @@ public class MainUIManager : MonoBehaviour
     {
         MainEventManager.Instance.ClearMainGameEvent += StartEnding;
 
-        _fullscrenToggle.onValueChanged.AddListener(delegate { OnFullscreenTogleChanged(_fullscrenToggle); });
-        _resolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionDropdownChanged(_resolutionDropdown); });
-
+        _masterVolumeSlider.value = MainSoundManager.Instance.MasterVolume;
+        _bgmVolumeSlider.value = MainSoundManager.Instance.BGVolume;
+        _fxVolumeSlider.value = MainSoundManager.Instance.FXVolume;
 
         _isFullscreen = PlayerPrefs.GetInt("fullscreen", 1) == 1 ? true : false;
         if (_isFullscreen)
@@ -67,6 +75,17 @@ public class MainUIManager : MonoBehaviour
 
         InitFullscreen(_isFullscreen);
         _resolutionDropdown.value = SetResolution(PlayerPrefs.GetInt("resolution", 1280));
+
+
+
+        _fullscrenToggle.onValueChanged.AddListener(delegate { OnFullscreenTogleChanged(_fullscrenToggle); });
+        _resolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionDropdownChanged(_resolutionDropdown); });
+        _masterVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickMasterVolume(_masterVolumeSlider.value); });
+        _bgmVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickBackgroundVolume(_bgmVolumeSlider.value); });
+        _fxVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickFXVolume(_fxVolumeSlider.value); });
+
+
+        _versionText.text = Application.version;
     }
 
     private void Update()
