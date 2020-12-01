@@ -20,15 +20,19 @@ public class MainSoundManager : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField]
     private float _fxVolume = 1f;
+    public float FXVolume
+    {
+        get { return _fxVolume; }
+        set
+        {
+            _fxVolume = value;
+            PlayerPrefs.SetFloat("FXVolume", _fxVolume);
+        }
+    }
+
     [Range(0f, 1f)]
     [SerializeField]
     private float _bgVolume = 1f;
-    [Range(0f, 0.4f)]
-    private float _correctionBackGroundValue = 0.2f;
-
-    [SerializeField]
-    private Image _muteIcon;
-
     public float BGVolume
     {
         get { return _bgVolume; }
@@ -36,11 +40,31 @@ public class MainSoundManager : MonoBehaviour
         {
             _bgVolume = value;
             _audioSource.volume = GetCurrentBGVolume();
+            PlayerPrefs.SetFloat("BGVolume", _bgVolume);
         }
     }
+
     [Range(0f, 1f)]
     [SerializeField]
     private float _masterVolume = 1f;
+    public float MasterVolume
+    {
+        get { return _masterVolume; }
+        set
+        {
+            _masterVolume = value;
+            _audioSource.volume = GetCurrentBGVolume();
+            PlayerPrefs.SetFloat("MasterVolume", _masterVolume);
+        }
+    }
+
+    [Range(0f, 0.4f)]
+    private float _correctionBackGroundValue = 0.2f;
+
+    [SerializeField]
+    private Image _muteIcon;
+
+
 
     private int _isMute;
 
@@ -57,6 +81,27 @@ public class MainSoundManager : MonoBehaviour
         {
             _isMute = 0;
             PlayerPrefs.SetInt("isMute", _isMute);
+        }
+
+        if (PlayerPrefs.HasKey("BGVolume"))
+            BGVolume = PlayerPrefs.GetFloat("BGVolume");
+        else
+        {
+            BGVolume = 1f;
+        }
+
+        if (PlayerPrefs.HasKey("FXVolume"))
+            FXVolume = PlayerPrefs.GetFloat("FXVolume");
+        else
+        {
+            FXVolume = 1f;
+        }
+
+        if (PlayerPrefs.HasKey("MasterVolume"))
+            MasterVolume = PlayerPrefs.GetFloat("MasterVolume");
+        else
+        {
+            MasterVolume = 1f;
         }
     }
 
@@ -148,14 +193,14 @@ public class MainSoundManager : MonoBehaviour
             yield return null;
         }
 
-   
+
     }
 
     public void PlayBGM()
     {
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["MainTheme"];
-        _audioSource.volume = GetCurrentBGVolume() ;
+        _audioSource.volume = GetCurrentBGVolume();
         _audioSource.Play();
     }
 
@@ -163,7 +208,7 @@ public class MainSoundManager : MonoBehaviour
     {
         _audioSource.loop = true;
         _audioSource.clip = _audioClips["backOfMoon"];
-        _audioSource.volume = GetCurrentBGVolume() ;
+        _audioSource.volume = GetCurrentBGVolume();
         _audioSource.Play();
     }
 
@@ -177,6 +222,21 @@ public class MainSoundManager : MonoBehaviour
         _isMute = _isMute == 1 ? 0 : 1;
         PlayerPrefs.SetInt("isMute", _isMute);
         _muteIcon.color = _isMute == 1 ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.5f);
-        _audioSource.volume = GetCurrentBGVolume() ;
+        _audioSource.volume = GetCurrentBGVolume();
+    }
+
+    public void OnClickBackgroundVolume(float value)
+    {
+        BGVolume = value;
+    }
+
+    public void OnClickMasterVolume(float value)
+    {
+        MasterVolume = value;
+    }
+
+    public void OnClickFXVolume(float value)
+    {
+        FXVolume = value;
     }
 }

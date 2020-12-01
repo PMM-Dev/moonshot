@@ -83,7 +83,7 @@ namespace Map
                         Transform[] allChildren = _wholeMapOrder[_recentIndex - 3].gameObject.GetComponentsInChildren<Transform>();
                         foreach (Transform child in allChildren)
                         {
-                            if (child.name == _wholeMapOrder[_recentIndex - 3].gameObject.name || child.name == "Collider")
+                            if (child.name == _wholeMapOrder[_recentIndex - 3].gameObject.name || child.name == "Collider" || child.name == "Ground")
                                 continue;
                             child.gameObject.SetActive(false);
                         }

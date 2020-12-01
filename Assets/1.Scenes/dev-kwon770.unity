@@ -121,6 +121,75 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &259323653
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532932922738596681, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364957618936433798, guid: 1f01060a1f7da7541b75c8264f956e5c,
+        type: 3}
+      propertyPath: m_Name
+      value: Bullit
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1f01060a1f7da7541b75c8264f956e5c, type: 3}
 --- !u!1001 &584867883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -726,6 +795,75 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &2691701305856476384
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1333507151335711550, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_Name
+      value: Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.843
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773193514523066211, guid: bef6fa7794c084804920483d84bfc63d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bef6fa7794c084804920483d84bfc63d, type: 3}
 --- !u!1001 &3427053329184865833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1071,6 +1209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!4 &8222077869423782128
 Transform:
   m_ObjectHideFlags: 0
@@ -1098,6 +1237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869423782131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,6 +1360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869436808651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1447,6 +1588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077869488540839
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1569,6 +1711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077869505375121
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1774,6 +1917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077869515899663
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2018,6 +2162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!212 &8222077869539935458
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2114,6 +2259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077869556203601
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2441,6 +2587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869598973328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,6 +2846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869607356599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2821,6 +2969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869622214969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2943,6 +3092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869626042477
 GameObject:
   m_ObjectHideFlags: 0
@@ -3065,6 +3215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869626175253
 GameObject:
   m_ObjectHideFlags: 0
@@ -3259,6 +3410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869651694639
 GameObject:
   m_ObjectHideFlags: 0
@@ -3579,6 +3731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077869761314858
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3682,6 +3835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077869761314863
 GameObject:
   m_ObjectHideFlags: 0
@@ -3893,6 +4047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077869828118289
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4124,6 +4279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!212 &8222077869845907164
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4497,6 +4653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!212 &8222077869888459066
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4683,6 +4840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!1 &8222077869892533717
 GameObject:
   m_ObjectHideFlags: 0
@@ -4942,6 +5100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077869967554841
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5488,6 +5647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870027940409
 GameObject:
   m_ObjectHideFlags: 0
@@ -5706,6 +5866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870038496447
 GameObject:
   m_ObjectHideFlags: 0
@@ -5917,6 +6078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870091216015
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6174,6 +6336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870120436851
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6401,6 +6564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870243716697
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6620,6 +6784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870248185731
 GameObject:
   m_ObjectHideFlags: 0
@@ -6728,6 +6893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!61 &8222077870257829097
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6940,6 +7106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870271431343
 GameObject:
   m_ObjectHideFlags: 0
@@ -7062,6 +7229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870272542997
 GameObject:
   m_ObjectHideFlags: 0
@@ -7177,6 +7345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!61 &8222077870339303107
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7411,6 +7580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870356229181
 GameObject:
   m_ObjectHideFlags: 0
@@ -7493,6 +7663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870357927891
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7655,6 +7826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870389623993
 GameObject:
   m_ObjectHideFlags: 0
@@ -7820,6 +7992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870400744263
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8336,6 +8509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!61 &8222077870509446047
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8485,6 +8659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870551905378
 GameObject:
   m_ObjectHideFlags: 0
@@ -8676,6 +8851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870553769559
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8907,6 +9083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!212 &8222077870575343880
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9178,6 +9355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870629495033
 GameObject:
   m_ObjectHideFlags: 0
@@ -9540,6 +9718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870670807023
 GameObject:
   m_ObjectHideFlags: 0
@@ -9655,6 +9834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870672864631
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9784,6 +9964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870676434293
 GameObject:
   m_ObjectHideFlags: 0
@@ -9912,6 +10093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870680983945
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10167,6 +10349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870715653979
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10425,6 +10608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!1 &8222077870789524069
 GameObject:
   m_ObjectHideFlags: 0
@@ -10507,6 +10691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870801892883
 GameObject:
   m_ObjectHideFlags: 0
@@ -10997,6 +11182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!61 &8222077870876592337
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11209,6 +11395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077870900891039
 GameObject:
   m_ObjectHideFlags: 0
@@ -11338,6 +11525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!1 &8222077870930589211
 GameObject:
   m_ObjectHideFlags: 0
@@ -11496,6 +11684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077870934516403
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12240,6 +12429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871088148168
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12343,6 +12533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077871088148173
 GameObject:
   m_ObjectHideFlags: 0
@@ -12425,6 +12616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!61 &8222077871098783355
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12580,6 +12772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871128877329
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12785,6 +12978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871131747711
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12970,6 +13164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871163414019
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13092,6 +13287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871202620269
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13214,6 +13410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871228643603
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13286,6 +13483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871236921449
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14110,6 +14308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871373617127
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14526,6 +14725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!61 &8222077871412836049
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14745,6 +14945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077871435214571
 GameObject:
   m_ObjectHideFlags: 0
@@ -15039,6 +15240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077871453915899
 GameObject:
   m_ObjectHideFlags: 0
@@ -15161,6 +15363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 1
+  _startBlock: 0
 --- !u!1 &8222077871475091417
 GameObject:
   m_ObjectHideFlags: 0
@@ -15523,6 +15726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyTime: 5
+  _startBlock: 0
 --- !u!61 &8222077871516767681
 BoxCollider2D:
   m_ObjectHideFlags: 0
