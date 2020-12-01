@@ -309,6 +309,7 @@ public class MainUIManager : MonoBehaviour
     {
         _mainPanel.SetActive(false);
         _gameoverPanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void StartEnding()
