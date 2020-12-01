@@ -48,7 +48,7 @@ namespace Player
                 { InputType.LeftMove, KeyCode.A },
                 { InputType.RightMove, KeyCode.D },
                 { InputType.Jump, KeyCode.Space },
-                { InputType.TestTrigger, KeyCode.LeftControl },
+                { InputType.TestTrigger, KeyCode.LeftShift },
                 { InputType.TestOnOff, KeyCode.T },
             };
 
