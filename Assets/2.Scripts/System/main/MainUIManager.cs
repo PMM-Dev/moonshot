@@ -124,13 +124,13 @@ public class MainUIManager : MonoBehaviour
             if (_isOpenOption)
             {
                 OnClickOptionResume();
-                Cursor.lockState = CursorLockMode.Confined;
+
                 _isOpenOption = false;
             }
             else
             {
                 OnClickOption();
-                Cursor.lockState = CursorLockMode.None;
+
                 _isOpenOption = true;
             }
         }
@@ -173,7 +173,7 @@ public class MainUIManager : MonoBehaviour
     {
         _optionPanel.SetActive(true);
         _isOpenOption = true;
-
+        Cursor.lockState = CursorLockMode.None;
         MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
     }
 
@@ -181,7 +181,7 @@ public class MainUIManager : MonoBehaviour
     {
         _optionPanel.SetActive(false);
         _isOpenOption = false;
-
+        Cursor.lockState = CursorLockMode.Confined;
         MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
     }
 
