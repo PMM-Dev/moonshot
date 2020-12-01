@@ -15,6 +15,8 @@ public class CameraFx : MonoBehaviour
 
     private Coroutine _zoomCoroutine;
 
+    private float _cameraOriginSize;
+
     [SerializeField]
     private bool _isCameraFXOn;
     public bool IsCameraFXOn
@@ -26,6 +28,7 @@ public class CameraFx : MonoBehaviour
     private void Awake()
     {
         _camera = Camera.main;
+        _cameraOriginSize = _camera.orthographicSize;
     }
 
 
@@ -84,7 +87,7 @@ public class CameraFx : MonoBehaviour
     public IEnumerator Zoom(float size, float zoomSpeed, float time)
     {
         float progress = 0f;
-        float origin = _camera.orthographicSize;
+        float origin = _cameraOriginSize;
 
         while (progress < 1f)
         {
