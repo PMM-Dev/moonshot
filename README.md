@@ -27,3 +27,6 @@ They began to kill innocent civilians, send debris of land and buildings up to t
 All sound that is used in this project are for non-commercial use only. Their rights fully belong to their respetive owners.
 
 All copyright of images that are used in this project are belong to us.
+
+# Development information
+Version of Unity : 2019.4.14f1
