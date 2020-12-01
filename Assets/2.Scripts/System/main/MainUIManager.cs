@@ -76,7 +76,7 @@ public class MainUIManager : MonoBehaviour
         InitFullscreen(_isFullscreen);
         _resolutionDropdown.value = SetResolution(PlayerPrefs.GetInt("resolution", 1280));
 
-
+        Cursor.lockState = CursorLockMode.Confined;
 
         _fullscrenToggle.onValueChanged.AddListener(delegate { OnFullscreenTogleChanged(_fullscrenToggle); });
         _resolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionDropdownChanged(_resolutionDropdown); });
@@ -95,11 +95,13 @@ public class MainUIManager : MonoBehaviour
             if (_isOpenOption)
             {
                 OnClickOptionResume();
+                Cursor.lockState = CursorLockMode.Confined;
                 _isOpenOption = false;
             }
             else
             {
                 OnClickOption();
+                Cursor.lockState = CursorLockMode.None;
                 _isOpenOption = true;
             }
         }
