@@ -93,6 +93,7 @@ namespace Player
         #endregion
 
         #region Coroutine
+        private Coroutine _slashCoroutine;
         private Coroutine _bulletTimeCoroutine;
         private Coroutine _changeColorCoroutine;
         #endregion
@@ -386,8 +387,14 @@ namespace Player
             }
 
             _slashArrow.SetActive(false);
-
             _slashDirection = _playerInput.GetSlashDirection();
+
+            if (_slashCoroutine != null)
+            {
+                StopCoroutine(_slashCoroutine);
+                _slashCoroutine = null;
+            }
+
             StartCoroutine(ForceSlash(_slashDirection, _data.SlashForceTime));
 
             if (_changeColorCoroutine != null)
