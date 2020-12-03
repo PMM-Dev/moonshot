@@ -19,6 +19,10 @@ public class MainUIManager : MonoBehaviour
     private Dropdown _resolutionDropdown;
     private bool _isFullscreen;
     [SerializeField]
+    private Toggle _cameraFXToggle;
+    private bool _isCameraFXOn;
+    private CameraFx _cameraFX;
+    [SerializeField]
     private Slider _masterVolumeSlider;
     [SerializeField]
     private Slider _bgmVolumeSlider;
@@ -27,6 +31,14 @@ public class MainUIManager : MonoBehaviour
     [SerializeField]
     private Text _versionText;
 
+    [SerializeField]
+    private Button _quitButton;
+    [SerializeField]
+    private Button _resumeButton;
+    [SerializeField]
+    private Button _restartButton;
+    [SerializeField]
+    private Button _muteButton;
 
     [SerializeField]
     private GameObject _gameoverPanel;
@@ -57,6 +69,8 @@ public class MainUIManager : MonoBehaviour
 
     private void Start()
     {
+        _cameraFX = Camera.main.GetComponent<CameraFx>();
+
         MainEventManager.Instance.ClearMainGameEvent += StartEnding;
 
         _masterVolumeSlider.value = MainSoundManager.Instance.MasterVolume;
@@ -64,6 +78,8 @@ public class MainUIManager : MonoBehaviour
         _fxVolumeSlider.value = MainSoundManager.Instance.FXVolume;
 
         _isFullscreen = PlayerPrefs.GetInt("fullscreen", 1) == 1 ? true : false;
+        _isCameraFXOn = PlayerPrefs.GetInt("CameraFXOn", 1) == 1 ? true : false;
+        _cameraFX.IsCameraFXOn = _isCameraFXOn;
         if (_isFullscreen)
         {
             _fullscrenToggle.isOn = true;
@@ -72,18 +88,31 @@ public class MainUIManager : MonoBehaviour
         {
             _fullscrenToggle.isOn = false;
         }
+        if (_isCameraFXOn)
+        {
+            _cameraFXToggle.isOn = true;
+        }
+        else
+        {
+            _cameraFXToggle.isOn = false;
+        }
 
         InitFullscreen(_isFullscreen);
         _resolutionDropdown.value = SetResolution(PlayerPrefs.GetInt("resolution", 1280));
 
-
+        Cursor.lockState = CursorLockMode.Confined;
 
         _fullscrenToggle.onValueChanged.AddListener(delegate { OnFullscreenTogleChanged(_fullscrenToggle); });
+        _cameraFXToggle.onValueChanged.AddListener(delegate { OnCameraFXToggleChanged(_cameraFXToggle); });
         _resolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionDropdownChanged(_resolutionDropdown); });
         _masterVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickMasterVolume(_masterVolumeSlider.value); });
         _bgmVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickBackgroundVolume(_bgmVolumeSlider.value); });
         _fxVolumeSlider.onValueChanged.AddListener(delegate { MainSoundManager.Instance.OnClickFXVolume(_fxVolumeSlider.value); });
 
+        _quitButton.onClick.AddListener(delegate { OnClickQuite(); });
+        _resumeButton.onClick.AddListener(delegate { OnClickOptionResume(); });
+        _restartButton.onClick.AddListener(delegate { OnClickQuickRestart(); });
+        _muteButton.onClick.AddListener(delegate { MainSoundManager.Instance.SwitchMute(); });
 
         _versionText.text = Application.version;
     }
@@ -95,11 +124,13 @@ public class MainUIManager : MonoBehaviour
             if (_isOpenOption)
             {
                 OnClickOptionResume();
+
                 _isOpenOption = false;
             }
             else
             {
                 OnClickOption();
+
                 _isOpenOption = true;
             }
         }
@@ -142,7 +173,7 @@ public class MainUIManager : MonoBehaviour
     {
         _optionPanel.SetActive(true);
         _isOpenOption = true;
-
+        Cursor.lockState = CursorLockMode.None;
         MainEventManager.Instance.PauseGamePlayEvent?.Invoke();
     }
 
@@ -150,7 +181,7 @@ public class MainUIManager : MonoBehaviour
     {
         _optionPanel.SetActive(false);
         _isOpenOption = false;
-
+        Cursor.lockState = CursorLockMode.Confined;
         MainEventManager.Instance.ResumeGamePlayEvent?.Invoke();
     }
 
@@ -180,6 +211,22 @@ public class MainUIManager : MonoBehaviour
             PlayerPrefs.SetInt("fullscreen", 0);
             _isFullscreen = false;
         }
+    }
+
+    private void OnCameraFXToggleChanged(Toggle change)
+    {
+        if (change.isOn)
+        {
+            
+            PlayerPrefs.SetInt("CameraFXOn", 1);
+            _isCameraFXOn = true;
+        }
+        else
+        {
+            PlayerPrefs.SetInt("CameraFXOn", 0);
+            _isCameraFXOn = false;
+        }
+        _cameraFX.IsCameraFXOn = _isCameraFXOn;
     }
 
     private void OnResolutionDropdownChanged(Dropdown change)
@@ -262,6 +309,7 @@ public class MainUIManager : MonoBehaviour
     {
         _mainPanel.SetActive(false);
         _gameoverPanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void StartEnding()

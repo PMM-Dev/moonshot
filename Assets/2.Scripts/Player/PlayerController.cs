@@ -93,6 +93,7 @@ namespace Player
         #endregion
 
         #region Coroutine
+        private Coroutine _slashCoroutine;
         private Coroutine _bulletTimeCoroutine;
         private Coroutine _changeColorCoroutine;
         #endregion
@@ -386,9 +387,15 @@ namespace Player
             }
 
             _slashArrow.SetActive(false);
-
             _slashDirection = _playerInput.GetSlashDirection();
-            StartCoroutine(ForceSlash(_slashDirection, _data.SlashForceTime));
+
+            if (_slashCoroutine != null)
+            {
+                StopCoroutine(_slashCoroutine);
+                _slashCoroutine = null;
+            }
+
+            _slashCoroutine = StartCoroutine(ForceSlash(_slashDirection, _data.SlashForceTime));
 
             if (_changeColorCoroutine != null)
             {
@@ -423,7 +430,7 @@ namespace Player
             Vector3 rotateValue = new Vector3(0f, 0f, angle * -1);
 
             _slashRange.transform.localScale = new Vector3(1f, 1f, 1f);
-            _slashRange.transform.position = transform.position;
+            _slashRange.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, 0f);
 
             _slashRange.transform.rotation = Quaternion.Euler(rotateValue);
 

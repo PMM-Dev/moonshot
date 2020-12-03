@@ -15,19 +15,34 @@ public class CameraFx : MonoBehaviour
 
     private Coroutine _zoomCoroutine;
 
+    private float _cameraOriginSize;
+
+    [SerializeField]
+    private bool _isCameraFXOn;
+    public bool IsCameraFXOn
+    {
+        get { return _isCameraFXOn; }
+        set { _isCameraFXOn = value; }
+    }
+
     private void Awake()
     {
         _camera = Camera.main;
+        _cameraOriginSize = _camera.orthographicSize;
     }
 
 
     public void ShakeOfElevatorMovement()
     {
+        if (!_isCameraFXOn)
+            return;
         StartCoroutine(Shake(durationOfelevatorMovement, xMagnitudeOfElevatorMovement, yMagnitudeOfElevatorMovement));
     }
 
     public void CustomShakeOfCamera(float duration, float xMagnitude, float yMagnitude)
     {
+        if (!_isCameraFXOn)
+            return;
         StartCoroutine(Shake(duration, xMagnitude, yMagnitude));
     }
 
@@ -58,6 +73,9 @@ public class CameraFx : MonoBehaviour
 
     public void SetZoom(float size, float zoomSpeed, float time)
     {
+        if (!_isCameraFXOn)
+            return;
+
         if (_zoomCoroutine != null)
         {
             StopCoroutine(_zoomCoroutine);
@@ -69,7 +87,7 @@ public class CameraFx : MonoBehaviour
     public IEnumerator Zoom(float size, float zoomSpeed, float time)
     {
         float progress = 0f;
-        float origin = _camera.orthographicSize;
+        float origin = _cameraOriginSize;
 
         while (progress < 1f)
         {
